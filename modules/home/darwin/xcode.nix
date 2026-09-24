@@ -6,7 +6,7 @@
   ...
 }:
 let
-  extras = "${config.home.homeDirectory}/Developer/github.com/pgodschalk/dracula-pro-extras";
+  extras = config.my.theme.dracula.extras;
   themeDir = "${config.home.homeDirectory}/Library/Developer/Xcode/UserData/FontAndColorThemes";
   themes = [
     "Dracula Pro"
@@ -104,7 +104,7 @@ in
   # symlink into the store, so a theme edited in dracula-pro-extras
   # needs a switch to take effect, and the writable copies are
   # overwritten again by the next one.
-  home.activation.xcodeThemes = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
+  home.activation.xcodeThemes = lib.mkIf (extras != null) (
     lib.hm.dag.entryAfter [ "writeBoundary" ] (
       substituteFile ./xcode/install-themes.sh {
         themeDir = lib.escapeShellArg themeDir;

@@ -1,7 +1,6 @@
 # shellcheck shell=bash
 
-# Spliced in once per directory in `themeDirs`. Symlinks rather than
-# copies, so an edit in the checkout applies without a switch, and a
+# Symlinks rather than copies, so an edit in the checkout applies without a switch, and a
 # missing checkout warns rather than aborting activation.
 if [ -d @themes@ ]; then
   run mkdir -p @dir@

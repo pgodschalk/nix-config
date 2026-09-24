@@ -103,7 +103,7 @@ let
   };
 
   # Linked out of store, so a regenerated theme needs no rebuild.
-  extras = "${config.home.homeDirectory}/Developer/github.com/pgodschalk/dracula-pro-extras";
+  extras = config.my.theme.dracula.extras;
   themesDir = "${config.xdg.configHome}/Agentastic.dev/Themes";
 
   # These reach Agentastic's own editor only: it never passes language
@@ -202,7 +202,7 @@ in
     # manual install because it has to update itself.
     targets.darwin.defaults."dev.agentastic.Agentastic".SUEnableAutomaticChecks = true;
 
-    home.file = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    home.file = lib.mkIf (extras != null) {
       "${themesDir}/Dracula Pro (Dark).theme".source =
         config.lib.file.mkOutOfStoreSymlink "${extras}/src/agentastic/Dracula Pro (Dark).theme";
       "${themesDir}/Dracula Pro (Light).theme".source =
