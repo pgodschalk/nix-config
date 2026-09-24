@@ -30,15 +30,15 @@ cause. This is a colocated jj repository; with plain git, `git add` it first.
 # The portable half, forced through the whole module system on
 # x86_64-linux: the only check that catches a macOS assumption
 # leaking out of modules/home/darwin into modules/home. On this Mac
-# run it after the macOS eval: git.nix reads two fetched sources at
-# evaluation time and only the aarch64-darwin fetch can realise them
-# here, so after a garbage collection this fails with "platform
-# mismatch" until the macOS eval has run.
+# run it after the macOS eval: git.nix and claude-skills.nix read
+# fetched sources at evaluation time and only the aarch64-darwin fetch
+# can realise them here, so after a garbage collection this fails with
+# "platform mismatch" until the macOS eval has run.
 .github/scripts/nix-eval.sh \
   '.#homeConfigurations."patrick@linux".activationPackage.drvPath'
 
 nix flake check --override-input work path:./stubs/work
-darwin-rebuild build --flake /etc/nix-darwin   # builds, activates nothing
+darwin-rebuild build   # builds, activates nothing
 ```
 
 Activation is Patrick's to run: `sudo -H darwin-rebuild switch`, undone with
@@ -87,7 +87,8 @@ and the Linux one elsewhere, so they all run here unchanged:
 
 `main` is the bookmark CI runs on. The global commit hooks and jj's `ui.editor`
 apply; this repository sets no `commitmsg.profile`, so the global commitlint
-profile validates every message.
+profile validates every git commit and every jj description written in the
+editor. `jj describe -m` and `jj commit -m` bypass both.
 
 ## Agent skills
 

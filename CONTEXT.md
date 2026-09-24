@@ -1,7 +1,7 @@
 # nix-config
 
-One machine, declared end to end: the system, the user environment, every
-application's settings and the toolchain behind them.
+One machine, declared end to end: the system, the user environment, every app's
+settings and the toolchain behind them.
 
 ## Language
 

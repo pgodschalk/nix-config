@@ -31,13 +31,13 @@ be.
 
 ## What is not a vulnerability here
 
-- **Credentials in the repository.** There are none. Secrets live in 1Password
-  and reach a process through `fnox` or `op` at run time, so a committed file
-  holds a reference and never a value. A real credential found in the tree or
-  its history _is_ a valid report, and an urgent one.
+- **Secrets in the repository.** There are none. Secrets live in 1Password and
+  reach a process through `fnox` or `op` at run time, so a committed file holds
+  a reference and never a value. A real secret found in the tree or its history
+  _is_ a valid report, and an urgent one.
 
   One exception is deliberate: the GitHub, Docker Hub and Cronometer MCP
-  wrappers read their credentials from the login keychain, so an agent session
+  wrappers read their secrets from the login keychain, so an agent session
   raises no Touch ID prompt. Those items list `/usr/bin/security` as trusted, so
   any process running as the user can read them without a prompt; Claude Code
   denies itself the `security` commands that would.
