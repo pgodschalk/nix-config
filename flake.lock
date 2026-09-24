@@ -315,11 +315,11 @@
         "rev": "5316d1a437d76c6252358733750867f3c55df1fe",
         "revCount": 16,
         "type": "git",
-        "url": "file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/nix-config"
+        "url": "file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/ubiops-nix-config"
       },
       "original": {
         "type": "git",
-        "url": "file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/nix-config"
+        "url": "file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/ubiops-nix-config"
       }
     }
   },

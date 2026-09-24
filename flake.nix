@@ -33,7 +33,7 @@
 
     # The private work layer, never pushed. Building without it means
     # `--override-input work path:./stubs/work`.
-    work.url = "git+file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/nix-config";
+    work.url = "git+file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/ubiops-nix-config";
   };
 
   outputs =
