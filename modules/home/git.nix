@@ -92,7 +92,7 @@ in
       commit.verbose = true;
 
       core = {
-        excludesfile = "~/.gitignore_global";
+        excludesfile = "${config.xdg.configHome}/git/ignore";
         attributesfile = "${config.xdg.configHome}/git/attributes";
 
         # A per-repository FSMonitor daemon over FSEvents, and the
@@ -209,7 +209,7 @@ in
   #
   # Note Images and Archives ignore whole extensions, so in a repository
   # with image assets `git add .` skips them silently.
-  home.file.".gitignore_global".text = concatGlobals gitignoreUpstream "gitignore" [
+  xdg.configFile."git/ignore".text = concatGlobals gitignoreUpstream "gitignore" [
     { name = "Agents"; }
     { name = "Ansible"; }
     { name = "Archives"; }

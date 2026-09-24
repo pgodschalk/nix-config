@@ -7,8 +7,8 @@ in
   # ui.editor is set in modules/home/commit-messages.nix, next to the
   # git hooks it mirrors.
   #
-  # jj reads core.excludesFile from git's config, so ~/.gitignore_global
-  # applies here too. It reads no .gitattributes at all, local or
+  # jj reads core.excludesFile from git's config, so the global ignore
+  # file applies here too. It reads no .gitattributes at all, local or
   # global, which is why working-copy.eol-conversion stays at "none".
   programs.jujutsu = {
     enable = true;
