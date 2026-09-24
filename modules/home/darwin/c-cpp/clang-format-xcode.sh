@@ -4,6 +4,11 @@ set -eu
 file=${1:-}
 dir=${file:-$PWD}
 [ -d "$dir" ] || dir=$(dirname "$dir")
+# Absolute, or the walk stops at `.`, which is its own dirname.
+case $dir in
+  /*) ;;
+  *) dir=$PWD/$dir ;;
+esac
 found=
 
 while [ "$dir" != "/" ] && [ -n "$dir" ]; do
