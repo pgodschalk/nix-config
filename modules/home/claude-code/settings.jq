@@ -6,6 +6,7 @@
 } |
     .enabledPlugins["nix-lsp@nix-config"] = true |
     .enabledPlugins = ((.enabledPlugins // {}) | with_entries(select(.key | endswith("@claude-plugins-official") | not))) + $plugins |
+    .syncClaudeAiPlugins = false |
     .permissions.defaultMode = "auto" |
     .permissions.deny = ((.permissions.deny // []) + [
         "Bash(security find-generic-password:*)",
