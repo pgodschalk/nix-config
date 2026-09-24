@@ -55,7 +55,7 @@ REMAIN=""
 COST=0
 
 # `IFS=` keeps each line exactly as jq emitted it; the default would
-# strip whitespace from a path. One line per field rather than`
+# strip whitespace from a path. One line per field rather than
 # `mapfile`, which is bash 4+ and so unavailable if this ever resolves
 # to Apple's /bin/bash.
 {
@@ -120,7 +120,9 @@ branch=""
 dirty=""
 
 if [ -n "$git_bin" ] && [ -n "$CUR_DIR" ] && [ -d "$CUR_DIR" ]; then
-  status=$("$git_bin" -C "$CUR_DIR" status \
+  # --no-optional-locks: a plain status takes index.lock to refresh the
+  # index, racing the agent's own git commands.
+  status=$("$git_bin" --no-optional-locks -C "$CUR_DIR" status \
     --porcelain=v2 --branch 2>/dev/null || true)
 
   if [ -n "$status" ]; then
