@@ -1,0 +1,13 @@
+theme = "@theme@"
+
+[editor]
+# The off-by-one against Zed's `wrap_guides = [72, 80]` is deliberate:
+# Zed counts characters and draws the guide after the 80th, where Helix
+# highlights the numbered column itself. Helix's own bundled git-commit
+# config pairs `text-width = 72` with `rulers = [51, 73]`.
+rulers = [73, 81]
+
+# Global rather than per-language, which Helix has no form for, so it
+# applies to any server configured to send them.
+[editor.lsp]
+display-inlay-hints = true

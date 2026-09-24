@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://www.schemastore.org/pull-request-labeler.json
+---
+apps:
+  - changed-files:
+      - any-glob-to-any-file: "apps.nix"
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: ".github/workflows/**"
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "flake.nix"
+          - "flake.lock"
+          - "**/Gemfile"
+          - "**/Gemfile.lock"
+          - "**/gemset.nix"
+          - "**/package.json"
+          - "**/package-lock.json"
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - "LICENSE"
+
+home-manager:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "home/**"
+          - "modules/home/**"
+
+macos:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "home/patrick/darwin.nix"
+          - "hosts/**"
+          - "modules/darwin/**"
+          - "modules/home/darwin/**"
+
+nix-darwin:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "hosts/**"
+          - "modules/darwin/**"
+
+packaging:
+  - changed-files:
+      - any-glob-to-any-file: "pkgs/**"

@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://www.schemastore.org/dependabot-2.0.json
+---
+version: 2
+updates:
+  - package-ecosystem: bundler
+    directory: /pkgs/steep
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - packaging
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - ci
+      - dependencies

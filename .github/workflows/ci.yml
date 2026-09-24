@@ -1,0 +1,110 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, format and validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Nix
+        uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
+
+      - name: Validate Nix (macOS)
+        run: .github/scripts/nix-eval.sh '.#darwinConfigurations.Patricks-MacBook-Pro.system.drvPath'
+
+      # Catches a macOS assumption that has leaked out of
+      # modules/home/nushell/theme-setup.nu
+      - name: Validate Nix (Linux)
+        run: .github/scripts/nix-eval.sh '.#homeConfigurations."patrick@linux".activationPackage.drvPath'
+
+      - name: Format check Nix
+        run: .github/scripts/nix-format.sh
+
+      - name: Lint Nix
+        run: .github/scripts/nix-lint.sh
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: lts/*
+
+      - name: Format JSON
+        run: .github/scripts/oxfmt-check.sh '*.json'
+
+      - name: Validate JSON
+        run: .github/scripts/schema-check.sh '*.json'
+
+      - name: Format check JSONC
+        run: .github/scripts/oxfmt-check.sh '*.jsonc'
+
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
+        with:
+          globs: "**/*.md"
+
+      - name: Format check Markdown
+        run: .github/scripts/markdown-format.sh
+
+      - name: Lint Nu
+        run: .github/scripts/nu-lint.sh
+
+      - name: Format check Nu
+        run: .github/scripts/nu-format.sh
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Lint Python
+        uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
+        with:
+          args: check
+
+      - name: Format check Python
+        uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
+        with:
+          args: format --check
+
+      - name: Type check Python
+        run: .github/scripts/ty-check.sh
+
+      - name: Lint Shell
+        run: .github/scripts/shell-lint.sh
+
+      - name: Format check Shell
+        run: .github/scripts/shell-format.sh
+
+      - name: Set up Tombi
+        uses: tombi-toml/setup-tombi@ea139001852855a7f1cf30a9b60c71ebb6446a99 # v1.5.5
+
+      - name: Lint and validate TOML
+        run: .github/scripts/tombi-check.sh lint
+
+      - name: Format check TOML
+        run: .github/scripts/tombi-check.sh format --check
+
+      - name: Format check XML
+        run: .github/scripts/xml-format.sh
+
+      - name: Format check YAML
+        run: .github/scripts/oxfmt-check.sh '*.yaml' '*.yml'
+
+      - name: Validate YAML
+        run: .github/scripts/schema-check.sh '*.yaml' '*.yml'

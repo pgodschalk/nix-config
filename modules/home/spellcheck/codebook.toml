@@ -1,0 +1,8 @@
+# A project overrides this with its own codebook.toml: add "nl_nl" there
+# for a Dutch document, or extend `words` for project jargon.
+# "Add to dictionary" in the editor writes to the project file.
+dictionaries = ["en_us", "en_gb"]
+
+# Kept short on purpose: the project file is the right home for project
+# vocabulary.
+words = ["darwin", "dotfiles", "helix", "nixpkgs", "zed"]

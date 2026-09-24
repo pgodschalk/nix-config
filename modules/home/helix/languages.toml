@@ -1,0 +1,650 @@
+# Keys within a `[[language]]` and a `[language-server]` follow the
+# order docs.helix-editor.com/languages.html lists them, and the sec
+# sections follow it too: languages first, then the servers they name.
+# Both are alphabetical within themselves, because the documentation
+# presents no order there.
+#
+# A language restates its default servers, because a per-language
+# `language-servers` replaces the list rather than extending it.
+# `except-features = ["format"]` routes formatting to oxfmt while
+# leaving the original server everything else, and `rulers` is restated
+# at [73, 101] because oxfmt wraps at 100 rather than Biome's 80.
+
+[[language]]
+name = "alloy"
+indent = { tab-width = 2, unit = "\t" }
+formatter = { command = "alloy", args = ["fmt", "-"] }
+
+[[language]]
+name = "astro"
+language-servers = [{ name = "astro-ls", except-features = ["format"] }, "tailwindcss-ls"]
+formatter = { command = "prettier-astro" }
+
+[[language]]
+name = "awk"
+formatter = { command = "prettier-awk" }
+
+# shfmt directly rather than through bash-language-server, which wraps
+# it but exposes no indent setting and falls back to tabs. No
+# --filename, which Helix cannot substitute: shfmt picks its dialect
+# from the shebang in the content.
+[[language]]
+name = "bash"
+formatter = { command = "shfmt", args = ["--indent", "2", "--binary-next-line", "--case-indent"] }
+
+[[language]]
+name = "c"
+indent = { tab-width = 4, unit = "    " }
+formatter = { command = "clang-format-xcode" }
+
+# gersemi rather than either server: neocmakelsp only fixes indentation,
+# and cmake-language-server formats only with cmake-format on PATH. Both
+# servers are attached because they do different jobs -- completion and
+# hover against the semantic checks that come from running `cmake`.
+[[language]]
+name = "cmake"
+indent = { tab-width = 4, unit = "    " }
+language-servers = ["neocmakelsp", "cmake-language-server"]
+formatter = { command = "gersemi", args = ["-"] }
+rulers = []
+
+[[language]]
+name = "cpp"
+indent = { tab-width = 4, unit = "    " }
+formatter = { command = "clang-format-xcode" }
+
+[[language]]
+name = "css"
+language-servers = [
+  { name = "vscode-css-language-server", except-features = [
+    "format",
+  ] },
+  "css-variable-lsp",
+  "oxfmt",
+  "emmet-language-server",
+]
+rulers = [73, 101]
+
+[[language]]
+name = "csv"
+rulers = []
+
+# Helix's bundled entry names docker-compose-langserver, which is not in
+# nixpkgs and would silently never start. Docker's own server covers
+# Compose, and is what Zed attaches too.
+[[language]]
+name = "docker-compose"
+language-servers = ["docker-language-server", "yaml-language-server"]
+
+[[language]]
+name = "dockerfile"
+formatter = { command = "dockerfmt-1nl", args = ["/dev/stdin"] }
+
+[[language]]
+name = "fish"
+indent = { tab-width = 4, unit = "    " }
+formatter = { command = "fish_indent" }
+
+[[language]]
+name = "gherkin"
+formatter = { command = "prettier-gherkin" }
+
+# Helix is $EDITOR, so `git commit` opens it rather than Zed, and a
+# commit message is the one piece of prose that never passes through the
+# main editor. codebook is not added to the other languages with an
+# explicit list: Helix has no `"..."` escape, so that would mean editing
+# every one of them.
+[[language]]
+name = "git-commit"
+language-servers = ["codebook"]
+
+# Only to drop golangci-lint-lsp from the bundled list, so
+# `hx --health go` stops reporting a server decided against as missing.
+# Everything else still comes from Helix.
+[[language]]
+name = "go"
+language-servers = ["gopls"]
+
+[[language]]
+name = "graphql"
+language-servers = [
+  { name = "graphql-language-service", except-features = [
+    "format",
+  ] },
+  "oxfmt",
+  "biome",
+]
+rulers = [73, 101]
+
+[[language]]
+name = "hcl"
+language-servers = ["terraform-ls", "tflint"]
+
+# The file-types are restated to widen Helix's much narrower set, and a
+# per-language list replaces rather than extends. A glob outranks
+# another language's extension claim, which is how these beat `yaml`.
+[[language]]
+name = "helm"
+file-types = [
+  { glob = "templates/_*.tpl" },
+  { glob = "templates/NOTES.txt" },
+  { glob = "**/templates/**/*.tpl" },
+  { glob = "**/templates/**/*.yaml" },
+  { glob = "**/templates/**/*.yml" },
+  { glob = "**/helmfile.d/**/*.yaml" },
+  { glob = "**/helmfile.d/**/*.yml" },
+  { glob = "**/values*.yaml" },
+]
+formatter = { command = "helmfmt-stdin" }
+
+# oxfmt formats HTML; vscode-html advertises `formattingProvider: False`
+# and so was never a candidate, but answers a formatting request anyway
+# if asked, which the guard removes. superhtml is deliberately absent:
+# it would displace oxfmt and then reject the self-closing syntax oxfmt
+# emits.
+[[language]]
+name = "html"
+language-servers = [
+  { name = "vscode-html-language-server", except-features = [
+    "format",
+  ] },
+  "oxfmt",
+  "biome",
+  "emmet-language-server",
+]
+rulers = [73, 101]
+
+# Globs rather than extensions, because the file is still called `.html`
+# and a glob outranks another language's extension claim. Routing these
+# files here is what keeps oxfmt -- `html`'s formatter, which reflows
+# `{# #}` comments and splits `<tr>`/`<td>` -- off a Django template.
+#
+# A bare `.j2` deliberately stays with `jinja`, which has no formatter:
+# prettier-plugin-jinja-template collapses whitespace the way HTML does,
+# which destroys an nginx conf or a systemd unit.
+[[language]]
+name = "htmldjango"
+file-types = [
+  { glob = "**/templates/**/*.html" },
+  { glob = "**/templates/**/*.htm" },
+  { glob = "**/*.html.j2" },
+  { glob = "**/*.htm.j2" },
+]
+language-servers = ["djlsp", { name = "vscode-html-language-server", except-features = ["format"] }]
+formatter = { command = "prettier-jinja" }
+
+[[language]]
+name = "ini"
+formatter = { command = "prettier-ini" }
+rulers = []
+
+[[language]]
+name = "java"
+indent = { tab-width = 4, unit = "    " }
+rulers = [73, 121]
+
+# The debugger tables must come last in the block: TOML puts every key
+# after a table header inside that table, so `language-servers` placed
+# below would become part of the debugger. Helix defines `js-debug-dap`
+# with a blank command and appends the port and host itself from
+# `port-arg`. Only `javascript` carries it in Helix's bundled config.
+[[language]]
+name = "javascript"
+language-servers = [
+  { name = "tsgo", except-features = [
+    "format",
+  ] },
+  "cssmodules-language-server",
+  "oxfmt",
+  "oxlint",
+]
+rulers = [73, 101]
+
+[language.debugger]
+name = "js-debug-dap"
+transport = "tcp"
+command = "js-debug"
+port-arg = "{} 127.0.0.1"
+quirks = { absolute-paths = true }
+
+[[language.debugger.templates]]
+name = "source"
+request = "launch"
+completion = [{ name = "main", completion = "filename", default = "index.js" }]
+args = { program = "{0}", console = "internalConsole" }
+
+[[language]]
+name = "jq"
+formatter = { command = "jqfmt-1nl" }
+
+[[language]]
+name = "json"
+language-servers = [
+  { name = "vscode-json-language-server", except-features = ["format"] },
+  "deps-lsp",
+  # agnix claims JSON as well as Markdown, which is where hook and
+  # MCP configuration lives. jsonc is left alone: neither file it
+  # cares about is written with comments.
+  "agnix-lsp",
+  "oxfmt",
+]
+rulers = [73, 101]
+
+[[language]]
+name = "json5"
+formatter = { command = "prettier-json5" }
+
+[[language]]
+name = "jsonc"
+language-servers = [{ name = "vscode-json-language-server", except-features = ["format"] }, "oxfmt"]
+rulers = [73, 101]
+
+[[language]]
+name = "jsx"
+language-servers = [
+  { name = "tsgo", except-features = [
+    "format",
+  ] },
+  "cssmodules-language-server",
+  "oxfmt",
+  "oxlint",
+  "emmet-language-server",
+]
+rulers = [73, 101]
+
+[[language]]
+name = "log"
+soft-wrap = { enable = true }
+rulers = []
+
+# prettier-md reflows prose to the ruler; oxfmt has no prose-wrap
+# option, so it would leave a paragraph on one long line.
+[[language]]
+name = "markdown"
+language-servers = [
+  "marksman",
+  "markdownlint",
+  "skill-language-server",
+  "agnix-lsp",
+  "codebook",
+  "oxfmt",
+]
+formatter = { command = "prettier-md" }
+rulers = [73, 101]
+
+[[language]]
+name = "mermaid"
+formatter = { command = "mermaidfmt" }
+rulers = []
+
+# Metal is C++ underneath, so `grammar = "cpp"` reuses the parser Helix
+# already has. It gets its own language rather than being folded into
+# `cpp`'s file-types, which would attach clangd to `.metal` and produce
+# a screen of invented errors for `kernel`, `device` and
+# `[[buffer(0)]]`.
+[[language]]
+name = "metal"
+scope = "source.metal"
+file-types = ["metal"]
+comment-token = "//"
+indent = { tab-width = 4, unit = "    " }
+language-servers = ["metal-analyzer"]
+grammar = "cpp"
+formatter = { command = "clang-format-xcode" }
+
+[[language]]
+name = "nix"
+language-servers = ["nixd"]
+rulers = [73, 101]
+
+# See modules/home/formatters.nix for the one file nufmt is known to
+# grow.
+[[language]]
+name = "nu"
+indent = { tab-width = 4, unit = "    " }
+language-servers = ["nu-lsp", "nu-lint"]
+formatter = { command = "nufmt", args = ["--stdin"] }
+
+[[language]]
+name = "perl"
+indent = { tab-width = 4, unit = "    " }
+formatter = { command = "perltidy", args = ["-st", "-se"] }
+
+[[language]]
+name = "powershell"
+language-servers = ["powershell-editor-services"]
+rulers = [73, 121]
+
+[[language]]
+name = "properties"
+rulers = []
+
+# The list is restated to drop jedi and pylsp. No formatter line:
+# ruff advertises formatting and ty does not, so Helix picks on
+# capability. Helix bundles no Python debugger, and its tables come
+# last in the block for the reason the javascript block records.
+[[language]]
+name = "python"
+language-servers = ["ty", "ruff", "pytest-language-server"]
+rulers = [73, 80]
+
+[language.debugger]
+name = "debugpy"
+transport = "stdio"
+command = "debugpy-adapter"
+
+[[language.debugger.templates]]
+name = "source"
+request = "launch"
+completion = [{ name = "entrypoint", completion = "filename", default = "main.py" }]
+args = { program = "{0}", console = "internalConsole" }
+
+# rubocop carries both the formatting and the linting: ruby-lsp only
+# formats when the project itself depends on rubocop, so on its own it
+# advertises no documentFormattingProvider.
+[[language]]
+name = "ruby"
+language-servers = ["ruby-lsp", "rubocop", "steep", "deps-lsp"]
+rulers = [73, 81]
+
+[[language]]
+name = "scss"
+language-servers = [
+  "vscode-css-language-server",
+  "css-variable-lsp",
+  "oxfmt",
+  "emmet-language-server",
+]
+rulers = [73, 101]
+
+# `unit = "\t"` reaches Helix as a real tab, which is what pgfmt emits;
+# with spaces every save would undo them. The format guard is there
+# because the server can format too.
+[[language]]
+name = "sql"
+indent = { tab-width = 2, unit = "\t" }
+language-servers = [{ name = "postgres-language-server", except-features = ["format"] }]
+formatter = { command = "pgfmt-1nl" }
+
+# The formatter is the wrapper rather than Helix's bare `swift-format`,
+# which is not on PATH -- Xcode's is reachable only through xcrun -- and
+# would format at 2 spaces, diverging from Zed.
+[[language]]
+name = "swift"
+indent = { tab-width = 4, unit = "    " }
+language-servers = ["sourcekit-lsp", "package-swift-lsp", "deps-lsp"]
+formatter = { command = "swift-format-xcode" }
+rulers = [73, 101]
+
+[language.debugger]
+name = "lldb-dap"
+transport = "stdio"
+command = "lldb-dap"
+
+[[language.debugger.templates]]
+name = "binary"
+request = "launch"
+completion = [{ name = "binary", completion = "filename" }]
+args = { program = "{0}" }
+
+# Restated to drop taplo, since two servers on one buffer means two sets
+# of completions and diagnostics.
+[[language]]
+name = "toml"
+language-servers = ["tombi", "deps-lsp"]
+
+[[language]]
+name = "tsx"
+language-servers = [
+  { name = "tsgo", except-features = [
+    "format",
+  ] },
+  "cssmodules-language-server",
+  "oxfmt",
+  "oxlint",
+  "emmet-language-server",
+]
+rulers = [73, 101]
+
+[[language]]
+name = "twig"
+language-servers = ["emmet-language-server"]
+
+[[language]]
+name = "typescript"
+language-servers = [
+  { name = "tsgo", except-features = [
+    "format",
+  ] },
+  "cssmodules-language-server",
+  "oxfmt",
+  "oxlint",
+]
+rulers = [73, 101]
+
+# Biome is the only tool here that lints SVG, and it ignores genuine XML
+# entirely, so attaching it costs nothing. The format guard keeps it to
+# linting, or Helix would pick it and then do nothing on real XML.
+[[language]]
+name = "xml"
+language-servers = [{ name = "biome", except-features = ["format"] }, "deps-lsp"]
+formatter = { command = "xmllint", args = ["--format", "-"] }
+
+[[language]]
+name = "yaml"
+language-servers = [
+  { name = "yaml-language-server", except-features = [
+    "format",
+  ] },
+  "ansible-language-server",
+  "deps-lsp",
+  "oxfmt",
+]
+rulers = [73, 101]
+
+[language-server.agnix-lsp]
+command = "agnix-lsp"
+
+# astro-language-server refuses to start without a TypeScript SDK.
+[language-server.astro-ls.config.typescript]
+tsdk = "@astroTsdk@"
+
+# Biome's own linter is off for the languages something better already
+# reports on, and on for GraphQL, whose server publishes no diagnostics
+# at all. `requireConfiguration = false` lets it work in a project with
+# no biome.json.
+[language-server.biome]
+command = "biome"
+args = ["lsp-proxy"]
+
+[language-server.biome.config]
+requireConfiguration = false
+
+[language-server.biome.config.inlineConfig.linter]
+enabled = true
+
+[language-server.biome.config.inlineConfig.javascript.linter]
+enabled = false
+
+[language-server.biome.config.inlineConfig.json.linter]
+enabled = false
+
+[language-server.biome.config.inlineConfig.css.linter]
+enabled = false
+
+[language-server.biome.config.inlineConfig.graphql.linter]
+enabled = true
+
+# With no compile_commands.json clangd falls back to a bare invocation,
+# where -Wunused-variable is off and an unused variable draws no
+# diagnostic at all. -Wall rather than the narrow flag, because Xcode
+# leads for C, C++ and Metal and a stock target warns on it. A project
+# with a real compile database still wins, since these are fallback
+# flags. Note a hard error in the same file suppresses them.
+[language-server.clangd.config]
+fallbackFlags = ["-Wall"]
+
+[language-server.cmake-language-server]
+command = "cmake-language-server"
+
+# The `--root` Zed's extension passes is per-project and Helix has no
+# way to interpolate one, so the server searches upward from the file
+# for a codebook.toml instead.
+[language-server.codebook]
+command = "codebook-lsp"
+args = ["serve"]
+
+[language-server.css-variable-lsp]
+command = "css-variable-lsp"
+
+[language-server.cssmodules-language-server]
+command = "cssmodules-language-server"
+args = ["--stdio"]
+
+[language-server.deps-lsp]
+command = "deps-lsp"
+args = ["--stdio"]
+
+[language-server.docker-language-server]
+command = "docker-language-server"
+args = ["start", "--stdio"]
+
+[language-server.emmet-language-server]
+command = "emmet-language-server"
+args = ["--stdio"]
+
+# gopls publishes nothing lint-grade until this is on. The hints below
+# are the ones gopls produces; whether they are displayed is
+# `display-inlay-hints`, an [editor.lsp] global in config.toml.
+[language-server.gopls.config]
+staticcheck = true
+
+[language-server.gopls.config.hints]
+assignVariableTypes = true
+compositeLiteralFields = true
+compositeLiteralTypes = true
+constantValues = true
+functionTypeParameters = true
+parameterNames = true
+rangeVariableTypes = true
+
+# Shared with Zed; see pkgs/jdtls-settings.nix. lineSplit is 120 so the
+# formatter agrees with the ruler, and unusedLocal is promoted from
+# Eclipse's default `ignore` to a warning.
+[language-server.jdtls.config.java.format.settings]
+url = "@jdtlsSettings@/formatter.xml"
+
+[language-server.jdtls.config.java.settings]
+url = "@jdtlsSettings@/org.eclipse.jdt.core.prefs"
+
+[language-server.markdownlint]
+command = "markdownlint-lsp"
+
+[language-server.metal-analyzer]
+command = "metal-analyzer"
+
+[language-server.nixd]
+command = "nixd"
+
+# `builtins.getFlake` will not take /etc/nix-darwin, which is a symlink,
+# so the real checkout is named.
+[language-server.nixd.config.nixd.nixpkgs]
+expr = "import (builtins.getFlake \"@homeDirectory@/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
+
+[language-server.nixd.config.nixd.options."@systemKind@"]
+expr = "(builtins.getFlake \"@homeDirectory@/Developer/github.com/pgodschalk/nix-config\").@systemAttr@.options"
+
+[language-server.nixd.config.nixd.options.home-manager]
+expr = "(builtins.getFlake \"@homeDirectory@/Developer/github.com/pgodschalk/nix-config\").@systemAttr@.options.home-manager.users.type.getSubOptions [ ]"
+
+[language-server.nu-lint]
+command = "nu-lint"
+args = ["--lsp"]
+
+[language-server.oxfmt]
+command = "oxfmt"
+args = ["--lsp"]
+
+[language-server.oxlint]
+command = "oxlint"
+args = ["--lsp"]
+
+[language-server.package-swift-lsp]
+command = "package-swift-lsp"
+
+# `lsp-proxy` is the subcommand that speaks LSP; the binary's default is
+# a CLI.
+[language-server.postgres-language-server]
+command = "postgres-language-server"
+args = ["lsp-proxy"]
+
+[language-server.powershell-editor-services]
+command = "pwsh-lsp"
+
+[language-server.rubocop]
+command = "rubocop"
+args = ["--lsp"]
+
+# Load-bearing: ruff's own default is 88, so without this the rulers
+# would not match what the formatter produces.
+[language-server.ruff.config.settings]
+lineLength = 79
+
+[language-server.skill-language-server]
+command = "skill-language-server"
+args = ["--stdio"]
+
+[language-server.steep]
+command = "steep"
+args = ["langserver"]
+
+[language-server.tailwindcss-ls.config]
+includeLanguages = { astro = "html" }
+
+[language-server.tailwindcss-ls.config.experimental]
+classRegex = [
+  'class="([^"]*)"',
+  "class='([^']*)'",
+  'class:list="{([^}]*)}"',
+  "class:list='{([^}]*)}'",
+]
+
+# terraform-ls formats by shelling out to a CLI and reads this as
+# initializationOptions.
+[language-server.terraform-ls.config.terraform]
+path = "@terraform@/bin/terraform"
+
+[language-server.tflint]
+command = "tflint"
+args = ["--langserver"]
+
+# Both flags are needed: `--lsp` alone is accepted and then never
+# answers an initialize, which reads as a hung server.
+[language-server.tsgo]
+command = "tsgo"
+args = ["--lsp", "--stdio"]
+
+# Defined and attached to nothing: Helix runs only a server a language
+# lists, so a project that keeps a generated OpenAPI, document adds it
+# to `yaml`/`json` in its own .helix/languages.toml and inherits this
+# command.
+[language-server.vacuum]
+command = "vacuum"
+args = ["language-server"]
+
+# yaml-language-server reports `documentFormattingProvider: false` until
+# this is set, so a formatter naming it silently does nothing.
+#
+# vscode-json-language-server deliberately gets no config at all: it
+# stops publishing diagnostics entirely once it receives a
+# `didChangeConfiguration`, and does not recover. Helix sends that
+# message whenever a `config` block exists. Nothing is lost, since
+# schema download is on by default for a document that names one.
+[language-server.yaml-language-server.config.yaml.format]
+enable = true
+
+[language-server.yaml-language-server.config.yaml.schemas]
+"https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/inventory.json" = [
+  "./inventory/*.yaml",
+  "hosts.yml",
+]

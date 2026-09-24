@@ -1,0 +1,8 @@
+#:schema https://fnox.jdx.dev/schema.json
+
+# op-personal is defined in modules/home/gh/fnox.toml; providers are
+# global to fnox.toml and declaring one twice is a duplicate key. A
+# named profile, so it resolves on first use rather than on every shell
+# start.
+[profiles.sentry.secrets]
+SENTRY_AUTH_TOKEN = { provider = "op-personal", value = "op://Private/uk4abren4rynfj5w2mhio4he2a/cli" }

@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+
+# @VERSION https://rubygems.org/gems/steep/versions
+# Bumping this means regenerating Gemfile.lock and gemset.nix
+# (`bundle lock` then `bundix`), which are generated, not edited.
+gem 'steep', '2.1.0'

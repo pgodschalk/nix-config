@@ -1,0 +1,31 @@
+// markdownlint rules for agent instruction files. The set is chosen by
+// running markdownlint over prettier's own output rather than the raw
+// file, which is the only way to tell a real finding from a permanent
+// disagreement between the two tools.
+{
+  // markdownlint-cli2's own schema rather than markdownlint's, the
+  // difference being this `config` wrapper. SchemaStore carries only
+  // the inner one, so the URL is upstream's.
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json",
+
+  "config": {
+    "default": true,
+
+    // On, and agreeing with prettier by construction: `prettier-md`
+    // wraps prose at the same 80. The two exemptions are what prettier
+    // cannot wrap and must not -- a fenced block is verbatim output,
+    // and a table it has laid out is as narrow as it goes.
+    "MD013": {
+      "line_length": 80,
+      "code_blocks": false,
+      "tables": false
+    },
+
+    // code-block-style fights the content: these files use indented
+    // blocks for quoted terminal output and fenced blocks for code to
+    // run, and the rule wants one or the other throughout.
+    "MD046": false
+
+    // Everything else stays on.
+  }
+}

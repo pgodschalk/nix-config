@@ -1,0 +1,10 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "nix-lsp",
+  "version": "1.0.0",
+  "description": "Language servers from this nix-config, shared with Zed and Helix",
+  "author": {
+    "name": "Patrick Godschalk",
+    "email": "patrick@kernelpanics.nl"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "nix-agents",
+  "version": "1.0.0",
+  "description": "Skills, subagents and MCP servers from this nix-config, packaged as one plug-in so Xcode's importer can take all three at once",
+  "author": {
+    "name": "Patrick Godschalk",
+    "email": "patrick@kernelpanics.nl"
+  }
+}

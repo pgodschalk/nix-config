@@ -1,0 +1,21 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "nix-config",
+  "description": "Local marketplace for this nix-config. Carries nix-lsp, which hands Claude Code the same language servers Zed and Helix use, and nix-agents, which packages the skills, subagents and MCP servers as one plug-in for Xcode's importer.",
+  "owner": {
+    "name": "Patrick Godschalk",
+    "email": "patrick@kernelpanics.nl"
+  },
+  "plugins": [
+    {
+      "name": "nix-lsp",
+      "description": "Language servers from this nix-config, shared with Zed and Helix",
+      "source": "./plugins/nix-lsp"
+    },
+    {
+      "name": "nix-agents",
+      "description": "Skills, subagents and MCP servers from this nix-config, packaged as one plug-in",
+      "source": "./plugins/nix-agents"
+    }
+  ]
+}

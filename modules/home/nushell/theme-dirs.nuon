@@ -1,0 +1,25 @@
+# Each directory holds pro.env and alucard.env: KEY=VALUE lines loaded
+# into the environment and swapped with the appearance.
+#
+# Quoted rather than bare, so a path containing a space still reaches
+# the theme loader as one entry.
+#
+# Editors treat .nuon as Nushell, so nu-lint reads those quotes as
+# redundant.
+# nu-lint-ignore-file: string_may_be_bare
+[
+    "@extras@/src/ls-colors" # LS_COLORS
+    "@extras@/src/diff" # DIFFCOLORS
+    "@extras@/src/grep" # GREP_COLOR
+    "@extras@/src/less" # LESS_TERMCAP_*, GROFF_NO_SGR
+    "@extras@/src/fzf" # FZF_DEFAULT_OPTS
+    "@extras@/src/moor" # MOOR
+    "@extras@/src/difftastic" # DFT_BACKGROUND
+    "@extras@/src/jaq" # JQ_COLORS
+    "@extras@/src/lumen" # LUMEN_THEME
+
+    # DELTA_FEATURES. delta reads config through libgit2, which ignores
+    # GIT_CONFIG_GLOBAL, so it cannot be switched with the rest of git.
+    "@extras@/src/delta"
+    "@pathThemes@"
+]

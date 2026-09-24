@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    lineSplit is the whole reason this file exists. Java's wrap_guides
+    are 120.
+
+    The tabulation settings keep the profile coherent with
+    languages.Java.tab_size = 4; Eclipse's own default is tabs.
+  -->
+<profiles version="23">
+  <profile kind="CodeFormatterProfile" name="nix-config" version="23">
+    <setting id="org.eclipse.jdt.core.formatter.comment.line_length" value="120"/>
+    <setting id="org.eclipse.jdt.core.formatter.lineSplit" value="120"/>
+    <setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="space"/>
+    <setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="4"/>
+  </profile>
+</profiles>

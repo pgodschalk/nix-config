@@ -1,0 +1,510 @@
+{
+  "astro-ls": {
+    "command": "astro-ls",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".astro": "astro"
+    },
+    "initializationOptions": {
+      "typescript": {
+        "tsdk": "/nix/store/s2g97lfcqx1iqs07avyisdv8vxa1fh60-astro-tsdk"
+      }
+    }
+  },
+  "awk-language-server": {
+    "command": "awk-language-server",
+    "extensionToLanguage": {
+      ".awk": "awk",
+      ".gawk": "awk",
+      ".mawk": "awk",
+      ".nawk": "awk"
+    }
+  },
+  "bash-language-server": {
+    "command": "bash-language-server",
+    "args": ["start"],
+    "extensionToLanguage": {
+      ".ash": "bash",
+      ".bash": "bash",
+      ".bazelrc": "bash",
+      ".cshrc": "bash",
+      ".dash": "bash",
+      ".ebuild": "bash",
+      ".eclass": "bash",
+      ".ksh": "bash",
+      ".mksh": "bash",
+      ".sh": "bash",
+      ".tcshrc": "bash",
+      ".zlogin": "bash",
+      ".zlogout": "bash",
+      ".zprofile": "bash",
+      ".zsh": "bash",
+      ".zsh-theme": "bash",
+      ".zshenv": "bash",
+      ".zshrc": "bash"
+    }
+  },
+  "clangd": {
+    "command": "clangd",
+    "extensionToLanguage": {
+      ".c": "c",
+      ".c++": "cpp",
+      ".cc": "cpp",
+      ".cl": "opencl",
+      ".cpp": "cpp",
+      ".cppm": "cpp",
+      ".cu": "cpp",
+      ".cuh": "cpp",
+      ".cxx": "cpp",
+      ".h": "cpp",
+      ".h++": "cpp",
+      ".hh": "cpp",
+      ".hpp": "cpp",
+      ".hxx": "cpp",
+      ".ii": "cpp",
+      ".inl": "cpp",
+      ".ino": "cpp",
+      ".ipp": "cpp",
+      ".ixx": "cpp",
+      ".tpp": "cpp",
+      ".txx": "cpp"
+    },
+    "initializationOptions": {
+      "fallbackFlags": ["-Wall"]
+    }
+  },
+  "docker-langserver": {
+    "command": "docker-langserver",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".containerfile": "dockerfile",
+      ".dockerfile": "dockerfile"
+    }
+  },
+  "fish-lsp": {
+    "command": "fish-lsp",
+    "args": ["start"],
+    "extensionToLanguage": {
+      ".fish": "fish"
+    }
+  },
+  "gopls": {
+    "command": "gopls",
+    "extensionToLanguage": {
+      ".go": "go",
+      ".gotmpl": "gotmpl"
+    },
+    "initializationOptions": {
+      "staticcheck": true,
+      "hints": {
+        "assignVariableTypes": true,
+        "compositeLiteralFields": true,
+        "compositeLiteralTypes": true,
+        "constantValues": true,
+        "functionTypeParameters": true,
+        "parameterNames": true,
+        "rangeVariableTypes": true
+      },
+      "codelenses": {
+        "test": true
+      }
+    }
+  },
+  "graphql-language-service": {
+    "command": "graphql-lsp",
+    "args": ["server", "-m", "stream"],
+    "extensionToLanguage": {
+      ".gql": "graphql",
+      ".graphql": "graphql",
+      ".graphqls": "graphql"
+    }
+  },
+  "jdtls": {
+    "command": "jdtls",
+    "extensionToLanguage": {
+      ".jav": "java",
+      ".java": "java",
+      ".pde": "java"
+    },
+    "initializationOptions": {
+      "java": {
+        "format": {
+          "settings": {
+            "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/formatter.xml"
+          }
+        },
+        "settings": {
+          "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/org.eclipse.jdt.core.prefs"
+        }
+      }
+    },
+    "settings": {
+      "java": {
+        "format": {
+          "settings": {
+            "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/formatter.xml"
+          }
+        },
+        "settings": {
+          "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/org.eclipse.jdt.core.prefs"
+        }
+      },
+      "java_home": "/nix/store/cv14k7dgglyhjqlqpcj0rgrqdbsrvg02-zulu-ca-jdk-25.0.3"
+    }
+  },
+  "jq-lsp": {
+    "command": "jq-lsp",
+    "extensionToLanguage": {
+      ".jq": "jq"
+    }
+  },
+  "marksman": {
+    "command": "marksman",
+    "args": ["server"],
+    "extensionToLanguage": {
+      ".livemd": "markdown",
+      ".markdn": "markdown",
+      ".markdown": "markdown",
+      ".md": "markdown",
+      ".mdown": "markdown",
+      ".mdtext": "markdown",
+      ".mdtxt": "markdown",
+      ".mdwn": "markdown",
+      ".mdx": "markdown",
+      ".mkd": "markdown",
+      ".mkdn": "markdown",
+      ".workbook": "markdown"
+    }
+  },
+  "metal-analyzer": {
+    "command": "metal-analyzer",
+    "extensionToLanguage": {
+      ".metal": "metal"
+    }
+  },
+  "neocmakelsp": {
+    "command": "neocmakelsp",
+    "args": ["stdio"],
+    "extensionToLanguage": {
+      ".cmake": "cmake"
+    }
+  },
+  "nixd": {
+    "command": "nixd",
+    "extensionToLanguage": {
+      ".nix": "nix"
+    },
+    "initializationOptions": {
+      "nixd": {
+        "nixpkgs": {
+          "expr": "import (builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
+        },
+        "options": {
+          "nix-darwin": {
+            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options"
+          },
+          "home-manager": {
+            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options.home-manager.users.type.getSubOptions [ ]"
+          }
+        }
+      }
+    },
+    "settings": {
+      "nixpkgs": {
+        "expr": "import (builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
+      },
+      "options": {
+        "home-manager": {
+          "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options.home-manager.users.type.getSubOptions [ ]"
+        },
+        "nix-darwin": {
+          "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options"
+        }
+      }
+    }
+  },
+  "nu-lsp": {
+    "command": "nu",
+    "args": ["--lsp"],
+    "extensionToLanguage": {
+      ".nu": "nu",
+      ".nuon": "nu"
+    }
+  },
+  "perlnavigator": {
+    "command": "perlnavigator",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".nqp": "perl",
+      ".p6": "perl",
+      ".pl": "perl",
+      ".pl6": "perl",
+      ".pm": "perl",
+      ".pm6": "perl",
+      ".psgi": "perl",
+      ".raku": "perl",
+      ".rakudoc": "perl",
+      ".rakumod": "perl",
+      ".rakutest": "perl",
+      ".t": "perl"
+    }
+  },
+  "postgres-language-server": {
+    "command": "postgres-language-server",
+    "args": ["lsp-proxy"],
+    "extensionToLanguage": {
+      ".dsql": "sql",
+      ".sql": "sql"
+    }
+  },
+  "powershell-editor-services": {
+    "command": "pwsh-lsp",
+    "extensionToLanguage": {
+      ".ps1": "powershell",
+      ".pscc": "powershell",
+      ".psd1": "powershell",
+      ".psm1": "powershell",
+      ".psrc": "powershell"
+    }
+  },
+  "ruby-lsp": {
+    "command": "ruby-lsp",
+    "extensionToLanguage": {
+      ".gemfile": "ruby",
+      ".gemspec": "ruby",
+      ".irb": "ruby",
+      ".jb": "ruby",
+      ".jbuilder": "ruby",
+      ".podspec": "ruby",
+      ".rabl": "ruby",
+      ".rake": "ruby",
+      ".rakefile": "ruby",
+      ".rb": "ruby",
+      ".rbi": "ruby",
+      ".rbs": "ruby",
+      ".rjs": "ruby"
+    }
+  },
+  "sourcekit-lsp": {
+    "command": "sourcekit-lsp",
+    "extensionToLanguage": {
+      ".swift": "swift",
+      ".swiftinterface": "swift"
+    }
+  },
+  "systemd-lsp": {
+    "command": "systemd-lsp",
+    "extensionToLanguage": {
+      ".automount": "systemd",
+      ".device": "systemd",
+      ".mount": "systemd",
+      ".nspawn": "systemd",
+      ".path": "systemd",
+      ".scope": "systemd",
+      ".service": "systemd",
+      ".slice": "systemd",
+      ".socket": "systemd",
+      ".swap": "systemd",
+      ".target": "systemd",
+      ".timer": "systemd"
+    }
+  },
+  "terraform-ls": {
+    "command": "terraform-ls",
+    "args": ["serve"],
+    "extensionToLanguage": {
+      ".hcl": "hcl",
+      ".nomad": "hcl",
+      ".tf": "hcl",
+      ".tfvars": "tfvars"
+    },
+    "initializationOptions": {
+      "terraform": {
+        "path": "/nix/store/yqwcn8pkmy5jw6jy0cz1plwvmqprkq25-terraform-1.16.1/bin/terraform"
+      }
+    }
+  },
+  "tombi": {
+    "command": "tombi",
+    "args": ["lsp"],
+    "extensionToLanguage": {
+      ".toml": "toml"
+    }
+  },
+  "tsgo": {
+    "command": "tsgo",
+    "args": ["--lsp", "--stdio"],
+    "extensionToLanguage": {
+      ".cjs": "javascript",
+      ".cts": "typescript",
+      ".es6": "javascript",
+      ".jakefile": "javascript",
+      ".js": "javascript",
+      ".jsx": "jsx",
+      ".mjs": "javascript",
+      ".mts": "typescript",
+      ".pac": "javascript",
+      ".rules": "javascript",
+      ".ts": "typescript",
+      ".tsx": "tsx"
+    }
+  },
+  "ty": {
+    "command": "ty",
+    "args": ["server"],
+    "extensionToLanguage": {
+      ".cpy": "python",
+      ".ipy": "python",
+      ".ptl": "python",
+      ".py": "python",
+      ".py3": "python",
+      ".pyi": "python",
+      ".pyt": "python",
+      ".pyw": "python",
+      ".rpy": "python"
+    }
+  },
+  "typescript-language-server": {
+    "command": "typescript-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".gjs": "gjs",
+      ".gts": "gts"
+    },
+    "initializationOptions": {
+      "hostInfo": "helix",
+      "typescript": {
+        "inlayHints": {
+          "includeInlayEnumMemberValueHints": true,
+          "includeInlayFunctionLikeReturnTypeHints": true,
+          "includeInlayFunctionParameterTypeHints": true,
+          "includeInlayParameterNameHints": "all",
+          "includeInlayParameterNameHintsWhenArgumentMatchesName": true,
+          "includeInlayPropertyDeclarationTypeHints": true,
+          "includeInlayVariableTypeHints": true
+        }
+      },
+      "javascript": {
+        "inlayHints": {
+          "includeInlayEnumMemberValueHints": true,
+          "includeInlayFunctionLikeReturnTypeHints": true,
+          "includeInlayFunctionParameterTypeHints": true,
+          "includeInlayParameterNameHints": "all",
+          "includeInlayParameterNameHintsWhenArgumentMatchesName": true,
+          "includeInlayPropertyDeclarationTypeHints": true,
+          "includeInlayVariableTypeHints": true
+        }
+      }
+    }
+  },
+  "vscode-css-language-server": {
+    "command": "vscode-css-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".css": "css",
+      ".scss": "scss"
+    },
+    "initializationOptions": {
+      "provideFormatter": true,
+      "css": {
+        "validate": {
+          "enable": true
+        }
+      }
+    }
+  },
+  "vscode-html-language-server": {
+    "command": "vscode-html-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".asp": "html",
+      ".aspx": "html",
+      ".cshtml": "html",
+      ".htm": "html",
+      ".html": "html",
+      ".jshtm": "html",
+      ".jsp": "html",
+      ".rhtml": "html",
+      ".shtml": "html",
+      ".volt": "html",
+      ".xht": "html",
+      ".xhtml": "html"
+    },
+    "initializationOptions": {
+      "provideFormatter": true
+    }
+  },
+  "vscode-json-language-server": {
+    "command": "vscode-json-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".arb": "json",
+      ".avsc": "json",
+      ".geojson": "json",
+      ".gltf": "json",
+      ".ipynb": "json",
+      ".json": "json",
+      ".jsonc": "jsonc",
+      ".jsonl": "json",
+      ".jsonld": "json-ld",
+      ".ldtk": "json",
+      ".ldtkl": "json",
+      ".sublime-build": "json",
+      ".sublime-color-scheme": "json",
+      ".sublime-commands": "json",
+      ".sublime-completions": "json",
+      ".sublime-keymap": "json",
+      ".sublime-macro": "json",
+      ".sublime-menu": "json",
+      ".sublime-mousemap": "json",
+      ".sublime-project": "json",
+      ".sublime-settings": "json",
+      ".sublime-theme": "json",
+      ".sublime-workspace": "json",
+      ".webmanifest": "json"
+    },
+    "initializationOptions": {
+      "provideFormatter": true,
+      "json": {
+        "validate": {
+          "enable": true
+        }
+      }
+    }
+  },
+  "yaml-language-server": {
+    "command": "yaml-language-server",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".sublime-syntax": "yaml",
+      ".yaml": "yaml",
+      ".yml": "yaml"
+    },
+    "initializationOptions": {
+      "yaml": {
+        "format": {
+          "enable": true
+        },
+        "schemas": {
+          "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/inventory.json": [
+            "./inventory/*.yaml",
+            "hosts.yml"
+          ]
+        }
+      }
+    },
+    "settings": {
+      "yaml": {
+        "format": {
+          "enable": true
+        },
+        "schemas": {
+          "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/inventory.json": [
+            "./inventory/*.yaml",
+            "hosts.yml"
+          ]
+        }
+      }
+    }
+  }
+}

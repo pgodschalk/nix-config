@@ -1,0 +1,11 @@
+#:schema https://fnox.jdx.dev/schema.json
+
+# op-personal is defined in modules/home/gh/fnox.toml; providers are
+# global to fnox.toml and declaring one twice is a duplicate key. A
+# named profile, so it resolves on first use rather than on every shell
+# start.
+#
+# The reference must not name the section the field sits in; adding it
+# makes `op read` fail.
+[profiles.resend.secrets]
+RESEND_API_KEY = { provider = "op-personal", value = "op://Private/hdl2ljecotkhdrw6gxkbq2uut4/cli" }

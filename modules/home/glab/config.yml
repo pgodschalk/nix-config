@@ -1,0 +1,11 @@
+git_protocol: ssh
+# Quoted because `@` is a YAML reserved indicator, and a plain scalar
+# may not begin with one. The substituted path also contains a space.
+glamour_style: "@configHome@/glamour/style.json"
+# glab's own default is true, and the nixpkgs wrapper that sets
+# GLAB_SEND_TELEMETRY=0 is not a contract.
+telemetry: false
+hosts:
+  gitlab.com:
+    api_protocol: https
+    api_host: gitlab.com

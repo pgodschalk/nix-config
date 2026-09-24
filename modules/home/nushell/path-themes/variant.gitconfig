@@ -1,0 +1,7 @@
+# GIT_CONFIG_GLOBAL replaces the global config rather than adding to it,
+# so this shim includes the real one first -- pointing the variable
+# straight at a theme would discard the identity and the rest.
+[include]
+	path = @homeGitconfig@
+[include]
+	path = @extras@/src/git/@variant@.gitconfig

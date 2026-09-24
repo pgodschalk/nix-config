@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://www.rubyschema.org/rubocop.json
+
+# Load-bearing rather than cosmetic: rubocop's default is 120, so
+# without this the 80 ruler in both editors is decorative. rubocop
+# merges this over its bundled default.yml, and a project's own
+# .rubocop.yml wins outright.
+Layout/LineLength:
+  Max: 80

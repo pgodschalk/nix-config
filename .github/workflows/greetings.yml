@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+name: Greetings
+
+on:
+  pull_request:
+    types:
+      - opened
+  issues:
+    types:
+      - opened
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  greeting:
+    name: Greet First-Time Contributors
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.0.1
+        with:
+          issue_message: |
+            Thanks for opening your first issue here.
+
+            This repository is my personal macOS configuration, so most
+            of what it declares is preference rather than something that
+            can be wrong for everyone. Reports about the packaging under
+            `pkgs/`, a pinned version that has gone stale, or a module
+            that does not do what its comments say are all welcome.
+
+            The bug template asks for the two things that settle most of
+            these: the exact command with its output, and whether it
+            still happens from a clean login shell.
+          pr_message: |
+            Thanks for opening your first pull request here.
+
+            This repository configures one machine, so changes to the
+            settings it declares are my own preferences and are unlikely
+            to be merged. Fixes to the packaging under `pkgs/`, to a
+            module that misbehaves, or to a pin that has gone stale are
+            welcome.
+
+            Two things the checks look for: that the system still
+            builds, and that the portable half of `modules/home` still
+            evaluates for Linux. Commit messages follow Conventional
+            Commits, which commitlint enforces.

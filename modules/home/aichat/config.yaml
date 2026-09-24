@@ -1,0 +1,34 @@
+# Specify the LLM to use
+model: claude:@model@
+
+# Controls whether to use the stream-style API
+# aichat's streaming renderer divides by the terminal width, so on a
+# zero-width terminal it panics and --explain leaves the command line
+# empty. Non-streaming is unaffected.
+stream: false
+
+# Indicates whether to persist the message
+# False, otherwise every exchange is appended to messages.md in this
+# directory.
+save: false
+
+# Enables or disables function calling (Globally).
+function_calling: false
+
+# Controls the persistence of the session. if true, auto save; if false,
+# not save; if null, asking the user
+save_session: null
+
+# Whether to save shell execution command to the history file
+save_shell_history: false
+
+clients:
+  - type: claude
+    models:
+      # The only required field
+      - name: "@model@"
+        max_input_tokens: 200000
+        # The limit is sent only when this is set, and Anthropic rejects
+        # a request without it with "max_tokens: Field required", which
+        # reads like a malformed config.
+        require_max_tokens: true

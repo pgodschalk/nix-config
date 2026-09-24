@@ -1,0 +1,8 @@
+#:schema https://fnox.jdx.dev/schema.json
+
+# op-personal is defined in modules/home/gh/fnox.toml; providers are
+# global to fnox.toml and declaring one twice is a duplicate key. A
+# named profile, so the wrapper resolves it on demand rather than on
+# every shell start.
+[profiles.glab.secrets]
+GITLAB_TOKEN = { provider = "op-personal", value = "op://Private/7gj5sk4utpogtqzt3m2iyrzyum/token" }

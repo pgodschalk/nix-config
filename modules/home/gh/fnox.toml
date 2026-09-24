@@ -1,0 +1,19 @@
+#:schema https://fnox.jdx.dev/schema.json
+
+# References, not values: this names a vault, an item id and a field,
+# all useless without the vault.
+#
+# `account` is load-bearing. A directory's mise.local.toml can switch
+# OP_ACCOUNT to another account while this token lives in the
+# personal vault; fnox passes --account, which outranks the variable.
+[providers.op-personal]
+type = "1password"
+vault = "Private"
+account = "my.1password.eu"
+
+# A named profile rather than [secrets]: fnox's shell activation
+# resolves a default-profile secret on every shell start, and each
+# resolution is an `op` round trip. A named profile is not loaded
+# by activation but still resolves with `-P gh`.
+[profiles.gh.secrets]
+GH_TOKEN = { provider = "op-personal", value = "op://Private/bhmimlus3gz3xfqr4xnbobbdje/token" }

@@ -1,0 +1,9 @@
+# Compiler problem severities: Eclipse ships unusedLocal at `ignore`,
+# so it is promoted here, as a warning rather than an error.
+#
+# A hard error in the same file suppresses these, so a test sample must
+# not combine an error with a warning and expect both.
+eclipse.preferences.version=1
+org.eclipse.jdt.core.compiler.problem.unusedImport=warning
+org.eclipse.jdt.core.compiler.problem.unusedLocal=warning
+org.eclipse.jdt.core.compiler.problem.unusedPrivateMember=warning

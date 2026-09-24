@@ -1,0 +1,8 @@
+#:schema https://fnox.jdx.dev/schema.json
+
+# op-personal is defined in modules/home/gh/fnox.toml; providers are
+# global to fnox.toml and declaring one twice is a duplicate key. A
+# named profile, so the secret resolves on first use rather than on
+# every shell start, which a default-profile secret would cost.
+[profiles.huggingface.secrets]
+HF_TOKEN = { provider = "op-personal", value = "op://Private/dcqzuo5cqr7yzmvfeylflhru7a/cli" }
