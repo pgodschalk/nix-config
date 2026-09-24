@@ -10,7 +10,15 @@ runHook preInstall
 # fail with "Cannot find package 'prettier'".
 mkdir -p "$out/lib/node_modules"
 ln -s @prettierModule@ "$out/lib/node_modules/prettier"
-@unpackPlugins@
+
+# One link per plugin tarball, named for its package, scoped ones one
+# directory down.
+while read -r link; do
+  name=${link#./}
+  mkdir -p "$out/lib/node_modules/$name"
+  tar xzf "@plugins@/$name" -C "$out/lib/node_modules/$name" \
+    --strip-components=1
+done < <(cd @plugins@ && find . -type l)
 
 # Each --plugin names the entry file, not the directory: Prettier loads
 # plugins as ES modules, and an ESM directory import fails with
@@ -29,7 +37,7 @@ makeWrapper @prettier@ "$out/libexec/prettier-awk-once" \
   --add-flags "--plugin=$out/lib/node_modules/prettier-plugin-awk/out/index.js \
   --parser=awk-parse"
 
-printf '#!%s\nset -euo pipefail\n%s | %s\n' \
+printf '#!%s\nset -euo pipefail\n%s "$@" | %s "$@"\n' \
   @shell@ \
   "$out/libexec/prettier-awk-once" \
   "$out/libexec/prettier-awk-once" \
@@ -61,8 +69,8 @@ makeWrapper @prettier@ "$out/bin/prettier-json5" --add-flags "--parser=json5"
 
 # `--prose-wrap=always` is the load-bearing flag: Prettier's default
 # preserves, and oxfmt has no prose-wrap or print-width option at all,
-# so a long paragraph was never reflowed. The width matches the Markdown
-# wrap guide in modules/home/darwin/zed.nix.
+# so without it a long paragraph is not reflowed. The width matches the
+# Markdown wrap guide in modules/home/darwin/zed.nix.
 makeWrapper @prettier@ "$out/bin/prettier-md" \
   --add-flags "--parser=markdown --prose-wrap=always --print-width=80"
 

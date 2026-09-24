@@ -21,6 +21,7 @@
   fetchurl,
   prettier,
   makeWrapper,
+  linkFarm,
   # Defaulted rather than required, so a `callPackage` that does not
   # know about the helper still works. It is pure Nix, so importing it
   # here costs nothing.
@@ -167,19 +168,11 @@ stdenvNoCC.mkDerivation {
 
   dontUnpack = true;
 
-  # The plugin unpacking is substituted in as one generated block rather
-  # than branch by branch, so the rest of the script stays parseable
-  # shell and the checker can read it.
   installPhase = substituteFile ./prettier-with-plugins/install.sh {
     prettier = lib.getExe prettier;
     prettierModule = "${prettier}/lib/node_modules/prettier";
     shell = stdenvNoCC.shell;
-    unpackPlugins = lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (name: src: ''
-        mkdir -p "$out/lib/node_modules/${name}"
-        tar xzf ${src} -C "$out/lib/node_modules/${name}" --strip-components=1
-      '') plugins
-    );
+    plugins = "${linkFarm "prettier-plugin-tarballs" plugins}";
   };
 
   meta = {
