@@ -241,11 +241,15 @@ let
   # guarded by `chmod +x "$bin" && exec "$bin"`, and on a store path
   # the chmod fails and the `&&` short-circuits.
   #
-  # The version is the one the launcher compares against, from the
-  # skill's own scripts/VERSION, so bumping impeccableSrc without
-  # bumping this sends it back to downloading.
+  # Must equal the skill's own scripts/VERSION: the launcher execs
+  # IMPECCABLE_BIN without comparing versions, so a mismatch would run
+  # an old engine against new skill files. The assertion below holds
+  # the two together.
   # @VERSION https://github.com/pbakaus/impeccable/releases
   impeccableEngineVersion = "0.1.5";
+  impeccableSkillVersion = lib.trim (
+    builtins.readFile "${impeccableSrc}/.agents/skills/impeccable/scripts/VERSION"
+  );
   impeccableEngineAssets = {
     aarch64-darwin = {
       asset = "impeccable-darwin-arm64";
@@ -263,6 +267,10 @@ let
   impeccableEngineAsset = impeccableEngineAssets.${pkgs.stdenv.hostPlatform.system} or null;
 
   impeccableEngine =
+    assert lib.assertMsg (impeccableSkillVersion == impeccableEngineVersion) (
+      "claude-skills: impeccable's skill wants engine ${impeccableSkillVersion},"
+      + " but impeccableEngineVersion is ${impeccableEngineVersion}"
+    );
     if impeccableEngineAsset == null then
       null
     else
