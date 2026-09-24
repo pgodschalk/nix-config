@@ -1,4 +1,10 @@
-{ lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  substituteFile,
+  ...
+}:
 {
   programs.ssh = {
     enable = true;
@@ -93,5 +99,15 @@
 
   # Keys accepted for incoming SSH. Remote Login is off on the Mac, so
   # nothing uses it there yet.
-  home.file.".ssh/authorized_keys".source = ./ssh/authorized_keys;
+  #
+  # After linkGeneration, which removes the link earlier generations
+  # made here.
+  home.activation.sshAuthorizedKeys = lib.hm.dag.entryAfter [ "linkGeneration" ] (
+    substituteFile ./ssh/install-authorized-keys.sh {
+      coreutils = "${pkgs.coreutils}";
+      dir = lib.escapeShellArg "${config.home.homeDirectory}/.ssh";
+      src = "${./ssh/authorized_keys}";
+      dst = lib.escapeShellArg "${config.home.homeDirectory}/.ssh/authorized_keys";
+    }
+  );
 }
