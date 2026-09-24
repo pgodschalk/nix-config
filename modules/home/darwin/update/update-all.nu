@@ -35,9 +35,9 @@ def run-step [label: string, cmd: list<string>]: nothing -> nothing {
     }
 }
 
-# Reported rather than installed: automatic macOS updates are fully on,
-# so a second installer racing them buys nothing and `-R` would reboot
-# in the middle of a chore.
+# Reported rather than installed: macOS downloads updates by itself and
+# installing one is a deliberate step, and `-R` would reboot in the
+# middle of a chore.
 def update-apple []: nothing -> nothing {
     banner "Apple software updates"
     let out = /usr/sbin/softwareupdate -l | complete

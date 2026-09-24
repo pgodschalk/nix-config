@@ -9,7 +9,6 @@
       # Full auto-update can install a new major macOS before nix-darwin
       # supports it.
       "/Library/Preferences/com.apple.SoftwareUpdate" = {
-        AutomaticCheckEnabled = true;
         AutomaticDownload = true;
         ConfigDataInstall = true;
         CriticalUpdateInstall = true;
@@ -213,7 +212,7 @@
       NSAutomaticDashSubstitutionEnabled = false;
     };
 
-    SoftwareUpdate.AutomaticallyInstallMacOSUpdates = true;
+    SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
 
     finder = {
       # Permanently erase items after 30 days in the Trash.
