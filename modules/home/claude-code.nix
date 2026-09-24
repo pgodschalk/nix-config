@@ -109,6 +109,17 @@ in
     recursive = true;
   };
 
+  # The same store paths the editors are given, so the LSP plugin cannot
+  # fall behind a flake.lock update.
+  xdg.configFile."claude-marketplace/plugins/nix-lsp/.lsp.json".source =
+    pkgs.replaceVars ./claude-code/nix-lsp.json
+      {
+        astroTsdk = pkgs.callPackage ../../pkgs/astro-tsdk.nix { };
+        jdtlsSettings = pkgs.callPackage ../../pkgs/jdtls-settings.nix { };
+        javaHome = pkgs.jdk25;
+        inherit (pkgs) terraform;
+      };
+
   # settings.json is Claude Code's own -- it writes `theme` and `tui` --
   # so the keys are merged in with jq rather than the file written.
   # ./claude-code/settings.jq is a real file, passed with `--from-file`,

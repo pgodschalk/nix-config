@@ -19,20 +19,7 @@ let
     else
       "nixosConfigurations.\${config.home.username}";
 
-  # astro-language-server refuses to start without a TypeScript SDK: an
-  # initialize with no initializationOptions comes back `-32603: The
-  # `typescript.tsdk` init option is required`. Zed's Astro extension
-  # locates one itself; Helix's bundled entry is only a command.
-  #
-  # Resolved at build time because the only real location is under
-  # pnpm's content-addressed layout and would rot on the next bump, back
-  # to the same silent -32603. The bundled copy rather than
-  # pkgs.typescript, which is a major version ahead of it.
-  astroTsdk = pkgs.runCommand "astro-tsdk" { } (
-    substituteFile ./helix/astro-tsdk.sh {
-      astroLanguageServer = "${pkgs.astro-language-server}";
-    }
-  );
+  astroTsdk = pkgs.callPackage ../../pkgs/astro-tsdk.nix { };
 
   mkConfig = theme: substituteFile ./helix/config.toml { inherit theme; };
 in

@@ -7,7 +7,7 @@
     },
     "initializationOptions": {
       "typescript": {
-        "tsdk": "/nix/store/s2g97lfcqx1iqs07avyisdv8vxa1fh60-astro-tsdk"
+        "tsdk": "@astroTsdk@"
       }
     }
   },
@@ -130,11 +130,11 @@
       "java": {
         "format": {
           "settings": {
-            "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/formatter.xml"
+            "url": "@jdtlsSettings@/formatter.xml"
           }
         },
         "settings": {
-          "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/org.eclipse.jdt.core.prefs"
+          "url": "@jdtlsSettings@/org.eclipse.jdt.core.prefs"
         }
       }
     },
@@ -142,14 +142,14 @@
       "java": {
         "format": {
           "settings": {
-            "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/formatter.xml"
+            "url": "@jdtlsSettings@/formatter.xml"
           }
         },
         "settings": {
-          "url": "/nix/store/hgs1f3679mkiwxhfdxg0bvclrzkfbrq7-jdtls-settings/org.eclipse.jdt.core.prefs"
+          "url": "@jdtlsSettings@/org.eclipse.jdt.core.prefs"
         }
       },
-      "java_home": "/nix/store/cv14k7dgglyhjqlqpcj0rgrqdbsrvg02-zulu-ca-jdk-25.0.3"
+      "java_home": "@javaHome@"
     }
   },
   "jq-lsp": {
@@ -320,7 +320,7 @@
     },
     "initializationOptions": {
       "terraform": {
-        "path": "/nix/store/yqwcn8pkmy5jw6jy0cz1plwvmqprkq25-terraform-1.16.1/bin/terraform"
+        "path": "@terraform@/bin/terraform"
       }
     }
   },
