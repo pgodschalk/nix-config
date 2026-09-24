@@ -11,13 +11,21 @@ let
   extras = config.my.theme.dracula.extras;
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 
-  # Which configuration nixd reads this machine's options from.
+  # Which configuration nixd reads this machine's options from, as the
+  # inside of a TOML string. Linux has a standalone home configuration
+  # and no system one, so its system entry is empty.
+  flake = ''(builtins.getFlake "${config.home.homeDirectory}/Developer/github.com/pgodschalk/nix-config")'';
+  tomlString = s: lib.removePrefix "\"" (lib.removeSuffix "\"" (builtins.toJSON s));
   systemKind = if isDarwin then "nix-darwin" else "nixos";
-  systemAttr =
+  systemOptions = tomlString (
+    if isDarwin then "${flake}.darwinConfigurations.Patricks-MacBook-Pro.options" else "{ }"
+  );
+  homeManagerOptions = tomlString (
     if isDarwin then
-      "darwinConfigurations.Patricks-MacBook-Pro"
+      "${flake}.darwinConfigurations.Patricks-MacBook-Pro.options.home-manager.users.type.getSubOptions [ ]"
     else
-      "nixosConfigurations.\${config.home.username}";
+      "${flake}.homeConfigurations.\"${config.home.username}@linux\".options"
+  );
 
   astroTsdk = pkgs.callPackage ../../pkgs/astro-tsdk.nix { };
 
@@ -49,12 +57,16 @@ in
     "helix/languages.toml".source = pkgs.replaceVars ./helix/languages.toml {
       homeDirectory = config.home.homeDirectory;
       inherit
-        systemAttr
         systemKind
+        systemOptions
+        homeManagerOptions
         jdtlsSettings
         astroTsdk
         ;
       oxfmtConfig = ./oxc/oxfmtrc.json;
+      # The Xcode wrappers exist only on macOS.
+      clangFormat = if isDarwin then "clang-format-xcode" else "clang-format";
+      swiftFormat = if isDarwin then "swift-format-xcode" else "swift-format";
       terraform = pkgs.terraform;
     };
 

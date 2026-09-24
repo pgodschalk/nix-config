@@ -35,7 +35,7 @@ formatter = { command = "shfmt", args = ["--indent", "2", "--binary-next-line", 
 [[language]]
 name = "c"
 indent = { tab-width = 4, unit = "    " }
-formatter = { command = "clang-format-xcode" }
+formatter = { command = "@clangFormat@" }
 
 # gersemi rather than either server: neocmakelsp only fixes indentation,
 # and cmake-language-server formats only with cmake-format on PATH. Both
@@ -51,7 +51,7 @@ rulers = []
 [[language]]
 name = "cpp"
 indent = { tab-width = 4, unit = "    " }
-formatter = { command = "clang-format-xcode" }
+formatter = { command = "@clangFormat@" }
 
 [[language]]
 name = "css"
@@ -290,7 +290,7 @@ comment-token = "//"
 indent = { tab-width = 4, unit = "    " }
 language-servers = ["metal-analyzer"]
 grammar = "cpp"
-formatter = { command = "clang-format-xcode" }
+formatter = { command = "@clangFormat@" }
 
 [[language]]
 name = "nix"
@@ -373,7 +373,7 @@ formatter = { command = "pgfmt-1nl" }
 name = "swift"
 indent = { tab-width = 4, unit = "    " }
 language-servers = ["sourcekit-lsp", "package-swift-lsp", "deps-lsp"]
-formatter = { command = "swift-format-xcode" }
+formatter = { command = "@swiftFormat@" }
 rulers = [73, 101]
 
 [language.debugger]
@@ -552,10 +552,10 @@ command = "nixd"
 expr = "import (builtins.getFlake \"@homeDirectory@/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
 
 [language-server.nixd.config.nixd.options."@systemKind@"]
-expr = "(builtins.getFlake \"@homeDirectory@/Developer/github.com/pgodschalk/nix-config\").@systemAttr@.options"
+expr = "@systemOptions@"
 
 [language-server.nixd.config.nixd.options.home-manager]
-expr = "(builtins.getFlake \"@homeDirectory@/Developer/github.com/pgodschalk/nix-config\").@systemAttr@.options.home-manager.users.type.getSubOptions [ ]"
+expr = "@homeManagerOptions@"
 
 [language-server.nu-lint]
 command = "nu-lint"
@@ -589,6 +589,9 @@ args = ["lsp-proxy"]
 [language-server.powershell-editor-services]
 command = "pwsh-lsp"
 
+[language-server.pytest-language-server]
+command = "pytest-language-server"
+
 [language-server.rubocop]
 command = "rubocop"
 args = ["--lsp"]
@@ -606,10 +609,12 @@ args = ["--stdio"]
 command = "steep"
 args = ["langserver"]
 
-[language-server.tailwindcss-ls.config]
+# Under `tailwindCSS`: the server asks for that section, and Helix
+# answers by walking `config` along its path.
+[language-server.tailwindcss-ls.config.tailwindCSS]
 includeLanguages = { astro = "html" }
 
-[language-server.tailwindcss-ls.config.experimental]
+[language-server.tailwindcss-ls.config.tailwindCSS.experimental]
 classRegex = [
   'class="([^"]*)"',
   "class='([^']*)'",
