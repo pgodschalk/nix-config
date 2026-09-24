@@ -41,19 +41,21 @@ in
 #
 # Unsetting GEM_HOME and GEM_PATH does not help, since they are already
 # unset and the user directory is a default rather than an override.
-# Pinning GEM_PATH to the app's own gem tree excludes it.
-runCommand "steep-${app.version or "2.1.0"}"
+# Setting GEM_PATH at all replaces that default, so the user directory
+# drops out; it names the bundle's own gem tree.
+runCommand "steep-${app.version}"
   {
     nativeBuildInputs = [ makeWrapper ];
     meta = {
       description = "Gradual type checker for Ruby, driven by RBS signatures";
       homepage = "https://github.com/soutaro/steep";
+      license = lib.licenses.mit;
       mainProgram = "steep";
     };
   }
   (
     substituteFile ./wrap.sh {
       steep = "${app}/bin/steep";
-      gemPath = "${app}/lib/ruby/gems/3.4.0";
+      gemPath = "${app.basicEnv}/${app.basicEnv.ruby.gemPath}";
     }
   )

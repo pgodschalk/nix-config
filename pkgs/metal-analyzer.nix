@@ -3,6 +3,9 @@
 # `xcrun metal` from the Metal toolchain modules/darwin/xcode.nix
 # downloads rather than reimplementing a front end.
 #
+# It hardcodes ~/.metal-analyzer for its log and index cache, and
+# panics at start-up if it cannot create the log there.
+#
 # Only aarch64-darwin is packaged. Rosetta is ruled out, and there is no
 # Linux build because there is no Metal toolchain to drive.
 {

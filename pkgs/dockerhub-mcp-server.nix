@@ -61,9 +61,6 @@ let
     # and none to run.
     npmBuildScript = "build";
 
-    # package.json declares no `bin` and no `files`, so the default
-    # `npm pack` install would neither produce an executable nor be
-    # predictable about what it keeps.
     installPhase = substituteFile ./dockerhub-mcp-server/install.sh {
       node = lib.getExe nodejs_22;
     };

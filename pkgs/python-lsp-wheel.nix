@@ -39,10 +39,9 @@ stdenvNoCC.mkDerivation {
 
   src = fetchurl { inherit url hash; };
 
-  # A wheel is a zip, and `.whl` is not an extension stdenv unpacks by
-  # itself. On darwin the binary also has to be re-signed: an ad-hoc
-  # signature does not survive being rewritten into the store, and macOS
-  # refuses to exec an arm64 binary without one.
+  # On darwin the binary has to be re-signed: an ad-hoc signature does
+  # not survive being rewritten into the store, and macOS refuses to
+  # exec an arm64 binary without one.
   nativeBuildInputs = [
     unzip
   ]

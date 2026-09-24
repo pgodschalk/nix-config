@@ -39,9 +39,6 @@ buildNpmPackage {
   # and fails.
   dontNpmBuild = true;
 
-  # `npm install` would put the tree under lib/node_modules/<pname>,
-  # which is not where the server lives -- the entry point is the
-  # dependency's own lib/index.mjs. `--stdio` is mandatory.
   installPhase = substituteFile ./markdownlint-lsp/install.sh { node = lib.getExe nodejs; };
 
   meta = {
