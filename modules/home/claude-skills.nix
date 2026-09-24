@@ -7,8 +7,8 @@
 }:
 let
   # The cross-agent skills directory, read by pi, vibe and Zed. A new
-  # dotdir in $HOME, which principle 1 otherwise forbids: the name is
-  # fixed by the tools that read it, the same standing as ~/.mcp.json.
+  # dotdir in $HOME: the name is fixed by the tools that read it, the
+  # same standing as ~/.mcp.json.
   #
   # Claude Code is not one of them -- its own user scope is
   # <CLAUDE_CONFIG_DIR>/skills.

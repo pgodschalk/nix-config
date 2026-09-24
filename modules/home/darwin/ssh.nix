@@ -22,7 +22,8 @@ let
 
   # Claude Code probes GitHub's SSH auth on startup with `ssh -T -o
   # BatchMode=yes …`, and BatchMode suppresses password prompts rather
-  # than agent signatures, so every launch raised a Touch ID prompt.
+  # than agent signatures, so without this block every launch would
+  # raise a Touch ID prompt.
   #
   # The probe's answer decides only whether a marketplace source written
   # in SSH form is kept or rewritten to HTTPS, so denying it the agent

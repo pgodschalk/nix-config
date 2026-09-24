@@ -77,7 +77,7 @@ let
   # Polling, because the appearance change is a distributed notification
   # that no shell tool can wait on and it writes nothing to disk:
   # cfprefsd keeps the value in memory, which also rules out launchd's
-  # WatchPaths. One `defaults read` is ~11ms.
+  # WatchPaths.
   watchScript = pkgs.writeShellScript "appearance-watch" (
     substituteFile ./appearance/watch.sh { switchScript = "${switchScript}"; }
   );

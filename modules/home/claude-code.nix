@@ -91,7 +91,7 @@ in
   home.sessionVariables.CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude-code";
 
   # Claude Code watches this directory, so a regenerated theme applies
-  # live; modules/home/appearance.nix switches between the two.
+  # live; modules/home/darwin/appearance.nix switches between the two.
   xdg.configFile."claude-code/themes/dracula-pro.json" = lib.mkIf (extras != null) {
     source = config.lib.file.mkOutOfStoreSymlink "${extras}/src/claude-code/dracula-pro.json";
   };

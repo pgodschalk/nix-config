@@ -8,9 +8,8 @@
 let
   draculaPro = config.my.theme.dracula.pro;
 
-  # Referenced by store path, unlike every language server here: a debug
-  # adapter has no per-repository version to defer to. Left unset, Zed
-  # downloads its own copy.
+  # A debug adapter has no per-repository version to defer to, so this
+  # is a store path. Left unset, Zed downloads its own copy.
   codelldb = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
 
   # oxfmt has no user-level config -- only `.oxfmtrc.json` discovered by
@@ -253,9 +252,9 @@ let
     # and these files start highlighting the day it is fixed.
     #
     # An enumeration rather than `**/*.j2`, because a pattern claiming
-    # every `.j2` also claims `page.html.j2`, and within `file_types`
-    # the alphabetically later language wins -- an order Nix decides,
-    # since it sorts attribute names when serialising. A bare `vars.j2`
+    # every `.j2` also claims `page.html.j2`, and where two extension
+    # languages match, Zed takes the one whose name sorts later. A bare
+    # `vars.j2`
     # is the one case this cannot reach, being indistinguishable from
     # `page.html.j2` by glob.
     #

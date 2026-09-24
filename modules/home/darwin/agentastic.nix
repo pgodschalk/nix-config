@@ -34,9 +34,6 @@ let
   # `cloud.providers` is deliberately absent: the Fly.io organisation
   # and region live inside a provider record carrying a UUID and
   # credential state, which is account state.
-  #
-  # "Automatically check for app updates" is a plist key rather than
-  # JSON, so it is in modules/darwin/defaults.nix.
   agentasticSettings = {
     codeReview = {
       # An agent is a reviewer exactly when it is in this list, so

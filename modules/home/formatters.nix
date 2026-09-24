@@ -43,11 +43,11 @@ in
     # `xmllint --format`, which reads stdin when given `-`.
     pkgs.libxml2
 
-    # jqfmt deletes every comment in a filter, which is accepted.
+    # jqfmt deletes every comment in a filter.
     #
     # The three flags are what make it a formatter: with none at all it
     # emits a single line. `-op` takes jqfmt's own operator names rather
-    # than the symbols, and the error lists all 23. It leaves a trailing
+    # than the symbols, which its error message lists. It leaves a trailing
     # space on every line it breaks, which Zed's
     # remove_trailing_whitespace_on_save takes off.
     pkgs.jqfmt
@@ -60,13 +60,9 @@ in
     (pkgs.callPackage ../../pkgs/prettier-with-plugins.nix { })
 
     # Kanban and treemap diagrams are missing from the formatter's type
-    # table and lose the indentation their structure depends on; the
-    # other twelve types round-trip cleanly.
+    # table and lose the indentation their structure depends on.
     (pkgs.callPackage ../../pkgs/mermaid-formatter.nix { })
 
-    # nufmt appends one `}` per pass to
-    # modules/home/completions.nu, so that file grows on every save.
-    # Ordinary scripts are stable and idempotent.
     pkgs.nufmt
   ];
 }

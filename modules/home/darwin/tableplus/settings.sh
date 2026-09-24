@@ -10,7 +10,7 @@ fi
 @viewSettings@
 
 # The model is substituted in, so its version annotation sits beside the
-# binding in the .nix rather than inside this command: a `\
+# binding in the .nix rather than inside this command: a `\`
 # continuation splices the next line on, and a comment there would
 # swallow the rest of it.
 run /usr/bin/defaults write @domain@ default_vendor -string anthropic_ai
