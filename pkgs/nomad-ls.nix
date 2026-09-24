@@ -36,7 +36,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   meta = {
     description = "Language server for HashiCorp Nomad job specifications";
     homepage = "https://github.com/loczek/nomad-ls";
-    license = lib.licenses.mit;
+    # Upstream publishes no license, so all rights are reserved.
+    license = lib.licenses.unfree;
     mainProgram = "nomad-ls";
     platforms = [ "aarch64-darwin" ];
   };

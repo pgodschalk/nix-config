@@ -42,7 +42,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   meta = {
     description = "Official command-line interface for the TransIP API";
     homepage = "https://github.com/transip/tipctl";
-    license = lib.licenses.mit;
+    license = lib.licenses.asl20;
     mainProgram = "tipctl";
     platforms = lib.platforms.all;
   };

@@ -57,7 +57,7 @@ stdenvNoCC.mkDerivation {
   meta = {
     description = "Language server for project-wide CSS custom property intelligence";
     homepage = "https://github.com/lmn451/css-lsp-rust";
-    license = lib.licenses.mit;
+    license = lib.licenses.gpl3Only;
     mainProgram = "css-variable-lsp";
     platforms = lib.attrNames targets;
   };
