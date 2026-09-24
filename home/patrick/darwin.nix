@@ -47,8 +47,7 @@
   xdg = {
     # ~/Library/Scripts is the closest macOS has to a convention for
     # user-supplied executables, where XDG_BIN_HOME would default to
-    # ~/.local/bin. Nothing is added to PATH by it: binHome is a
-    # location rather than a search path.
+    # ~/.local/bin. modules/home/local-bin.nix puts it on PATH.
     binHome = "${config.home.homeDirectory}/Library/Scripts";
     cacheHome = "${config.home.homeDirectory}/Library/Caches";
     configHome = "${config.home.homeDirectory}/Library/Application Support";
