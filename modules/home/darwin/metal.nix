@@ -1,12 +1,11 @@
 { lib, pkgs, ... }:
 let
-  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
 in
 {
   # The extension resolves `lsp.metal-analyzer.binary.path`, then
   # `which("metal-analyzer")`, then a GitHub download, so installing it
   # here pins the version.
-  home.packages = lib.optionals isDarwin [
+  home.packages = [
     (pkgs.callPackage ../../../pkgs/metal-analyzer.nix { })
   ];
 
@@ -20,7 +19,7 @@ in
   # extension; Helix is given one here, which costs almost nothing
   # because Metal is C++: `grammar = "cpp"` reuses the parser Helix
   # ships, and `; inherits cpp` is its documented query inheritance.
-  xdg.configFile = lib.mkIf isDarwin (
+  xdg.configFile =
     lib.genAttrs
       (map (q: "helix/runtime/queries/metal/${q}.scm") [
         "highlights"
@@ -30,6 +29,5 @@ in
       ])
       (_: {
         text = "; inherits cpp\n";
-      })
-  );
+      });
 }

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   substituteFile,
   ...
 }:
@@ -38,7 +37,7 @@ let
   # @VERSION https://platform.claude.com/docs/en/models/overview
   anthropicModel = "claude-opus-5-5";
 in
-lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+{
   # TablePlus comes from SetApp, so only its settings are declared. The
   # domain is outside any sandbox container. The Anthropic API key is
   # not declared: TablePlus keeps it out of this domain.

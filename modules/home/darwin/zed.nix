@@ -997,7 +997,7 @@ let
 in
 {
   config = {
-    home.packages = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin [
+    home.packages = [
       (pkgs.runCommand "zed-cli" { } (
         substituteFile ./zed/link-zed-cli.sh { zeditor = "${pkgs.zed-editor}/bin/zeditor"; }
       ))

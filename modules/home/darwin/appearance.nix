@@ -6,7 +6,6 @@
   ...
 }:
 let
-  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
   inherit (config.my.theme.dracula) extras pro;
 
   # The exceptions: tools that can follow neither the appearance nor an
@@ -83,7 +82,7 @@ let
   );
 in
 {
-  launchd.agents.appearance = lib.mkIf isDarwin {
+  launchd.agents.appearance = {
     enable = true;
     config = {
       ProgramArguments = [ "${watchScript}" ];
@@ -96,7 +95,5 @@ in
   # The agent only starts at login, so without this the symlinks would
   # be missing between a switch and the next login -- and a missing
   # config is a silently unthemed tool rather than an error.
-  home.activation.appearanceApply = lib.mkIf isDarwin (
-    lib.hm.dag.entryAfter [ "linkGeneration" ] "run ${switchScript}"
-  );
+  home.activation.appearanceApply = lib.hm.dag.entryAfter [ "linkGeneration" ] "run ${switchScript}";
 }

@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 let
   # The same schema as Docker's own daemon.json, generated so the types
   # are checked at evaluation time.
@@ -10,7 +10,7 @@ in
   # A hardcoded path in $HOME, and a read-only store symlink, so
   # OrbStack's own "Docker engine config" editor can no longer save to
   # it.
-  home.file.".orbstack/config/docker.json" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+  home.file.".orbstack/config/docker.json" = {
     source = dockerConfig;
   };
 

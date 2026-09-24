@@ -36,14 +36,12 @@ let
   configFile = "${config.home.homeDirectory}/Library/Application Support/Claude/claude_desktop_config.json";
 in
 {
-  home.activation.claudeDesktopSettings = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
-    lib.hm.dag.entryAfter [ "writeBoundary" ] (
-      substituteFile ./claude-desktop/merge-settings.sh {
-        file = lib.escapeShellArg configFile;
-        mergeJson = lib.getExe (pkgs.callPackage ../../../pkgs/merge-json.nix { });
-        declared = "${settingsJson}";
-        state = lib.escapeShellArg "${config.xdg.stateHome}/nix-config/claude-desktop.json";
-      }
-    )
+  home.activation.claudeDesktopSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+    substituteFile ./claude-desktop/merge-settings.sh {
+      file = lib.escapeShellArg configFile;
+      mergeJson = lib.getExe (pkgs.callPackage ../../../pkgs/merge-json.nix { });
+      declared = "${settingsJson}";
+      state = lib.escapeShellArg "${config.xdg.stateHome}/nix-config/claude-desktop.json";
+    }
   );
 }

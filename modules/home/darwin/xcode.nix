@@ -91,13 +91,11 @@ in
   # font chosen in Xcode's UI is reverted by the next switch, which is
   # the point of declaring it. Its own entry, so a font change does not
   # depend on the themes being present.
-  home.activation.xcodeFonts = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
-    lib.hm.dag.entryAfter [ "writeBoundary" ] (
-      substituteFile ./xcode/set-font.sh {
-        wantB64 = lib.escapeShellArg fontRecipeB64;
-        recipeHex = lib.escapeShellArg fontRecipeHex;
-      }
-    )
+  home.activation.xcodeFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+    substituteFile ./xcode/set-font.sh {
+      wantB64 = lib.escapeShellArg fontRecipeB64;
+      recipeHex = lib.escapeShellArg fontRecipeHex;
+    }
   );
 
   # Copied rather than symlinked: Xcode's theme picker does not list a

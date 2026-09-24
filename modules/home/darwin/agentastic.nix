@@ -206,15 +206,13 @@ in
         config.lib.file.mkOutOfStoreSymlink "${extras}/src/agentastic/Dracula Pro (Light).theme";
     };
 
-    home.activation.agentasticSettings = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
-      lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        substituteFile ./agentastic/merge-settings.sh {
-          settings = lib.escapeShellArg "${config.xdg.configHome}/Agentastic.dev/settings.json";
-          mergeJson = lib.getExe (pkgs.callPackage ../../../pkgs/merge-json.nix { });
-          declared = "${agentasticSettingsJson}";
-          state = lib.escapeShellArg "${config.xdg.stateHome}/nix-config/agentastic.json";
-        }
-      )
+    home.activation.agentasticSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+      substituteFile ./agentastic/merge-settings.sh {
+        settings = lib.escapeShellArg "${config.xdg.configHome}/Agentastic.dev/settings.json";
+        mergeJson = lib.getExe (pkgs.callPackage ../../../pkgs/merge-json.nix { });
+        declared = "${agentasticSettingsJson}";
+        state = lib.escapeShellArg "${config.xdg.stateHome}/nix-config/agentastic.json";
+      }
     );
   };
 }
