@@ -17,8 +17,7 @@
 
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "metal-analyzer";
-  # @VERSION
-  # https://github.com/computer-graphics-tools/metal-analyzer/releases
+  # @VERSION https://github.com/computer-graphics-tools/metal-analyzer/releases
   version = "0.1.22";
 
   src = fetchurl {

@@ -47,8 +47,7 @@
     };
 
     # Current nix-darwin default (`system.maxStateVersion`).
-    # @VERSION
-    # https://github.com/nix-darwin/nix-darwin/blob/master/CHANGELOG
+    # @VERSION https://github.com/nix-darwin/nix-darwin/blob/master/CHANGELOG
     system.stateVersion = 7;
 
     # Required by every option that writes per-user state.
