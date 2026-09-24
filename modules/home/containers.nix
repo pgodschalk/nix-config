@@ -36,9 +36,10 @@ let
 
   # `docker login` base64-encodes the credential into config.json; a
   # helper keeps the file to a registry-to-helper mapping and fetches
-  # the secret per invocation. `store` and `erase` succeed silently
-  # because there is nothing local to write, which makes `docker login`
-  # a harmless no-op rather than an error.
+  # the secret per invocation. `store` and `erase` succeed without
+  # writing anything, but `docker login`, `logout` and `context use`
+  # still fail: the CLI then saves config.json, a read-only link into
+  # the store.
   credentialHelper = pkgs.writeShellScriptBin "docker-credential-op" (
     substituteFile ./containers/docker-credential-op.sh {
       op = lib.escapeShellArg "${pkgs._1password-cli}/bin/op";
