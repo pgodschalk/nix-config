@@ -80,7 +80,7 @@ git ls-files '*.sh' \
 nixf=$(nix build --no-link --print-out-paths \
   --override-input work path:./stubs/work \
   '.#darwinConfigurations.Patricks-MacBook-Pro.pkgs.nixf')
-"$nixf/bin/nixf-tidy" <modules/home/git.nix
+"$nixf/bin/nixf-tidy" --variable-lookup <modules/home/git.nix
 ```
 
 ### Claude Code's own environment

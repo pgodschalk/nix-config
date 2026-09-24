@@ -9,13 +9,13 @@ tidy=$(.github/scripts/nix-tool.sh nixf)/bin/nixf-tidy
 status=0
 
 while read -r file; do
-  diagnostics=$("$tidy" <"$file")
+  # Without --variable-lookup nixf-tidy reports parse errors only, and
+  # nixd's undefined and unused names go unchecked.
+  diagnostics=$("$tidy" --variable-lookup <"$file")
   [ "$diagnostics" = "[]" ] && continue
 
-  # nixf counts lines and columns from zero.
   printf '%s\n' "$diagnostics" \
-    | jq --raw-output --arg file "$file" \
-      '.[] | "\($file):\(.range.lCur.line + 1):\(.range.lCur.column + 1): \(.message) [\(.sname)]"'
+    | jq --raw-output --arg file "$file" --from-file .github/scripts/nix-lint.jq
   status=1
 done < <(git ls-files '*.nix')
 
