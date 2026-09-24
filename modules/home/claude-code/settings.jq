@@ -7,6 +7,14 @@
     .enabledPlugins["nix-lsp@nix-config"] = true |
     .enabledPlugins = ((.enabledPlugins // {}) | with_entries(select(.key | endswith("@claude-plugins-official") | not))) + $plugins |
     .permissions.defaultMode = "auto" |
+    .permissions.deny = ((.permissions.deny // []) + [
+        "Bash(security find-generic-password:*)",
+        "Bash(security find-internet-password:*)",
+        "Bash(security dump-keychain:*)",
+        "Bash(/usr/bin/security find-generic-password:*)",
+        "Bash(/usr/bin/security find-internet-password:*)",
+        "Bash(/usr/bin/security dump-keychain:*)"
+    ] | unique) |
     .remoteControlAtStartup = true |
     .outputStyle = "Concise" |
     .voiceEnabled = true |

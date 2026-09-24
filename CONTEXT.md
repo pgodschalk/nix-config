@@ -146,7 +146,7 @@ A wrapper that lets the tool's exit code and output reach the caller unchanged.
 
 **Secret**:\
 A value that is never on disk in this tree; it reaches a process at run time
-through fnox or `op`.\
+through fnox or `op`, or, for three MCP wrappers, from the login keychain.\
 _Avoid_: credential, outside a tool's own name
 
 **Link**:\
