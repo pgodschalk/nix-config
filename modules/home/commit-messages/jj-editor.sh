@@ -44,14 +44,12 @@ $editor "$file" || exit $?
 # An empty description is jj's normal state for a change in progress.
 if message >/dev/null; then
   @commitlintConfigFor@
-  check="$(mktemp "${TMPDIR:-/tmp}/jj-commitlint.XXXXXX")"
-  grep -v '^JJ:' "$file" >"$check"
+  # On stdin rather than with --edit, which looks for a git root and
+  # finds none in a secondary workspace or a non-colocated repository.
+  #
   # config is assigned by the fragment above, which is an opaque
   # placeholder to the checker. Written without its `@`, since
   # replaceVars substitutes inside comments too.
   # shellcheck disable=SC2154
-  @commitlint@ --config "$config" --edit "$check"
-  status=$?
-  rm -f "$check"
-  exit $status
+  grep -v '^JJ:' "$file" | @commitlint@ --config "$config"
 fi
