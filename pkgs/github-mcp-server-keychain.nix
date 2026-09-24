@@ -30,4 +30,8 @@ in
     inherit service;
   }
 )).overrideAttrs
-  { meta.platforms = lib.platforms.darwin; }
+  (old: {
+    meta = old.meta // {
+      platforms = lib.platforms.darwin;
+    };
+  })
