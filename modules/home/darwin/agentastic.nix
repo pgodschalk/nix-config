@@ -213,8 +213,9 @@ in
       lib.hm.dag.entryAfter [ "writeBoundary" ] (
         substituteFile ./agentastic/merge-settings.sh {
           settings = lib.escapeShellArg "${config.xdg.configHome}/Agentastic.dev/settings.json";
-          jq = lib.getExe pkgs.jq;
+          mergeJson = lib.getExe (pkgs.callPackage ../../../pkgs/merge-json.nix { });
           declared = "${agentasticSettingsJson}";
+          state = lib.escapeShellArg "${config.xdg.stateHome}/nix-config/agentastic.json";
         }
       )
     );

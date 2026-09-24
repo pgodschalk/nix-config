@@ -8,8 +8,4 @@ if /usr/bin/pgrep -xq Claude; then
   echo "claude-desktop: not stick." >&2
 fi
 
-file=@file@
-run mkdir -p "$(dirname "$file")"
-[ -s "$file" ] || echo '{}' >"$file"
-run @jq@ --slurp '.[0] * .[1]' "$file" @declared@ >"$file.tmp"
-run mv -f "$file.tmp" "$file"
+run @mergeJson@ claude-desktop @file@ @declared@ @state@
