@@ -26,13 +26,18 @@ in
       background-opacity = 0.95;
       background-blur = true;
 
+      # Nushell through a login zsh; see modules/home/nushell.nix.
+      command = "${config.home.profileDirectory}/bin/nu-login";
+
+      # A list renders as repeated `keybind = …` lines.
+      keybind = [
+        "global:§=toggle_quick_terminal"
+      ];
+
       window-padding-x = 16;
       window-padding-y = 4;
       window-height = 28;
       window-width = 87;
-
-      # Nushell through a login zsh; see modules/home/nushell.nix.
-      command = "${config.home.profileDirectory}/bin/nu-login";
 
       # Must be stated rather than left at `detect`, which reads the
       # command's filename -- `nu-login` -- matches no known shell and
@@ -43,11 +48,6 @@ in
 
       macos-non-native-fullscreen = "visible-menu";
       macos-option-as-alt = "left";
-
-      # A list renders as repeated `keybind = …` lines.
-      keybind = [
-        "global:§=toggle_quick_terminal"
-      ];
     };
   };
 

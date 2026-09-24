@@ -34,6 +34,9 @@ let
   # `cloud.providers` is deliberately absent: the Fly.io organisation
   # and region live inside a provider record carrying a UUID and
   # credential state, which is account state.
+  #
+  # Agentastic publishes no settings reference, so keys are
+  # alphabetical; pkgs.formats.json sorts the output either way.
   agentasticSettings = {
     codeReview = {
       # An agent is a reviewer exactly when it is in this list, so
