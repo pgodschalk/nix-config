@@ -70,7 +70,6 @@
       # CLI
       asciinema # terminal recorder
       doggo # DNS client
-      git
       hyperfine # benchmarking
       mkcert # local dev CA
       ouch # archive (de)compressor
