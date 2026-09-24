@@ -16,7 +16,13 @@ def warn [msg: string] { print $"  (ansi yellow)note(ansi reset) ($msg)" }
 # `--flag` as a flag to `run-step` itself and refuses to parse.
 # nu-lint-ignore: list_param_to_variadic
 def run-step [label: string, cmd: list<string>]: nothing -> nothing {
-    let result = (^($cmd | first) ...($cmd | skip 1) | complete)
+    # A command that cannot be spawned raises before `complete` sees it.
+    let result = try {
+        ^($cmd | first) ...($cmd | skip 1) | complete
+    } catch {|err|
+        warn $"($label) could not run: ($err.msg)"
+        return
+    }
 
     if $result.exit_code == 0 {
         ok $label
@@ -60,7 +66,12 @@ def update-apple []: nothing -> nothing {
 
 def update-mas [dry: bool]: nothing -> nothing {
     banner "Mac App Store"
-    let outdated = mas outdated | complete
+    let outdated = try {
+        mas outdated | complete
+    } catch {|err|
+        warn $"mas could not run: ($err.msg)"
+        return
+    }
 
     if $outdated.exit_code != 0 {
         warn $"mas outdated failed \(exit ($outdated.exit_code)\)"
@@ -101,8 +112,12 @@ def update-caches [dry: bool]: nothing -> nothing {
     # Plugins are downloads, so they update out of band from the
     # `enabledPlugins` list that declares them. A `@synced` one has no
     # marketplace behind it and `claude plugin update` refuses it.
+    let listed = try { claude plugin list } catch {|err|
+        warn $"claude could not run: ($err.msg)"
+        return
+    }
     let all = (
-        claude plugin list
+        $listed
         | lines
         | where $it =~ ❯
         | each {|l| $l | str replace --all --regex '^\s*❯\s*' '' | str trim }
