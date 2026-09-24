@@ -1,3 +1,4 @@
-Follow Conventional Commits. Subject line at most 50 characters. \
-If a body is needed, separate it with a blank line and hard-wrap it at \
-72 characters. No full stop at the end of the subject.
+Follow Conventional Commits. Subject line at most @subjectLimit@
+characters. If a body is needed, separate it with a blank line and
+hard-wrap it at @bodyLimit@ characters. No full stop at the end of the
+subject.
