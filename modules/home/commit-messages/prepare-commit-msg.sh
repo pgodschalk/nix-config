@@ -6,7 +6,7 @@ source="${2-}"
 # or "commit" (-c/-C/--amend). Any of them means a message already
 # exists; empty means a bare `git commit`.
 if [ -n "$source" ]; then
-  @chainLocal@
+  exec @chainLocal@ prepare-commit-msg "$@"
 fi
 
 # For clients that leave "$2" empty while still supplying a message, Zed
@@ -18,13 +18,13 @@ fi
 # silently stop generating for every commit.
 if sed '/^# -\{1,\} >8 -\{1,\}$/,$d' "$msg_file" 2>/dev/null \
   | grep -qvE '^(#|[[:space:]]*$)'; then
-  @chainLocal@
+  exec @chainLocal@ prepare-commit-msg "$@"
 fi
 
 # Generating costs a network round trip and may raise a Touch ID prompt,
 # so only ever from a terminal.
 if [ ! -t 2 ]; then
-  @chainLocal@
+  exec @chainLocal@ prepare-commit-msg "$@"
 fi
 
 @selectProfile@
@@ -37,7 +37,7 @@ fi
 # substitutes inside comments too.
 # shellcheck disable=SC2154
 if ! draft="$(@draftScript@ git "$profile")"; then
-  @chainLocal@
+  exec @chainLocal@ prepare-commit-msg "$@"
 fi
 
 # Prepended, so the editor still shows git's status summary below.
@@ -45,4 +45,4 @@ printf '%s\n' "$draft" >"$msg_file.lumen"
 cat "$msg_file" >>"$msg_file.lumen"
 mv "$msg_file.lumen" "$msg_file"
 
-@chainLocal@
+exec @chainLocal@ prepare-commit-msg "$@"

@@ -12,4 +12,4 @@
 # shellcheck disable=SC2154
 @commitlint@ --config "$config" --edit "$1" || exit 1
 
-@chainLocal@
+exec @chainLocal@ commit-msg "$@"
