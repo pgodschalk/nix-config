@@ -67,6 +67,7 @@ in
         jdtlsSettings
         astroTsdk
         ;
+      oxfmtConfig = ./oxc/oxfmtrc.json;
       terraform = pkgs.terraform;
     };
 

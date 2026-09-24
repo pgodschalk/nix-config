@@ -565,6 +565,14 @@ args = ["--lsp"]
 command = "oxfmt"
 args = ["--lsp"]
 
+# Helix sends `config` as initializationOptions, where oxfmt reads the
+# option map from `settings`, and then again as didChangeConfiguration,
+# where it reads the top level and replaces what initialize set. Each
+# path needs its own copy of the option.
+[language-server.oxfmt.config]
+"fmt.configPath" = "@oxfmtConfig@"
+settings = { "fmt.configPath" = "@oxfmtConfig@" }
+
 [language-server.oxlint]
 command = "oxlint"
 args = ["--lsp"]

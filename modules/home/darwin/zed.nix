@@ -23,8 +23,8 @@ let
   # dotfiles too.
   # A checked-in file rather than a generated one, so this repository's
   # CI can format-check with the same configuration by pointing
-  # `oxfmt -c` at it.
-  oxfmtConfig = ./zed/oxfmtrc.json;
+  # `oxfmt -c` at it. Helix reads it too.
+  oxfmtConfig = ../oxc/oxfmtrc.json;
 
   githubMcpServer = pkgs.callPackage ../../../pkgs/github-mcp-server-keychain.nix {
     inherit substituteFile;
@@ -837,10 +837,12 @@ let
       path = "${config.home.profileDirectory}/bin/oxfmt";
       arguments = [ "--lsp" ];
     };
-    # Three layers of indirection, and this is the spelling that reaches
-    # oxfmt: Zed's initialization_options, the server's own settings
-    # key, then the dotted option name.
-    lsp.oxfmt.initialization_options.settings.oxc_language_server."fmt.configPath" = "${oxfmtConfig}";
+    # The oxc extension sends initialization_options as is and its
+    # `settings` as didChangeConfiguration, and oxfmt reads both
+    # `settings` values as the option map itself. Nesting it under
+    # `oxc_language_server`, the section oxfmt requests through
+    # workspace/configuration, leaves the option silently unread.
+    lsp.oxfmt.initialization_options.settings."fmt.configPath" = "${oxfmtConfig}";
     lsp.oxlint.binary = {
       path = "${config.home.profileDirectory}/bin/oxlint";
       arguments = [ "--lsp" ];

@@ -6,4 +6,4 @@
 set -euo pipefail
 
 git ls-files "$@" \
-  | xargs npx --yes oxfmt --check -c modules/home/darwin/zed/oxfmtrc.json
+  | xargs npx --yes oxfmt --check -c modules/home/oxc/oxfmtrc.json
