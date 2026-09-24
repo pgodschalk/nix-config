@@ -91,7 +91,7 @@ in
       commit.verbose = true;
 
       core = {
-        excludesfile = "${config.xdg.configHome}/git/ignore";
+        excludesfile = "~/.gitignore_global";
         attributesfile = "${config.xdg.configHome}/git/attributes";
 
         # A per-repository FSMonitor daemon over FSEvents, and the
@@ -208,7 +208,10 @@ in
   #
   # Note Images and Archives ignore whole extensions, so in a repository
   # with image assets `git add .` skips them silently.
-  xdg.configFile."git/ignore".text = concatGlobals gitignoreUpstream "gitignore" [
+  #
+  # A dotfile in $HOME: Xcode reads ~/.gitignore_global by that name and
+  # ignores core.excludesfile, so the name is fixed.
+  home.file.".gitignore_global".text = concatGlobals gitignoreUpstream "gitignore" [
     { name = "Agents"; }
     { name = "Ansible"; }
     { name = "Archives"; }
