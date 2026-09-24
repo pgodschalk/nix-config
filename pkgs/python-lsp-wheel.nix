@@ -29,6 +29,7 @@
   hash,
   description,
   homepage,
+  license,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -52,8 +53,7 @@ stdenvNoCC.mkDerivation {
   installPhase = substituteFile ./python-lsp-wheel/install.sh { inherit binary; };
 
   meta = {
-    inherit description homepage;
-    license = lib.licenses.mit;
+    inherit description homepage license;
     mainProgram = binary;
     platforms = lib.platforms.unix;
   };

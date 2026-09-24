@@ -29,7 +29,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   meta = {
     description = "Language server providing filesystem path completion";
     homepage = "https://github.com/kunlinglio/path-server";
-    license = lib.licenses.mit;
+    license = lib.licenses.asl20;
     mainProgram = "path-server";
     platforms = [ "aarch64-darwin" ];
   };

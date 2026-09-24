@@ -101,7 +101,7 @@ pyPkgs.buildPythonApplication rec {
   meta = {
     description = "Language server for Django templates";
     homepage = "https://github.com/fourdigits/django-template-lsp";
-    license = lib.licenses.mit;
+    license = lib.licenses.gpl3Only;
     mainProgram = "djlsp";
     platforms = lib.platforms.all;
   };

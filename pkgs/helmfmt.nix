@@ -39,7 +39,7 @@ buildGoModule (finalAttrs: {
   meta = {
     description = "Formatter for Helm chart templates that leaves YAML structure alone";
     homepage = "https://github.com/digitalstudium/helmfmt";
-    license = lib.licenses.mit;
+    license = lib.licenses.gpl3Only;
     mainProgram = "helmfmt";
     platforms = lib.platforms.all;
   };

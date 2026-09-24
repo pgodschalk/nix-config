@@ -12,14 +12,20 @@ let
   # version bump means re-reading every URL from
   # https://pypi.org/pypi/<name>/json as well as the hash.
   wheelFor =
-    name: wheels:
+    name: license: wheels:
     lib.optional (wheels ? ${pkgs.stdenv.hostPlatform.system}) (
-      mkWheelLsp (wheels.${pkgs.stdenv.hostPlatform.system} // { pname = name; })
+      mkWheelLsp (
+        wheels.${pkgs.stdenv.hostPlatform.system}
+        // {
+          pname = name;
+          inherit license;
+        }
+      )
     );
 in
 {
   home.packages =
-    wheelFor "pytest-language-server" {
+    wheelFor "pytest-language-server" lib.licenses.mit {
       # @VERSION
       # https://pypi.org/project/pytest-language-server/#history
       aarch64-darwin = {
@@ -52,7 +58,7 @@ in
     # inspecting Python from the outside, so there is nothing a project
     # could declare, and in a project using neither framework the server
     # finds nothing to say.
-    ++ wheelFor "fastapi-lsp" {
+    ++ wheelFor "fastapi-lsp" lib.licenses.mit {
       # @VERSION https://pypi.org/project/fastapi-lsp/#history
       aarch64-darwin = {
         version = "0.1.8";
@@ -77,7 +83,7 @@ in
       };
     }
 
-    ++ wheelFor "sqlalchemy-lsp" {
+    ++ wheelFor "sqlalchemy-lsp" lib.licenses.mit {
       # @VERSION https://pypi.org/project/sqlalchemy-lsp/#history
       aarch64-darwin = {
         version = "0.2.1";
@@ -105,7 +111,7 @@ in
     # The binary is `djls`, not the package name: the wheel ships
     # `…data/scripts/djls` and the Zed extension looks for exactly that,
     # so any other name leaves this copy unused.
-    ++ wheelFor "django-language-server" {
+    ++ wheelFor "django-language-server" lib.licenses.asl20 {
       # @VERSION
       # https://pypi.org/project/django-language-server/#history
       aarch64-darwin = {

@@ -33,7 +33,7 @@
     my.allowUnfree = [
       "1password-cli"
       "claude-code"
-      "discord"
+      "nomad-ls"
       "terraform"
       "vagrant"
     ];
