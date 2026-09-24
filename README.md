@@ -23,6 +23,12 @@
 
 </div>
 
+<div align="center">
+<br />
+  <img src="docs/screenshots/dark.webp" width="49%" alt="The desktop in dark mode: Ghostty running macchina over Helix, with the Dracula Pro theme" />
+  <img src="docs/screenshots/light.webp" width="49%" alt="The same desktop in light mode, with the Alucard theme" />
+</div>
+
 <details open="open">
 <summary>Table of Contents</summary>
 
