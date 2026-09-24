@@ -1,5 +1,5 @@
 # Keys within a `[[language]]` and a `[language-server]` follow the
-# order docs.helix-editor.com/languages.html lists them, and the sec
+# order docs.helix-editor.com/languages.html lists them, and the
 # sections follow it too: languages first, then the servers they name.
 # Both are alphabetical within themselves, because the documentation
 # presents no order there.
@@ -297,8 +297,6 @@ name = "nix"
 language-servers = ["nixd"]
 rulers = [73, 101]
 
-# See modules/home/formatters.nix for the one file nufmt is known to
-# grow.
 [[language]]
 name = "nu"
 indent = { tab-width = 4, unit = "    " }

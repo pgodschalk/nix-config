@@ -2,9 +2,8 @@
 let
   mkWheelLsp = pkgs.callPackage ../../pkgs/python-lsp-wheel.nix { };
 
-  # Keyed by `hostPlatform.system`, and a system with no entry gets no
-  # package rather than a broken one, so adding a host fails the build
-  # naming the missing wheel. x86_64-darwin is absent because Rosetta is
+  # Keyed by `hostPlatform.system`, and a system with no entry silently
+  # gets no server rather than a broken one. x86_64-darwin is absent because Rosetta is
   # a dead end, and the musllinux wheels are ignored in favour of
   # manylinux since NixOS is glibc.
   #

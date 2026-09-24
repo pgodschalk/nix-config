@@ -4,7 +4,7 @@
 # Packaged rather than left to Zed's extension, which fetches it with
 # `uv` onto whatever Python uv picks: djlsp uses `str | None`
 # annotations at import time, a syntax error before 3.10, so the server
-# crashed on every start.
+# crashes on start under an older Python.
 {
   lib,
   python3Packages,
@@ -53,7 +53,7 @@ let
       });
 
       pygls = prev.pygls.overridePythonAttrs (old: rec {
-        # @VERSION https://pypi.org/project/django-template-lsp/#history
+        # @VERSION https://pypi.org/project/pygls/#history
         version = "1.3.1";
         src = fetchPypi {
           pname = "pygls";

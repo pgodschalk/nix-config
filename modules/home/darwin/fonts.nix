@@ -35,7 +35,7 @@ let
   };
 in
 {
-  # home-manager collects fonts from home.packages and links them into
-  # ~/Library/Fonts on darwin.
+  # home-manager copies fonts from home.packages into
+  # ~/Library/Fonts/HomeManager on darwin.
   home.packages = [ sf-mono-liga-nerd ];
 }

@@ -41,8 +41,8 @@ in
   # below add to this one. Note its separate User scope (`claude mcp add
   # --scope user`) is a different list.
   #
-  # A dotfile in $HOME, which principle 1 otherwise forbids: the name is
-  # fixed by the tools that read it, the same standing as ~/.ssh.
+  # A dotfile in $HOME: the name is fixed by the tools that read it, the
+  # same standing as ~/.ssh.
   home.file.".mcp.json".source = globalMcpJson;
 
   # The tool-agnostic path, and the one pi's adapter actually reads --

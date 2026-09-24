@@ -29,9 +29,6 @@ buildNpmPackage (finalAttrs: {
 
   npmDepsHash = "sha256-1CnCgut0Knf97+YHVJGUZqnRId/BwHw+jH1YPIrDPCA=";
 
-  # No test suite is wired into the default build.
-  dontNpmBuild = false;
-
   meta = {
     description = "Language server for CSS Modules, linking JS/TS to *.module.css";
     homepage = "https://github.com/antonk52/cssmodules-language-server";

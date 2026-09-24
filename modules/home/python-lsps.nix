@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
-  # The aarch64-darwin wheels are in
-  # modules/home/darwin/python-lsps.nix.
+  # The Rust servers published as wheels are in
+  # modules/home/python-lsps-wheels.nix.
   home.packages = [
     (pkgs.callPackage ../../pkgs/djlsp.nix { })
 

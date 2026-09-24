@@ -70,7 +70,7 @@ in
       terraform = pkgs.terraform;
     };
 
-    # config.toml itself is a symlink modules/home/appearance.nix owns,
+    # config.toml itself is a symlink modules/home/darwin/appearance.nix owns,
     # so it is not declared here -- home-manager and the watcher must
     # not both claim one path.
     "helix/config-dark.toml".text = mkConfig "dracula-pro";

@@ -88,7 +88,7 @@ let
   };
 
   # Zed generates commit messages with its own model and never reaches
-  # prepare-commit-msg, so modules/home/zed.nix restates the global
+  # prepare-commit-msg, so modules/home/darwin/zed.nix restates the global
   # rules as `agent.commit_message_instructions`. A profile's rules
   # cannot be declared there: profiles are selected by `includeIf
   # gitdir:`, which Zed does not read, so a checkout under a profile's

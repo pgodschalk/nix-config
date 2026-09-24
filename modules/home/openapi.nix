@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  # Disabled globally and enabled per project in modules/home/zed.nix:
+  # Disabled globally and enabled per project in modules/home/darwin/zed.nix:
   # the extension claims the whole of YAML and JSON, and vacuum reports
   # an error on anything that is not an API description, so left on it
   # marks every package.json and Kubernetes manifest.
