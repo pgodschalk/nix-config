@@ -63,4 +63,8 @@ in
       }
     );
   };
+
+  # Vim creates no directory for viminfo and silently writes none
+  # without one.
+  xdg.stateFile."vim/.keep".text = "";
 }
