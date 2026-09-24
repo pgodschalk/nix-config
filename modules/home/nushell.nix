@@ -102,9 +102,9 @@ in
     shellAliases = {
       bdiff = "^batdiff";
 
-      # Deliberately not bound over `grep` and `diff`: batgrep takes
-      # ripgrep's flags rather than POSIX grep's, and shadowing `grep`
-      # would retire the GREP_COLOR theme.
+      # Deliberately not bound over `grep` and `diff`: batgrep takes a
+      # subset of ripgrep's flags and none of POSIX grep's, and shadowing
+      # `grep` would retire the GREP_COLOR theme.
       bgrep = "^batgrep";
       bwatch = "^batwatch";
 
