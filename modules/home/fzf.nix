@@ -1,30 +1,17 @@
 {
   lib,
   pkgs,
+  substituteFile,
   ...
 }:
 let
-  # Kept out of FZF_DEFAULT_OPTS: the Dracula Pro theme owns that
-  # variable and rewrites it on every appearance change. fzf reads this
-  # file first and merges the variable over it.
-  defaultOpts = pkgs.writeText "fzf-defaults" ''
-    --height=60%
-    --layout=reverse
-    --border=rounded
-    --info=inline
-    --preview-window=right,60%,border-left,~3
-    --bind=ctrl-/:toggle-preview
-    --bind=ctrl-u:preview-half-page-up
-    --bind=ctrl-d:preview-half-page-down
-  '';
-
   # The key bindings live in this generated script, and nothing reads
   # FZF_CTRL_T_COMMAND and friends until it is loaded. Nushell cannot
   # `source` it from a pipe, so it is written to the autoload
   # directory.
-  integration = pkgs.runCommand "fzf-nushell-integration.nu" { } ''
-    ${lib.getExe pkgs.fzf} --nushell > $out
-  '';
+  integration = pkgs.runCommand "fzf-nushell-integration.nu" { } (
+    substituteFile ./fzf/integration.sh { fzf = lib.getExe pkgs.fzf; }
+  );
 in
 {
   home.packages = [ pkgs.fzf ];
@@ -33,7 +20,10 @@ in
 
   home.sessionVariables = {
     FZF_DEFAULT_COMMAND = "fd --type file --hidden --follow --exclude .git";
-    FZF_DEFAULT_OPTS_FILE = "${defaultOpts}";
+    # Kept out of FZF_DEFAULT_OPTS: the Dracula Pro theme owns that
+    # variable and rewrites it on every appearance change. fzf reads
+    # this file first and merges the variable over it.
+    FZF_DEFAULT_OPTS_FILE = "${./fzf/defaults.opts}";
     FZF_ALT_C_COMMAND = "fd --type directory --hidden --follow --exclude .git";
     FZF_ALT_C_OPTS = "--preview 'fd --max-depth 1 --color=always . {}'";
 
@@ -41,7 +31,8 @@ in
     FZF_CTRL_T_COMMAND = "fd --type file --type directory --hidden --follow --exclude .git";
 
     # --color=always because fzf pipes the preview rather than giving it
-    # a terminal, so bat's own detection turns colour off.
-    FZF_CTRL_T_OPTS = "--preview 'bat --color=always --style=numbers --line-range=:200 {}'";
+    # a terminal, so bat's own detection turns colour off. A directory
+    # is listed instead, since bat refuses one.
+    FZF_CTRL_T_OPTS = "--preview '[ -d {} ] && fd --max-depth 1 --color=always . {} || bat --color=always --style=numbers --line-range=:200 {}'";
   };
 }

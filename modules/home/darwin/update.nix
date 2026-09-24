@@ -20,9 +20,12 @@ let
   #
   # No `runtimeInputs`: every tool it drives is already on PATH, and
   # pinning them here would shadow the packages the run is updating.
-  updateAll = pkgs.writeShellScriptBin "update-all" ''
-    exec ${lib.getExe pkgs.nushell} ${updateAllScript} "$@"
-  '';
+  updateAll = pkgs.writeShellScriptBin "update-all" (
+    substituteFile ./update/update-all.sh {
+      nu = lib.getExe pkgs.nushell;
+      script = "${updateAllScript}";
+    }
+  );
 in
 {
   home.packages = [ updateAll ];

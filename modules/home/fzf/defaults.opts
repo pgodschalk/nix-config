@@ -1,0 +1,8 @@
+--height=60%
+--layout=reverse
+--border=rounded
+--info=inline
+--preview-window=right,60%,border-left,~3
+--bind=ctrl-/:toggle-preview
+--bind=ctrl-u:preview-half-page-up
+--bind=ctrl-d:preview-half-page-down

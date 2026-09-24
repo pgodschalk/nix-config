@@ -10,14 +10,11 @@ wantTheme=custom:alucard
 [ "$mode" = dark ] && wantTheme=custom:dracula-pro
 
 if [ -f "$claudeSettings" ]; then
-  curTheme=$(@jq@ --raw-output '.theme // ""' "$claudeSettings" \
+  curTheme=$(@jq@ --raw-output --from-file @getTheme@ "$claudeSettings" \
     2>/dev/null || true)
 
   if [ "$curTheme" != "$wantTheme" ]; then
-    # $t is jq's own variable, bound by --arg: expanding it in the
-    # shell would write `.theme = null`.
-    # shellcheck disable=SC2016
-    if @jq@ --arg t "$wantTheme" '.theme = $t' \
+    if @jq@ --arg t "$wantTheme" --from-file @setTheme@ \
       "$claudeSettings" >"$claudeSettings.appearance.tmp" 2>/dev/null; then
       /bin/mv -f "$claudeSettings.appearance.tmp" "$claudeSettings"
     else

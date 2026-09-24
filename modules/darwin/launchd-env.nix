@@ -42,11 +42,9 @@ let
   setEnv = pkgs.writeShellApplication {
     name = "launchd-session-env";
     text = substituteFile ./launchd-env/set-env.sh {
-      setenvCalls = lib.concatStringsSep "\n" (
-        lib.mapAttrsToList (
-          name: value: "/bin/launchctl setenv ${lib.escapeShellArg name} ${lib.escapeShellArg value}"
-        ) envVariables
-      );
+      envFile = "${pkgs.writeText "launchd-session-env" (
+        lib.concatLines (lib.mapAttrsToList (name: value: "${name}=${value}") envVariables)
+      )}";
     };
   };
 in
