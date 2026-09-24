@@ -38,10 +38,10 @@ the code yet.
   is the local marketplace; `modules/home/claude-code.nix` adds the LSP plugin's
   `.lsp.json`, filled with the same store paths the editors get.
 - `lib/default.nix` provides `substituteFile path { name = value; }`: `@name@`
-  substitution at evaluation time, asserting every placeholder exists.
-  `builtins.readFile` of a `pkgs.replaceVars` result is import-from-derivation
-  and breaks the Linux eval; use `substituteFile` for a string and `replaceVars`
-  for a store file.
+  substitution at evaluation time, asserting every replacement and every
+  placeholder is matched. `builtins.readFile` of a `pkgs.replaceVars` result is
+  import-from-derivation and breaks the Linux eval; use `substituteFile` for a
+  string and `replaceVars` for a store file.
 - `inputs`, `apps` and `substituteFile` reach every module as special arguments;
   home modules also get `isDarwin`, which `home/patrick/default.nix` needs
   inside `imports`, where anything derived from `pkgs` recurses infinitely.

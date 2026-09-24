@@ -18,17 +18,27 @@ let
     substituteFile ./nushell/path-themes/variant.gitconfig {
       extras = "${extras}";
       homeGitconfig = "${config.home.homeDirectory}/.gitconfig";
+      # Filled per variant by path-themes.sh.
+      variant = null;
     }
   );
 
   envTemplate = pkgs.writeText "variant.env" (
-    substituteFile ./nushell/path-themes/variant.env { extras = "${extras}"; }
+    substituteFile ./nushell/path-themes/variant.env {
+      extras = "${extras}";
+      # Filled per variant by path-themes.sh.
+      variant = null;
+      out = null;
+    }
   );
 
   pathThemes = pkgs.runCommand "dracula-path-themes" { } (
     substituteFile ./nushell/path-themes.sh {
       gitconfigTemplate = "${gitconfigTemplate}";
       envTemplate = "${envTemplate}";
+      # The placeholders this script fills in the templates.
+      variant = null;
+      out = null;
     }
   );
 
