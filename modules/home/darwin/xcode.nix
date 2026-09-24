@@ -74,17 +74,6 @@ let
     }
   );
 
-  # Hex to write the recipe, base64 to compare it.
-  #
-  # Both are import-from-derivation, which is tolerable only because
-  # this module is macOS-only and never reached by the Linux eval check.
-  # Do not copy the pattern into a portable module. There is no way
-  # around it here: Nix has no base64 builtin.
-  encode =
-    name: script:
-    builtins.readFile (pkgs.runCommand name { } (substituteFile script { recipe = "${fontRecipe}"; }));
-  fontRecipeHex = encode "xcode-font-recipe-hex" ./xcode/font-recipe-hex.sh;
-  fontRecipeB64 = encode "xcode-font-recipe-b64" ./xcode/font-recipe-b64.sh;
 in
 {
   # Compared before writing, so an unchanged switch is quiet -- and a
@@ -93,8 +82,8 @@ in
   # depend on the themes being present.
   home.activation.xcodeFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] (
     substituteFile ./xcode/set-font.sh {
-      wantB64 = lib.escapeShellArg fontRecipeB64;
-      recipeHex = lib.escapeShellArg fontRecipeHex;
+      recipe = "${fontRecipe}";
+      coreutils = "${pkgs.coreutils}";
     }
   );
 
