@@ -36,7 +36,12 @@ def batshow [revpath: string]: any -> string {
 #
 # nu-lint-ignore: missing_in_type
 def c []: any -> string {
-    let payload = $in | ^tr -d "\n"
+    let input = $in
+    let payload = if ($input | describe) == binary {
+        $input
+    } else {
+        $input | to text | str trim --right --char "\n"
+    }
 
     if @isDarwin@ {
         $payload | ^pbcopy
@@ -64,11 +69,24 @@ def --env mkd [path: path, ...rest: path]: nothing -> nothing {
 # spreading a flag as a string makes it a file name.
 alias nu-open = open
 
+# The builtin's own signature, so a glob still expands and a piped path
+# still opens: scripts autoloaded after this file bind to it too.
+#
 # The output is whatever nushell parses out of the file, so `any` is the
 # honest type rather than a missing annotation.
 # nu-lint-ignore: missing_output_type
-def open [--raw(-r), ...files: path]: nothing -> any {
-    if ($files | length) == 1 and ($files.0 | path type) == dir {
+def open [--raw(-r), ...files: oneof<glob, string>]: nothing -> any, string -> any {
+    let piped = $in
+    let files = if ($files | is-empty) and ($piped | is-not-empty) {
+        [$piped]
+    } else {
+        $files
+    }
+
+    if (
+        ($files | length) == 1
+        and ($files.0 | into string | path expand | path type) == dir
+    ) {
         ^@opener@ $files.0
     } else if $raw {
         nu-open --raw ...$files
