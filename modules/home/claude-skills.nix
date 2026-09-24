@@ -24,8 +24,7 @@ let
   voltagent = pkgs.fetchFromGitHub {
     owner = "VoltAgent";
     repo = "awesome-claude-code-subagents";
-    # @VERSION
-    # https://github.com/VoltAgent/awesome-claude-code-subagents/commits/main
+    # @VERSION https://github.com/VoltAgent/awesome-claude-code-subagents/commits/main
     rev = "82b73821baa7a911d5b14cfb6da238b7f0db6b42";
     hash = "sha256-OPy2toCmhPbDnqUcM7B+Ufm6BA8xIpNc6U8Gemc/1jk=";
   };
@@ -215,6 +214,7 @@ let
   # Teaches an agent to read the enforced commit convention and to
   # self-correct from a rejection rather than reach for --no-verify.
   commitlintSkill = pkgs.fetchurl {
+    # @VERSION https://github.com/conventional-changelog/commitlint/commits/master
     url =
       "https://raw.githubusercontent.com/conventional-changelog/commitlint/"
       + "36dc150fc3c0ef5f0860e9f2ef7729a6d9c7db72/skills/committing-with-commitlint/SKILL.md";

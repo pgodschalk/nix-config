@@ -18,8 +18,7 @@
 }:
 
 let
-  # @VERSION
-  # https://github.com/hyyan/zed-test-coverage-highlight/releases
+  # @VERSION https://github.com/hyyan/zed-test-coverage-highlight/releases
   version = "0.1.2";
 
   targets = {

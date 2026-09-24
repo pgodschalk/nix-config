@@ -8,8 +8,7 @@ let
   # Apple font, which is also why SF Mono is not in nixpkgs.
   sf-mono-liga-nerd = pkgs.stdenvNoCC.mkDerivation {
     pname = "sf-mono-liga-nerd-font";
-    # @VERSION
-    # https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized/commits/main
+    # @VERSION https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized/commits/main
     # Upstream tags no releases, so the pin is the revision below and
     # this string carries that commit's date. Move both together.
     version = "0-unstable-2023-07-01";

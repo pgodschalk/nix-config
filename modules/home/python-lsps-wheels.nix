@@ -25,8 +25,7 @@ in
 {
   home.packages =
     wheelFor "pytest-language-server" lib.licenses.mit {
-      # @VERSION
-      # https://pypi.org/project/pytest-language-server/#history
+      # @VERSION https://pypi.org/project/pytest-language-server/#history
       aarch64-darwin = {
         version = "0.24.0";
         binary = "pytest-language-server";
@@ -111,8 +110,7 @@ in
     # `…data/scripts/djls` and the Zed extension looks for exactly that,
     # so any other name leaves this copy unused.
     ++ wheelFor "django-language-server" lib.licenses.asl20 {
-      # @VERSION
-      # https://pypi.org/project/django-language-server/#history
+      # @VERSION https://pypi.org/project/django-language-server/#history
       aarch64-darwin = {
         version = "6.1.0";
         binary = "djls";

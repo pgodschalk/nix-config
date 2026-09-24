@@ -156,9 +156,6 @@
             home = {
               username = "patrick";
               homeDirectory = "/home/patrick";
-              # @VERSION
-              # https://nix-community.github.io/home-manager/release-notes/release-notes.html
-              stateVersion = "26.11";
             };
           }
         ];

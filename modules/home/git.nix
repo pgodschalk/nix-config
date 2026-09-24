@@ -29,8 +29,7 @@ let
   gitattributesUpstream = pkgs.fetchFromGitHub {
     owner = "gitattributes";
     repo = "gitattributes";
-    # @VERSION
-    # https://github.com/gitattributes/gitattributes/commits/master
+    # @VERSION https://github.com/gitattributes/gitattributes/commits/master
     rev = "2c20a14833a5ab196c7fc3effcc72ef4e895f4d4";
     hash = "sha256-jTuMG6/YF9phJXMN/CbXdNZCER+9IIoXIayiT8YVm58=";
   };

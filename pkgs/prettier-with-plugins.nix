@@ -62,8 +62,7 @@ let
       hash = "sha256-eASYmAJWxvFDh1qwD9qNXibBHBn7f5c0FUWBnVOPpVE=";
     };
     prettier-plugin-jinja-template = fetchurl {
-      # @VERSION
-      # https://www.npmjs.com/package/prettier-plugin-jinja-template
+      # @VERSION https://www.npmjs.com/package/prettier-plugin-jinja-template
       url = "https://registry.npmjs.org/prettier-plugin-jinja-template/-/prettier-plugin-jinja-template-2.2.0.tgz";
       hash = "sha256-ZruB+YkX2Su3qVCObcM9n85cB837dMF4s8Ov1UzrZVI=";
     };

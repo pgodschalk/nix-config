@@ -16,8 +16,7 @@
 
 buildNpmPackage (finalAttrs: {
   pname = "cssmodules-language-server";
-  # @VERSION
-  # https://github.com/antonk52/cssmodules-language-server/releases
+  # @VERSION https://github.com/antonk52/cssmodules-language-server/releases
   version = "1.5.2";
 
   src = fetchFromGitHub {
