@@ -16,11 +16,10 @@ let
   # @VERSION https://openjdk.org/projects/jdk/
   jdk = pkgs.jdk25;
 
-  # jdtls.py picks its interpreter from JAVA_HOME and falls back to
-  # whatever `java` is on PATH, neither of which is reliable for a
-  # Dock-launched editor. `--set-default` still lets a project that
-  # exports its own JAVA_HOME win, and this chooses only the JVM the
-  # server runs on, not what a project compiles against.
+  # nixpkgs patches jdtls.py to run the server on its own JDK 21, so
+  # neither JAVA_HOME nor `--java-executable` chooses that JVM. The
+  # JAVA_HOME set here reaches only the server's environment, and
+  # `--set-default` lets a project that exports its own still win.
   jdtls = pkgs.symlinkJoin {
     name = "jdtls-${pkgs.jdt-language-server.version}";
     paths = [ pkgs.jdt-language-server ];
