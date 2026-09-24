@@ -10,13 +10,13 @@
 # activation and has to be loud rather than caught.
 # nu-lint-ignore-file: catch_builtin_error_try
 
-# `watch` applies the matching variant and installs a pre_prompt hook,
-# gated on the mtime of .GlobalPreferences.plist so an ordinary prompt
-# costs nothing. It also repoints STARSHIP_CONFIG, overriding what
-# programs.starship exports, so the prompt and the shell cannot
-# disagree.
+# `watch` applies the matching variant and installs pre_execution and
+# pre_prompt hooks that re-read the appearance at most once a second.
+# It also repoints STARSHIP_CONFIG, overriding what programs.starship
+# exports, so the prompt and the shell cannot disagree.
 #
 # `use` needs a path it can resolve at parse time, hence the symlink
-# rather than the working copy inline.
-use ($nu.default-config-dir | path join "dracula-pro.nu") *
-watch --themes (open '@themeDirs@')
+# rather than the working copy inline. No glob: the module's `watch`
+# would replace Nushell's own.
+use ($nu.default-config-dir | path join "dracula-pro.nu")
+dracula-pro watch --themes (open '@themeDirs@')

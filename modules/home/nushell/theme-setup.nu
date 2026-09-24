@@ -17,7 +17,8 @@
 # There is no system appearance to read here, so the variant comes from
 # $APPEARANCE, which modules/home/darwin/ssh.nix sends over SSH, and is
 # applied once rather than watched.
-use ($nu.default-config-dir | path join "dracula-pro.nu") *
+# Not the glob, which would bring in `watch` over Nushell's own.
+use ($nu.default-config-dir | path join "dracula-pro.nu") [alucard env_for pro]
 let theme_dirs = (open '@themeDirs@')
 let variant = $env.APPEARANCE? | default "dark"
 let stem = (if $variant == "light" { "alucard" } else { "pro" })
