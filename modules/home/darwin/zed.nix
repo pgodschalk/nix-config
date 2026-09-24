@@ -993,6 +993,7 @@ let
     substituteFile ./zed/render-settings.sh {
       onePassword = "${pkgs._1password-cli}";
       jq = "${pkgs.jq}";
+      spliceToken = "${./zed/splice-token.jq}";
     }
   );
   dataFile = {
@@ -1031,10 +1032,6 @@ in
         substituteFile ./zed/link-zed-cli.sh { zeditor = "${pkgs.zed-editor}/bin/zeditor"; }
       ))
     ];
-
-    # home-manager would write into what is, on a case-insensitive
-    # filesystem, Zed's data directory, where Zed never looks.
-    home.file.".config/zed/settings.json".enable = false;
 
     home.activation.zedSettings = lib.hm.dag.entryAfter [ "linkGeneration" ] (
       substituteFile ./zed/apply-settings.sh {
