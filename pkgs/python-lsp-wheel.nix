@@ -15,6 +15,8 @@
   fetchurl,
   unzip,
   darwin,
+  autoPatchelfHook,
+  stdenv,
   # Defaulted rather than required, so a `callPackage` that does not
   # know about the helper still works. It is pure Nix, so importing it
   # here costs nothing.
@@ -44,7 +46,13 @@ stdenvNoCC.mkDerivation {
   nativeBuildInputs = [
     unzip
   ]
-  ++ lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook;
+  ++ lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook
+  ++ lib.optional stdenvNoCC.hostPlatform.isLinux autoPatchelfHook;
+
+  # Upstream's Linux builds are glibc binaries with the FHS loader, so
+  # on Linux they are patched to find it and their libraries in the
+  # store.
+  buildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
 
   unpackPhase = builtins.readFile ./python-lsp-wheel/unpack.sh;
 

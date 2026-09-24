@@ -20,6 +20,10 @@
   fetchurl,
   unzip,
   darwin,
+  autoPatchelfHook,
+  stdenv,
+  curl,
+  sqlite,
 }:
 
 let
@@ -57,7 +61,17 @@ stdenvNoCC.mkDerivation {
   nativeBuildInputs = [
     unzip
   ]
-  ++ lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook;
+  ++ lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook
+  ++ lib.optional stdenvNoCC.hostPlatform.isLinux autoPatchelfHook;
+
+  # Upstream's Linux builds are glibc binaries with the FHS loader, so
+  # on Linux they are patched to find it and their libraries in the
+  # store.
+  buildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [
+    stdenv.cc.cc.lib
+    curl
+    sqlite
+  ];
 
   # The zip holds the bare binary, no leading directory.
   sourceRoot = ".";
