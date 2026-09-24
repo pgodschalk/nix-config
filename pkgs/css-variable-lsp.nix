@@ -10,6 +10,8 @@
   stdenvNoCC,
   fetchurl,
   darwin,
+  autoPatchelfHook,
+  stdenv,
 }:
 
 let
@@ -44,7 +46,14 @@ stdenvNoCC.mkDerivation {
     inherit (target) hash;
   };
 
-  nativeBuildInputs = lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook;
+  nativeBuildInputs =
+    lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook
+    ++ lib.optional stdenvNoCC.hostPlatform.isLinux autoPatchelfHook;
+
+  # Upstream's Linux builds are glibc binaries with the FHS loader, so
+  # on Linux they are patched to find it and their libraries in the
+  # store.
+  buildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
 
   # The tarball holds the bare binary plus licence files, no leading
   # directory.
