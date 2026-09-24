@@ -54,6 +54,7 @@ let
       voltagent = "${voltagent}";
       cacheFile = "${config.xdg.cacheHome}/subagent-catalog/catalog.md";
       configFile = "${subagentCatalogDir}/config.sh";
+      inherit agentsDir;
     }
   );
 

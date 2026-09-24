@@ -19,8 +19,16 @@ rm "$out/README.md"
 # Named individually, and `--replace-fail`, so a new or renamed command
 # upstream fails the build rather than being installed with a path that
 # does not resolve.
+#
+# Quoted, because upstream sources the path unquoted and this one holds
+# a space.
 for f in fetch invalidate list search; do
   # shellcheck disable=SC2088
   substituteInPlace "$out/$f.md" \
-    --replace-fail '~/.claude/commands/subagent-catalog/config.sh' '@configFile@'
+    --replace-fail '~/.claude/commands/subagent-catalog/config.sh' '"@configFile@"'
 done
+
+# Claude Code reads agents from CLAUDE_CONFIG_DIR, not ~/.claude.
+# shellcheck disable=SC2088
+substituteInPlace "$out/fetch.md" \
+  --replace-fail '~/.claude/agents/' '@agentsDir@/'
