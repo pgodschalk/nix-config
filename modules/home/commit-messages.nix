@@ -52,7 +52,10 @@ let
 
   # The house style lives here because lumen has no length or style
   # settings of its own.
-  globalContext = builtins.readFile ./commit-messages/global-context.txt;
+  globalContext = substituteFile ./commit-messages/global-context.txt {
+    subjectLimit = toString subjectLimit;
+    bodyLimit = toString bodyLimit;
+  };
 
   # No api_key: that is the one field that would put a secret on disk,
   # and the hook resolves LUMEN_API_KEY through fnox instead. No
