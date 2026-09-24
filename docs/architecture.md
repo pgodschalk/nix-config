@@ -9,14 +9,16 @@ the code yet.
   throwaway x86_64-linux configuration that exists only to be evaluated),
   `checks.aarch64-darwin` (both checks under aarch64-darwin on purpose; see the
   comment there) and `packages.aarch64-darwin.*`, `nix run` tools that wrap
-  `scripts/`.
+  `scripts/` plus nix-darwin's `darwin-rebuild`, re-exported for the first
+  activation.
 - `hosts/Patricks-MacBook-Pro/default.nix` is the nix-darwin system: it imports
   each `modules/darwin/*.nix` explicitly plus the work layer, declares
-  `my.allowUnfree` (the only place an unfree package is allowed, by
-  `lib.getName` name) and wires home-manager with `useGlobalPkgs`. Determinate
-  owns Nix: settings go in `determinateNix.customSettings`, and `nix.package`,
-  `nix.settings`, `nix.gc`, `nix.optimise` and `nix.linux-builder` cannot be
-  set.
+  `my.allowUnfree` (the host's only allowlist of unfree packages, by
+  `lib.getName` name; the Linux eval allows every unfree package, so only the
+  macOS eval catches a missing entry, and casks carry no licence and bypass it)
+  and wires home-manager with `useGlobalPkgs`. Determinate owns Nix: settings go
+  in `determinateNix.customSettings`, and `nix.package`, `nix.settings`,
+  `nix.gc`, `nix.optimise` and `nix.linux-builder` cannot be set.
 - `home/patrick/default.nix` imports `common.nix`, then `darwin.nix` or
   `linux.nix`. `common.nix` lists every `modules/home/*.nix`; `darwin.nix` lists
   `modules/home/darwin/*.nix`, remaps XDG into `~/Library` and adds casks with
@@ -31,7 +33,8 @@ the code yet.
   module as `apps`: App Store ids, cask tokens, and package lists as functions
   of `pkgs`. Most edits land here.
 - `modules/home/options.nix` declares the `my.*` options whose consumers are
-  macOS-only, so the Linux eval and the work layer's settings still succeed. An
+  macOS-only, so the Linux eval and the work layer's settings still succeed, and
+  those shared across modules (the theme checkouts, the MCP servers). Any other
   option consumed by a portable module is declared in that module.
 - `pkgs/` holds derivations nixpkgs lacks. There is no overlay: each consumer
   calls `pkgs.callPackage ../../pkgs/<name>.nix { }`. `pkgs/claude-marketplace/`

@@ -8,7 +8,9 @@ in
   # option the work layer sets, and the evaluation would fail on "option
   # does not exist" rather than quietly doing nothing.
   #
-  # An option consumed by a portable module stays in that module.
+  # So are options shared across modules, such as the theme checkouts
+  # and the MCP servers. Any other option consumed by a portable module
+  # stays in that module.
   options.my = {
 
     # modules/home/darwin/agentastic.nix
