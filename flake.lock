@@ -309,11 +309,10 @@
     },
     "work": {
       "locked": {
-        "lastModified": 1790196428,
-        "narHash": "sha256-YJBYA6taxXmgrw+/I0eFZUOYnf910JpB7hFv2OBMoF4=",
-        "ref": "refs/heads/main",
-        "rev": "5316d1a437d76c6252358733750867f3c55df1fe",
-        "revCount": 16,
+        "lastModified": 1790272418,
+        "narHash": "sha256-BV/kH8dkeQN5LuxjMyi3NDNPsERpgxc1B44hifgwIVo=",
+        "rev": "5b04d2101eea83e2ae37713ef1d82062160d48b9",
+        "revCount": 14,
         "type": "git",
         "url": "file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/ubiops-nix-config"
       },
