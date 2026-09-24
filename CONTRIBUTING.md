@@ -72,8 +72,8 @@ You probably shouldn't run `darwin-rebuild switch`: activation writes to `/etc`,
 
 CI runs linting, formatting, type checking and schema validation for every
 language in the repository, and every check is a script under `.github/scripts/`
-that you can run yourself. The Nix ones take their tools from the flake, so they
-need no separate installation:
+that you can run yourself, on macOS or Linux. Each takes its tool from the
+flake, so Nix is the only thing to install:
 
 ```sh
 .github/scripts/nix-format.sh

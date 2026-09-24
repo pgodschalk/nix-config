@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 
 # xmllint has no check mode, so its output is compared against the file.
-# libxml2-utils is not in the runner image.
 set -euo pipefail
 
-sudo apt-get update
-sudo apt-get install --yes libxml2-utils
-
+xmllint=$(.github/scripts/nix-tool.sh libxml2.bin xmllint)
 status=0
 
-for f in $(git ls-files '*.xml' '*.svg'); do
-  xmllint --format "$f" | diff -u "$f" - || status=1
-done
+while read -r f; do
+  "$xmllint" --format "$f" | diff -u "$f" - || status=1
+done < <(git ls-files '*.xml' '*.svg')
 
 exit "$status"

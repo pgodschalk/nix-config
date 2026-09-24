@@ -2,4 +2,5 @@
 
 set -euo pipefail
 
-git ls-files '*.sh' | xargs shellcheck
+shellcheck=$(.github/scripts/nix-tool.sh shellcheck)
+git ls-files '*.sh' | xargs -r "$shellcheck"

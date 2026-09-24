@@ -2,4 +2,5 @@
 
 set -euo pipefail
 
-uvx ty check
+ty=$(.github/scripts/nix-tool.sh ty)
+"$ty" check
