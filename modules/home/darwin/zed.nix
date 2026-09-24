@@ -459,10 +459,7 @@ let
       ];
     };
 
-    languages.Dockerfile.formatter.external = {
-      command = "dockerfmt-1nl";
-      arguments = [ "{buffer_path}" ];
-    };
+    languages.Dockerfile.formatter.external.command = "dockerfmt-1nl";
 
     languages.Fish = {
       tab_size = 4;
