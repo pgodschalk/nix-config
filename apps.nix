@@ -45,8 +45,9 @@
   };
 
   # Homebrew cask tokens, reached through brew-nix as
-  # `pkgs.brewCasks.<token>`, and only for apps that are on neither the
-  # Mac App Store nor in nixpkgs.
+  # `pkgs.brewCasks.<token>`, for apps the Mac App Store does not carry
+  # and nixpkgs lacks or lags behind on. Casks carry no licence metadata,
+  # so they are not subject to my.allowUnfree.
   #
   # A `sha256 :no_check` cask cannot work: brew-nix ships the
   # placeholder hash and the build fails. A component pkg does work,
