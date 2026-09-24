@@ -31,8 +31,11 @@ in
     my.masApps = apps.mas;
 
     # A home-manager activation entry rather than a nix-darwin script,
-    # because `mas` acts on the App Store session of the user running
-    # it.
+    # because `mas` looks apps up in the App Store session of the user
+    # running it. Installing needs root: run as a user, mas relaunches
+    # itself through /usr/bin/sudo, which prompts partway through a
+    # switch once the ticket `sudo -H darwin-rebuild switch` took has
+    # expired.
     #
     # It can only install what is already in the Purchased list, so a
     # failure is collected and reported rather than aborting the switch.
