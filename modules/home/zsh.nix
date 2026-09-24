@@ -2,20 +2,15 @@
   config,
   lib,
   pkgs,
+  substituteFile,
   ...
 }:
 {
   programs.zsh = {
 
-    # The default is a bare `compinit`, which dumps to ~/.zcompdump.
-    # `:h` is zsh's dirname modifier.
-    completionInit = ''
-      autoload -U compinit
-      _zcompdump=${lib.escapeShellArg "${config.xdg.cacheHome}/zsh/zcompdump"}
-      [[ -d ''${_zcompdump:h} ]] || mkdir -p ''${_zcompdump:h}
-      compinit -d "$_zcompdump"
-      unset _zcompdump
-    '';
+    completionInit = substituteFile ./zsh/completion-init.zsh {
+      zcompdump = lib.escapeShellArg "${config.xdg.cacheHome}/zsh/zcompdump";
+    };
 
     # /etc/zshenv exports the same path as ZDOTDIR, which is how zsh
     # finds these files at all. Stated rather than relying on the

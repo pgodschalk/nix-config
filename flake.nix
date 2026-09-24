@@ -44,6 +44,19 @@
       # `pkgs.replaceVars` without the derivation, so reading a
       # substituted file stays a pure evaluation.
       inherit (import ./lib inputs.nixpkgs.lib) substituteFile;
+
+      # A Python script under scripts/ with pyobjc, as a `nix run` tool.
+      pythonTool =
+        name: script:
+        let
+          pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
+          python = pkgs.python3.withPackages (ps: [ ps.pyobjc-framework-Cocoa ]);
+        in
+        pkgs.writeShellApplication {
+          inherit name;
+          runtimeInputs = [ python ];
+          text = substituteFile ./scripts/run-python.sh { script = "${script}"; };
+        };
     in
     {
       # `nix run /etc/nix-darwin#sf-mono-terminal-nerd-font`
@@ -72,31 +85,13 @@
       # Terminal's profiles are a nested dictionary holding
       # NSKeyedArchiver font blobs, so they need read-modify-write plus
       # Cocoa archiving rather than `defaults`.
-      packages.aarch64-darwin.terminal-profile =
-        let
-          pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
-          python = pkgs.python3.withPackages (ps: [ ps.pyobjc-framework-Cocoa ]);
-        in
-        pkgs.writeShellApplication {
-          name = "terminal-profile";
-          runtimeInputs = [ python ];
-          text = ''exec python3 ${./scripts/terminal-profile.py} "$@"'';
-        };
+      packages.aarch64-darwin.terminal-profile = pythonTool "terminal-profile" ./scripts/terminal-profile.py;
 
       # `nix run /etc/nix-darwin#script-editor-theme -- --theme <path>`
       #
       # The theme is passed at run time rather than being a flake input,
       # so schemes can live in their own repository.
-      packages.aarch64-darwin.script-editor-theme =
-        let
-          pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
-          python = pkgs.python3.withPackages (ps: [ ps.pyobjc-framework-Cocoa ]);
-        in
-        pkgs.writeShellApplication {
-          name = "script-editor-theme";
-          runtimeInputs = [ python ];
-          text = ''exec python3 ${./scripts/script-editor-theme.py} "$@"'';
-        };
+      packages.aarch64-darwin.script-editor-theme = pythonTool "script-editor-theme" ./scripts/script-editor-theme.py;
 
       # `nix run /etc/nix-darwin#script-editor-font`
       #
@@ -108,16 +103,7 @@
       # A command rather than an activation step: it transforms existing
       # settings rather than declaring them, it needs Script Editor
       # closed, and it keeps pyobjc out of the system closure.
-      packages.aarch64-darwin.script-editor-font =
-        let
-          pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
-          python = pkgs.python3.withPackages (ps: [ ps.pyobjc-framework-Cocoa ]);
-        in
-        pkgs.writeShellApplication {
-          name = "script-editor-font";
-          runtimeInputs = [ python ];
-          text = ''exec python3 ${./scripts/script-editor-font.py} "$@"'';
-        };
+      packages.aarch64-darwin.script-editor-font = pythonTool "script-editor-font" ./scripts/script-editor-font.py;
 
       # Re-exported so the first activation, before
       # /run/current-system/sw/bin exists, runs the nix-darwin revision
@@ -194,9 +180,7 @@
             pkgs = inputs.nixpkgs.legacyPackages.aarch64-darwin;
             drvPath = inputs.self.homeConfigurations."patrick@linux".activationPackage.drvPath;
           in
-          pkgs.runCommand "home-linux-evaluates" { } ''
-            echo ${builtins.unsafeDiscardStringContext drvPath} > "$out"
-          '';
+          pkgs.writeText "home-linux-evaluates" (builtins.unsafeDiscardStringContext drvPath);
       };
     };
 }

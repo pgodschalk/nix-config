@@ -64,6 +64,8 @@ let
   applyClaudeTheme = substituteFile ./appearance/apply-claude-theme.sh {
     settings = lib.escapeShellArg "${config.xdg.configHome}/claude-code/settings.json";
     jq = lib.getExe pkgs.jq;
+    getTheme = "${./appearance/get-theme.jq}";
+    setTheme = "${./appearance/set-theme.jq}";
   };
 
   switchScript = pkgs.writeShellScript "appearance-apply" (
@@ -95,5 +97,7 @@ in
   # The agent only starts at login, so without this the symlinks would
   # be missing between a switch and the next login -- and a missing
   # config is a silently unthemed tool rather than an error.
-  home.activation.appearanceApply = lib.hm.dag.entryAfter [ "linkGeneration" ] "run ${switchScript}";
+  home.activation.appearanceApply = lib.hm.dag.entryAfter [ "linkGeneration" ] (
+    substituteFile ./appearance/apply.sh { switchScript = "${switchScript}"; }
+  );
 }
