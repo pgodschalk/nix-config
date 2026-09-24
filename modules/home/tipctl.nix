@@ -13,10 +13,10 @@ in
   home.packages = [ tipctl ];
 
   # TransIP authenticates with an RSA private key and tipctl reads it
-  # only from its JSON config, so the wrapper materialises one per shell
+  # only from its JSON config, so the wrapper writes one per shell
   # session under $TMPDIR instead of $HOME.
   #
-  # Two things in the wrapper are load-bearing. `--apiUseWhitelist` left
+  # Two things in the wrapper are load-bearing. `apiUseWhitelist` left
   # at its default asks for a whitelist-only token, which the API then
   # refuses with "Remote IP is not authorized for this request". And
   # TMPDIR is pinned to the session because the library caches the
