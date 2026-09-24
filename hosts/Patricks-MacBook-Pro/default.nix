@@ -63,18 +63,23 @@
     # `nix.linux-builder` may be set.
     determinateNix = {
       enable = true;
+      # In the nix.conf reference's order, which is alphabetical.
       customSettings = {
-        # Drops ~/.nix-profile, ~/.nix-defexpr and ~/.nix-channels in
-        # favour of the XDG paths.
-        use-xdg-base-directories = true;
-
         # The defaults multiply out: `cores = 0` means every core per
         # derivation, so eight concurrent builds each claim eight cores.
         # The product here is 8, so the machine stays usable, and one
         # large derivation gets two cores rather than eight. Tune the
         # product rather than one factor.
-        max-jobs = 4;
         cores = 2;
+        max-jobs = 4;
+
+        # Off by default on macOS, and third-party sources here run
+        # their own scripts at build time.
+        sandbox = true;
+
+        # Drops ~/.nix-profile, ~/.nix-defexpr and ~/.nix-channels in
+        # favour of the XDG paths.
+        use-xdg-base-directories = true;
       };
     };
 
