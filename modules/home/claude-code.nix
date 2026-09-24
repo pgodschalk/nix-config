@@ -25,7 +25,8 @@ let
     };
   };
 
-  # A PostToolUse hook, so a CLAUDE.md is checked as it is written.
+  # A PostToolUse hook, so instructions, agent docs and the glossary
+  # are checked as they are written.
   # Claude Code reads exit code 2 as "feed stderr back to the model",
   # which is what gets the diagnostics fixed in the same turn.
   #

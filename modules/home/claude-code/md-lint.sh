@@ -16,8 +16,17 @@ file=$(jq -r --from-file @filter@ <<<"$event")
 [ -n "$file" ] || exit 0
 [ -f "$file" ] || exit 0
 
-case "$(basename "$file")" in
-  CLAUDE.md | CLAUDE.local.md | AGENTS.md) ;;
+# docs/agents/ holds the per-repository files the engineering skills
+# read, which agnix checks as agent files. The glossary beside them is
+# formatted and linted the same way, but agnix has no rule for it. The
+# leading slash lets a relative path match the same patterns.
+case "/$file" in
+  */CLAUDE.md | */CLAUDE.local.md | */AGENTS.md | */docs/agents/*.md)
+    agnix=true
+    ;;
+  */CONTEXT.md | */CONTEXT-MAP.md)
+    agnix=false
+    ;;
   *) exit 0 ;;
 esac
 
@@ -46,7 +55,7 @@ fi
 # The agent agnix validates for comes from `tools` in .agnix.toml rather
 # than `--target`, which it deprecates and warns about on every run. Its
 # global options come before the subcommand.
-if ! out=$(agnix validate "$file" 2>&1); then
+if [ "$agnix" = true ] && ! out=$(agnix validate "$file" 2>&1); then
   note "agnix:
 $out"
 fi
