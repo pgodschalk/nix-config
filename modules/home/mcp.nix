@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  substituteFile,
   ...
 }:
 let
@@ -9,47 +8,10 @@ let
   # module beside this one and the work layer can add servers.
   globalMcpServers = config.my.mcp.servers;
 
-  # In pkgs/ because modules/home/darwin/zed.nix needs the very same
-  # wrapper for Zed's native `context_servers`; one definition, so the
-  # two registrations cannot drift.
-  githubMcpServer = pkgs.callPackage ../../pkgs/github-mcp-server-keychain.nix {
-    inherit substituteFile;
-  };
-
-  dockerhubMcpServer = pkgs.callPackage ../../pkgs/dockerhub-mcp-server.nix {
-    inherit substituteFile;
-  };
-
   portableMcpServers = {
-
-    # Installed by the 1Password app rather than by Nix, and gated
-    # behind "Enable local MCP" in the app -- without it the binary
-    # panics about a log directory instead of saying so. The path is
-    # macOS's; 1Password installs elsewhere on Linux.
-    "1password" = {
-      command = "/usr/local/bin/1password-mcp";
-      args = [ ];
-    };
-
     context7 = {
       type = "http";
       url = "https://mcp.context7.com/mcp";
-    };
-
-    # Built from source rather than run as the OCI image upstream
-    # publishes; see pkgs/dockerhub-mcp-server.nix. A missing credential
-    # degrades to public read-only content.
-    dockerhub = {
-      command = "${dockerhubMcpServer}/bin/dockerhub-mcp-server-op";
-      args = [ ];
-    };
-
-    # This one exits when it finds no credential, reported by the client
-    # as `-32000`, so the keychain wrapper is a prerequisite rather than
-    # a nicety.
-    github = {
-      command = "${githubMcpServer}/bin/github-mcp-server-keychain";
-      args = [ "stdio" ];
     };
 
     playwright = {
