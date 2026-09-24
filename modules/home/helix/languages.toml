@@ -25,12 +25,11 @@ name = "awk"
 formatter = { command = "prettier-awk" }
 
 # shfmt directly rather than through bash-language-server, which wraps
-# it but exposes no indent setting and falls back to tabs. No
-# --filename, which Helix cannot substitute: shfmt picks its dialect
-# from the shebang in the content.
+# it but exposes no indent setting and falls back to tabs. --filename
+# lets it pick the dialect from the extension when there is no shebang.
 [[language]]
 name = "bash"
-formatter = { command = "shfmt", args = ["--indent", "2", "--binary-next-line", "--case-indent"] }
+formatter = { command = "shfmt", args = ["--indent", "2", "--binary-next-line", "--case-indent", "--filename", "%{buffer_name}"] }
 
 [[language]]
 name = "c"
