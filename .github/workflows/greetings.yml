@@ -1,25 +1,34 @@
 # yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
 name: Greetings
 
+# pull_request_target, because a fork's pull_request token is read-only
+# and cannot comment. It runs with a write token in this repository's
+# context, which is safe only while no step checks out the PR's code.
 on:
-  pull_request:
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
     types:
       - opened
   issues:
     types:
       - opened
 
-permissions:
-  issues: write
-  pull-requests: write
+permissions: {}
 
 jobs:
   greeting:
     name: Greet First-Time Contributors
     runs-on: ubuntu-latest
+    # first-interaction counts anyone without an issue as a newcomer to
+    # pull requests, and the reverse, so bots and the owner are skipped.
+    if: >-
+      github.actor != 'dependabot[bot]'
+      && github.actor != github.repository_owner
+    permissions:
+      issues: write
+      pull-requests: write
 
     steps:
-      - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.0.1
+      - uses: actions/first-interaction@1c4688942c71f71d4f5502a26ea67c331730fa4d # v3.1.0
         with:
           issue_message: |
             Thanks for opening your first issue here.
@@ -43,6 +52,6 @@ jobs:
             welcome.
 
             Two things the checks look for: that the system still
-            builds, and that the portable half of `modules/home` still
-            evaluates for Linux. Commit messages follow Conventional
-            Commits, which commitlint enforces.
+            evaluates, and that the portable half of `modules/home`
+            still evaluates for Linux. Commit messages follow
+            Conventional Commits.
