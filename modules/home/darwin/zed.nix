@@ -6,7 +6,7 @@
   ...
 }:
 let
-  draculaProZed = "${config.home.homeDirectory}/Developer/github.com/dracula-pro/dracula-pro/themes/zed";
+  draculaPro = config.my.theme.dracula.pro;
 
   # Referenced by store path, unlike every language server here: a debug
   # adapter has no per-repository version to defer to. Left unset, Zed
@@ -1042,7 +1042,8 @@ in
 
     # Out of store, so editing the theme in the checkout applies at
     # Zed's next launch.
-    home.file.".config/zed/themes/dracula-pro.json".source =
-      config.lib.file.mkOutOfStoreSymlink "${draculaProZed}/dracula-pro.json";
+    home.file.".config/zed/themes/dracula-pro.json" = lib.mkIf (draculaPro != null) {
+      source = config.lib.file.mkOutOfStoreSymlink "${draculaPro}/themes/zed/dracula-pro.json";
+    };
   };
 }

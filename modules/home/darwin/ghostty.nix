@@ -8,12 +8,7 @@ let
   # Referenced by name, not by path: Ghostty's `theme` accepts an
   # absolute path but not inside the `light:…,dark:…` form, where it
   # silently reduces the value to the basename and then cannot find it.
-  draculaPro = "${config.home.homeDirectory}/Developer/github.com/dracula-pro/dracula-pro/themes/ghostty";
-
-  themeDirs = [
-    "${config.xdg.configHome}/ghostty/themes"
-    "${config.home.homeDirectory}/Library/Application Support/com.mitchellh.ghostty/themes"
-  ];
+  draculaPro = config.my.theme.dracula.pro;
 in
 {
   programs.ghostty = {
@@ -67,17 +62,17 @@ in
   # update can only fail; versions arrive with `nix flake update`.
   targets.darwin.defaults."com.mitchellh.ghostty".SUEnableAutomaticChecks = false;
 
-  # The theme lookup always uses `$XDG_CONFIG_HOME/ghostty/themes`,
+  # Ghostty looks themes up only in `$XDG_CONFIG_HOME/ghostty/themes`,
   # falling back to ~/.config, even when the config came from the
-  # native path -- so the second link is insurance rather than a route
-  # that is used.
-  home.activation.ghosttyThemes = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-    lib.concatMapStrings (
-      dir:
+  # native path. The session-env agent in modules/darwin/launchd-env.nix
+  # exports XDG_CONFIG_HOME at login; a launch before it runs finds the
+  # config but not the theme.
+  home.activation.ghosttyThemes = lib.mkIf (draculaPro != null) (
+    lib.hm.dag.entryAfter [ "writeBoundary" ] (
       substituteFile ./ghostty/link-themes.sh {
-        themes = lib.escapeShellArg draculaPro;
-        dir = lib.escapeShellArg dir;
+        themes = lib.escapeShellArg "${draculaPro}/themes/ghostty";
+        dir = lib.escapeShellArg "${config.xdg.configHome}/ghostty/themes";
       }
-    ) themeDirs
+    )
   );
 }

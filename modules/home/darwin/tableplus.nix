@@ -7,7 +7,7 @@
 }:
 let
   domain = "com.tinyapp.TablePlus-setapp";
-  extras = "${config.home.homeDirectory}/Developer/github.com/pgodschalk/dracula-pro-extras";
+  extras = config.my.theme.dracula.extras;
 
   # Almost every TablePlus setting lives inside one nested dictionary,
   # alongside 100-odd keys the app manages itself. CustomUserPreferences
@@ -52,8 +52,10 @@ lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
   );
 
   # Linked into `Themes/`, which the app creates empty.
-  home.file = lib.genAttrs [ "Dracula Pro.json" "Alucard.json" ] (f: {
-    target = "Library/Application Support/${domain}/Themes/${f}";
-    source = config.lib.file.mkOutOfStoreSymlink "${extras}/src/tableplus/${f}";
-  });
+  home.file = lib.mkIf (extras != null) (
+    lib.genAttrs [ "Dracula Pro.json" "Alucard.json" ] (f: {
+      target = "Library/Application Support/${domain}/Themes/${f}";
+      source = config.lib.file.mkOutOfStoreSymlink "${extras}/src/tableplus/${f}";
+    })
+  );
 }

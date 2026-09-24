@@ -9,7 +9,8 @@ let
   updateAllScript = pkgs.writeTextFile {
     name = "update-all.nu";
     text = substituteFile ./update/update-all.nu {
-      themeExtras = "${config.home.homeDirectory}/Developer/github.com/pgodschalk/dracula-pro-extras";
+      # Empty when there is no checkout, which update-all skips.
+      themeExtras = toString config.my.theme.dracula.extras;
     };
   };
 

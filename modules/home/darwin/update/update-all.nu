@@ -177,6 +177,11 @@ def update-checkouts [dry: bool]: nothing -> nothing {
     banner "Theme working copies"
     let repo = $THEME_EXTRAS
 
+    if ($repo | is-empty) {
+        note "no dracula-pro-extras checkout configured"
+        return
+    }
+
     if not ($"($repo)/.git" | path exists) {
         warn $"($repo) is not a git checkout; skipped"
         return

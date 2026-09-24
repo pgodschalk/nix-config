@@ -7,8 +7,7 @@
 }:
 let
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
-  extras = "${config.home.homeDirectory}/Developer/github.com/pgodschalk/dracula-pro-extras";
-  draculaProSublime = "${config.home.homeDirectory}/Developer/github.com/dracula-pro/dracula-pro/themes/sublime";
+  inherit (config.my.theme.dracula) extras pro;
 
   # The exceptions: tools that can follow neither the appearance nor an
   # environment variable, so a symlink has to move underneath them.
@@ -20,6 +19,8 @@ let
       dark = "${config.xdg.configHome}/helix/config-dark.toml";
       light = "${config.xdg.configHome}/helix/config-light.toml";
     }
+  ]
+  ++ lib.optionals (extras != null) [
     {
       # glab takes the glamour style from its own config key and ignores
       # GLAMOUR_STYLE, so that key names a stable path and the path
@@ -29,19 +30,21 @@ let
       light = "${extras}/src/glamour/alucard.json";
     }
     {
-      # aichat takes its theme from a file named for the mode, and
-      # chooses which by a config key with no environment override, so
-      # the config stays on "dark" and the file moves underneath it.
-      path = "${config.xdg.configHome}/aichat/dark.tmTheme";
-      dark = "${draculaProSublime}/dracula-pro.tmTheme";
-      light = "${draculaProSublime}/dracula-pro-alucard.tmTheme";
-    }
-    {
       # tlrc has no environment variable for either the palette or the
       # config path; `--config <FILE>` is the only override.
       path = "${config.xdg.configHome}/tlrc/config.toml";
       dark = "${extras}/src/tlrc/dracula-pro.toml";
       light = "${extras}/src/tlrc/alucard.toml";
+    }
+  ]
+  ++ lib.optionals (pro != null) [
+    {
+      # aichat takes its theme from a file named for the mode, and
+      # chooses which by a config key with no environment override, so
+      # the config stays on "dark" and the file moves underneath it.
+      path = "${config.xdg.configHome}/aichat/dark.tmTheme";
+      dark = "${pro}/themes/sublime/dracula-pro.tmTheme";
+      light = "${pro}/themes/sublime/dracula-pro-alucard.tmTheme";
     }
   ];
 
