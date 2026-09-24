@@ -12,6 +12,8 @@ let
   # than the file being owned.
   cronometerMcpServer = pkgs.callPackage ../../../pkgs/cronometer-mcp-server.nix { };
 
+  # Claude Desktop publishes no settings reference, so keys are
+  # alphabetical; pkgs.formats.json sorts the output either way.
   claudeDesktopSettings = {
     preferences = {
       menuBarEnabled = false;

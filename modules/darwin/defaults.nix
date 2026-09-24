@@ -17,6 +17,8 @@ _: {
       "/Library/Preferences/com.apple.commerce".AutoUpdate = true;
     };
 
+    # No published reference orders these, so domains and keys are
+    # sorted, in ASCII order.
     CustomUserPreferences = {
       NSGlobalDomain = {
         AppleLanguages = [
@@ -74,17 +76,17 @@ _: {
 
       # Audio quality 15 is Lossless.
       "com.apple.Music" = {
+        automaticallyDownloadArtwork = true;
         downloadDolbyAtmos = true;
         losslessEnabled = true;
-        preferredStreamPlaybackAudioQuality = 15;
         preferredDownloadAudioQuality = 15;
-        automaticallyDownloadArtwork = true;
+        preferredStreamPlaybackAudioQuality = 15;
       };
 
       # optimizedDownloadQuality 40 is "High Quality (up to 1080p)".
       "com.apple.TV" = {
-        optimizedDownloadQuality = 40;
         downloadDolbyAtmos = true;
+        optimizedDownloadQuality = 40;
       };
 
       # Terminal.app rewrites its whole preference file when it quits,
@@ -108,12 +110,12 @@ _: {
 
       # 2 = opted out.
       "com.apple.assistant.support" = {
-        # "Improve Siri & Dictation".
-        "Siri Data Sharing Opt-In Status" = 2;
-
         # Spotlight -> "Help Apple Improve Search", which lives here
         # rather than in com.apple.Spotlight.
         "Search Queries Data Sharing Status" = 2;
+
+        # "Improve Siri & Dictation".
+        "Siri Data Sharing Opt-In Status" = 2;
       };
 
       # Locks the Dock's size at whatever the macOS default is, since
@@ -140,26 +142,26 @@ _: {
       # Activation runs no `killall`, so the desktop redraws at the next
       # login or after `killall Finder`.
       "com.apple.finder" = {
-        FXPreferredGroupBy = "Kind";
         DesktopViewSettings = {
           GroupBy = "Kind";
           IconViewSettings = {
             arrangeBy = "dateAdded";
-            backgroundColorRed = 1.0;
-            backgroundColorGreen = 1.0;
             backgroundColorBlue = 1.0;
+            backgroundColorGreen = 1.0;
+            backgroundColorRed = 1.0;
             backgroundType = 0;
             gridOffsetX = 0.0;
             gridOffsetY = 0.0;
             gridSpacing = 54.0;
             iconSize = 64.0;
-            textSize = 12.0;
             labelOnBottom = true;
             showIconPreview = true;
             showItemInfo = false;
+            textSize = 12.0;
             viewOptionsVersion = 1;
           };
         };
+        FXPreferredGroupBy = "Kind";
       };
 
       # Note the spaces in the key name.
@@ -186,34 +188,35 @@ _: {
 
       # Both are slider positions on macOS's own scales, and lower is
       # faster, which reads backwards:
-      #   KeyRepeat        120, 90, 60, 30, 12, 6, 2
       #   InitialKeyRepeat 120, 94, 68, 35, 25, 15
-      KeyRepeat = 2;
+      #   KeyRepeat        120, 90, 60, 30, 12, 6, 2
       InitialKeyRepeat = 15;
+      KeyRepeat = 2;
 
-      # Correct spelling automatically
-      NSAutomaticSpellingCorrectionEnabled = false;
       # Capitalize words automatically
       NSAutomaticCapitalizationEnabled = false;
+      # "Use smart quotes and dashes" is one switch over two keys, this
+      # and NSAutomaticQuoteSubstitutionEnabled, and writing one alone
+      # leaves the checkbox half-on.
+      NSAutomaticDashSubstitutionEnabled = false;
       # Add period with double space
       NSAutomaticPeriodSubstitutionEnabled = false;
-      # "Use smart quotes and dashes" is one switch over two keys, and
-      # writing one alone leaves the checkbox half-on.
       NSAutomaticQuoteSubstitutionEnabled = false;
-      NSAutomaticDashSubstitutionEnabled = false;
+      # Correct spelling automatically
+      NSAutomaticSpellingCorrectionEnabled = false;
     };
 
     SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
 
     finder = {
+      # Governs only folders Finder has no saved view for; an opened
+      # folder keeps what its .DS_Store records.
+      FXPreferredViewStyle = "clmv";
+
       # Permanently erase items after 30 days in the Trash.
       FXRemoveOldTrashItems = true;
 
       NewWindowTarget = "Home";
-
-      # Governs only folders Finder has no saved view for; an opened
-      # folder keeps what its .DS_Store records.
-      FXPreferredViewStyle = "clmv";
     };
 
     # The typed option writes com.apple.AppleMultitouchMouse and

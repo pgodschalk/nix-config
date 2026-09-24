@@ -40,8 +40,8 @@ let
     # it needs no entry in modules/home/darwin/appearance.nix.
     theme = {
       mode = "system";
-      dark = "Dracula Pro";
       light = "Dracula Pro (Alucard)";
+      dark = "Dracula Pro";
     };
 
     buffer_font_family = "Liga SFMono Nerd Font";
@@ -121,7 +121,6 @@ let
     # `zed --wait` so a commit started in Zed's terminal opens in Zed
     # rather than in Helix.
     terminal = {
-      font_family = "SFMonoTerminal Nerd Font";
       shell.program = "/etc/profiles/per-user/patrick/bin/nu-login";
       option_as_meta = true;
 
@@ -130,6 +129,8 @@ let
         GIT_EDITOR = "zed --wait";
         VISUAL = "zed --wait";
       };
+
+      font_family = "SFMonoTerminal Nerd Font";
     };
 
     file_types.Ansible = [
