@@ -8,6 +8,11 @@ set -eu
 
 dir=${1:-$PWD}
 [ -d "$dir" ] || dir=$(dirname "$dir")
+# Absolute, or the walk stops at `.`, which is its own dirname.
+case $dir in
+  /*) ;;
+  *) dir=$PWD/$dir ;;
+esac
 
 found=
 
