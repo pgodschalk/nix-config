@@ -20,7 +20,8 @@ let
     # The key means opted out, hence true.
     "IsOutOfCrashaltycs -bool true"
     "QueryEditorKeyBindingMode -int 1"
-    # A fixed port, so the endpoint agents are given stays the same.
+    # A fixed port, so the endpoint a repository's own MCP config names
+    # stays the same.
     "MCPServerEnabled -bool true"
     "MCPServerPortMode -string fixed"
     "MCPServerPort -int 51003"
