@@ -26,13 +26,6 @@ let
   # `oxfmt -c` at it. Helix reads it too.
   oxfmtConfig = ../oxc/oxfmtrc.json;
 
-  githubMcpServer = pkgs.callPackage ../../../pkgs/github-mcp-server-keychain.nix {
-    inherit substituteFile;
-  };
-  dockerhubMcpServer = pkgs.callPackage ../../../pkgs/dockerhub-mcp-server.nix {
-    inherit substituteFile;
-  };
-
   # Empty, so no keymap.json is written at all.
   keymap = [ ];
 
@@ -890,35 +883,15 @@ let
 
     # A remote server with no headers gets Zed's own MCP OAuth flow,
     # so no token is declared for one.
-    context_servers = {
-      "1password" = {
-        command = "/usr/local/bin/1password-mcp";
-        args = [ ];
+    # Every server the other agents get, plus Sentry, which they get
+    # only under the personal tree.
+    context_servers =
+      lib.mapAttrs (
+        _: server: if server ? url then { inherit (server) url; } else server
+      ) config.my.mcp.servers
+      // {
+        sentry.url = "https://mcp.sentry.dev/mcp";
       };
-      context7.url = "https://mcp.context7.com/mcp";
-      dockerhub = {
-        command = "${dockerhubMcpServer}/bin/dockerhub-mcp-server-op";
-        args = [ ];
-      };
-      github = {
-        command = "${githubMcpServer}/bin/github-mcp-server-keychain";
-        args = [ "stdio" ];
-      };
-      playwright = {
-        command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
-        args = [ ];
-      };
-      sentry.url = "https://mcp.sentry.dev/mcp";
-      snippetslab = {
-        command = "/Applications/SnippetsLab.app/Contents/Helpers/lab";
-        args = [ "mcp" ];
-      };
-      xcode = {
-        command = "/usr/bin/xcrun";
-        args = [ "mcpbridge" ];
-      };
-
-    };
 
     # `type` is required: agent_servers is an internally tagged enum,
     # and an entry without it fails to deserialise, which takes the

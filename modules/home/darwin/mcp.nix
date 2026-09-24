@@ -2,10 +2,43 @@
   config,
   lib,
   pkgs,
+  substituteFile,
   ...
 }:
 let
+  githubMcpServer = pkgs.callPackage ../../../pkgs/github-mcp-server-keychain.nix {
+    inherit substituteFile;
+  };
+
+  dockerhubMcpServer = pkgs.callPackage ../../../pkgs/dockerhub-mcp-server.nix {
+    inherit substituteFile;
+  };
+
   darwinMcpServers = {
+    # Installed by the 1Password app rather than by Nix, and gated
+    # behind "Enable local MCP" in the app -- without it the binary
+    # panics about a log directory instead of saying so.
+    "1password" = {
+      command = "/usr/local/bin/1password-mcp";
+      args = [ ];
+    };
+
+    # Built from source rather than run as the OCI image upstream
+    # publishes; see pkgs/dockerhub-mcp-server.nix. A missing credential
+    # degrades to public read-only content.
+    dockerhub = {
+      command = "${dockerhubMcpServer}/bin/dockerhub-mcp-server-keychain";
+      args = [ ];
+    };
+
+    # This one exits when it finds no credential, reported by the client
+    # as `-32000`, so the keychain wrapper is a prerequisite rather than
+    # a nicety.
+    github = {
+      command = "${githubMcpServer}/bin/github-mcp-server-keychain";
+      args = [ "stdio" ];
+    };
+
     # `lab mcp` is an undocumented subcommand: `lab --help` lists only
     # search/list/fetch/create.
     snippetslab = {
@@ -53,7 +86,6 @@ in
   # The import is a button, so it is imperative, but the contents stay
   # live: Xcode copies the plug-in and the files inside are store
   # symlinks.
-  home.file."Library/Application Support/claude-marketplace/plugins/nix-agents/.mcp.json".source =
-    xcodeMcpJson;
+  xdg.configFile."claude-marketplace/plugins/nix-agents/.mcp.json".source = xcodeMcpJson;
 
 }

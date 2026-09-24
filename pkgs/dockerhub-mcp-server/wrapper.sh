@@ -3,18 +3,17 @@
 token="$(/usr/bin/security find-generic-password \
   -s @serviceArg@ -w 2>/dev/null)" || token=""
 
-# `find-generic-password` without -w prints the item's attributes; the
-# account is the `"acct"<blob>=` line. Quieter than a second flag and it
-# is the same single lookup the token used.
+# A second lookup of the same item: without -w, find-generic-password
+# prints its attributes, and the account is the `"acct"<blob>=` line.
 username="$(/usr/bin/security find-generic-password -s @serviceArg@ \
   2>/dev/null \
   | /usr/bin/sed -n \
     's/^[[:space:]]*"acct"<blob>="\(.*\)"$/\1/p')" || username=""
 
-set --
+user_args=()
 if [ -n "$token" ] && [ -n "$username" ]; then
   export HUB_PAT_TOKEN="$token"
-  set -- --username="$username"
+  user_args=(--username="$username")
 else
   echo "dockerhub-mcp-server: no credential in the login keychain under" >&2
   echo "service @service@. Serving public Docker Hub content read-only." >&2
@@ -24,4 +23,4 @@ else
   echo "    -s @service@ -w" >&2
 fi
 
-exec @server@ --transport=stdio "$@"
+exec @server@ --transport=stdio "${user_args[@]}" "$@"

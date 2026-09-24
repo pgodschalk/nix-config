@@ -82,8 +82,8 @@ in
 #
 # One item carries both values: the account is the Docker Hub username
 # that `--username` needs, and the password is the PAT. Matched on the
-# service alone, because an `-a "$USER"` lookup is what once made the
-# GitHub item look missing.
+# service alone: the GitHub item's account is the literal `$USER`, so
+# an `-a "$USER"` lookup misses it.
 #
 # Unlike the GitHub server this does not exit when the lookup fails:
 # `HUB_PAT_TOKEN` is optional upstream, so a missing or locked keychain
@@ -96,10 +96,11 @@ in
 # `substituteFile` rather than `builtins.readFile (replaceVars …)`,
 # which would be import-from-derivation and take out the Linux eval
 # check.
-writeShellScriptBin "dockerhub-mcp-server-op" (
+(writeShellScriptBin "dockerhub-mcp-server-keychain" (
   substituteFile ./dockerhub-mcp-server/wrapper.sh {
     serviceArg = lib.escapeShellArg service;
     server = lib.getExe server;
     inherit service;
   }
-)
+)).overrideAttrs
+  { meta.platforms = lib.platforms.darwin; }
