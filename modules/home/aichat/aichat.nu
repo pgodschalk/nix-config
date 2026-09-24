@@ -14,7 +14,7 @@ $env.AICHAT_SHELL = "@targetShell@"
 # `--wrapped` because a plain rest parameter makes Nushell reject
 # `?? tar excluding --exclude=.git` as an unknown flag, so the flags
 # are filtered out below instead.
-def --env --wrapped "??" [...args: string] {
+def --wrapped "??" [...args: string] {
     let flags = ["-e" "--explain"]
     let explain = $args | any {|a| $a in $flags }
     let query = (
@@ -28,33 +28,33 @@ def --env --wrapped "??" [...args: string] {
         error make --unspanned {msg: "?? needs a description, e.g. `?? ffmpeg mp4 to mkv`"}
     }
 
-    if ($env.CLAUDE_API_KEY? | is-empty) {
-        # Comes back empty when 1Password has locked, and failing here
-        # beats an API error that looks like a bad key.
-        let key = fnox get -P aichat CLAUDE_API_KEY | str trim
-        if ($key | is-empty) {
-            error make --unspanned {msg: "could not resolve CLAUDE_API_KEY from 1Password -- is the app unlocked?"}
+    # Comes back empty when 1Password has locked, and failing here beats
+    # an API error that looks like a bad key.
+    let key = fnox-secret aichat CLAUDE_API_KEY
+    if ($key | is-empty) {
+        error make --unspanned {msg: "could not resolve CLAUDE_API_KEY from 1Password -- is the app unlocked?"}
+    }
+
+    let cmd = with-env {CLAUDE_API_KEY: $key} {
+        print --no-newline ⌛
+        let raw = aichat -e $query | complete
+        print --no-newline "\r \r"
+
+        if $raw.exit_code != 0 {
+            error make --unspanned {msg: $"aichat failed: ($raw.stderr | str trim)"}
         }
-        $env.CLAUDE_API_KEY = $key
-    }
 
-    print --no-newline ⌛
-    let raw = aichat -e $query | complete
-    print --no-newline "\r \r"
+        let cmd = (?_strip_fence $raw.stdout)
 
-    if $raw.exit_code != 0 {
-        error make --unspanned {msg: $"aichat failed: ($raw.stderr | str trim)"}
-    }
+        if ($cmd | is-empty) {
+            error make --unspanned {msg: "no command generated"}
+        }
 
-    let cmd = (?_strip_fence $raw.stdout)
-
-    if ($cmd | is-empty) {
-        error make --unspanned {msg: "no command generated"}
-    }
-
-    if $explain {
-        aichat -r %explain-shell% $cmd
-        print ""
+        if $explain {
+            aichat -r %explain-shell% $cmd
+            print ""
+        }
+        $cmd
     }
 
     commandline edit --replace $cmd

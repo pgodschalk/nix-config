@@ -18,6 +18,7 @@ let
       trusted = "${pkgs.writeText "fnox-trusted.json" (builtins.toJSON cfg.trustedDirectories)}";
     }
   );
+  secret = substituteFile ./fnox/secret.nu { inherit fnox; };
   completion = pkgs.runCommand "fnox-completion.nu" { } (
     substituteFile ./fnox/completion.sh { inherit fnox; }
   );
@@ -39,9 +40,13 @@ in
     # external completer it finds: running before
     # modules/home/completions.nix would drop carapace and the fish
     # fallback for every other command.
-    programs.nushell.extraConfig = lib.mkAfter ''
-      source ${activate}
-      source ${completion}
-    '';
+    programs.nushell.extraConfig = lib.mkMerge [
+      # First, so every wrapper that resolves a secret can call it.
+      (lib.mkBefore secret)
+      (lib.mkAfter ''
+        source ${activate}
+        source ${completion}
+      '')
+    ];
   };
 }
