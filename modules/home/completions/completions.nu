@@ -90,7 +90,9 @@ $env.config.completions.external.completer = {|spans: list<string>|
 
         # Without its caret: the aliases here expand to `^bat` and the
         # like, a name neither engine knows.
-        let command = $expanded | split row ' ' | first | str trim --left --char '^'
+        let command = (
+            $expanded | str replace --regex '\s.*$' '' | str trim --left --char '^'
+        )
         $spans | skip 1 | prepend $command
     } else {
         $spans
