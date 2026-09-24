@@ -103,9 +103,9 @@ in
       cat = "^bat --paging=never";
 
       # The absolute path on darwin, because uutils' diff comes earlier
-      # on PATH and has no colour support -- and DIFFCOLORS, which
-      # carries this theme, is honoured only by Apple's diff.
-      diff = if isDarwin then "^/usr/bin/diff --color=auto" else "^diff --color=auto";
+      # on PATH and rejects --color -- and DIFFCOLORS, which carries
+      # this theme, is honoured only by Apple's diff.
+      diff = if isDarwin then "^/usr/bin/diff --color=auto" else "^diff";
 
       # Through the XDG variables rather than literal paths, so a Linux
       # host needs no change. An alias expands at call time.
