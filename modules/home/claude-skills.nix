@@ -79,13 +79,23 @@ let
     impeccable = "${impeccableSrc}/.agents/skills/impeccable";
   };
 
-  # A name repeated across collections would be a duplicate-key
-  # evaluation error rather than a silent overwrite.
-  flatSkillSources =
-    lib.listToAttrs (
-      lib.concatMap (g: map (n: lib.nameValuePair n "${g}/${n}") (skillsInGroup g)) skillGroups
+  groupedSkills = lib.concatMap (
+    g: map (n: lib.nameValuePair n "${g}/${n}") (skillsInGroup g)
+  ) skillGroups;
+
+  # listToAttrs keeps the first of a repeated name and `//` the last, so
+  # a collision would drop a skill without a word.
+  duplicateSkills = lib.attrNames (
+    lib.filterAttrs (_: v: builtins.length v > 1) (
+      lib.groupBy (x: x.name) (groupedSkills ++ lib.mapAttrsToList lib.nameValuePair skillSingles)
     )
-    // skillSingles;
+  );
+
+  flatSkillSources =
+    assert lib.assertMsg (duplicateSkills == [ ]) (
+      "claude-skills: more than one collection provides " + lib.concatStringsSep ", " duplicateSkills
+    );
+    lib.listToAttrs groupedSkills // skillSingles;
 
   # Both directories get the same flat set: of the consumers only pi
   # discovers skills nested inside grouping folders, and Zed and Claude

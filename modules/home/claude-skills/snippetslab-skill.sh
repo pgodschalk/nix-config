@@ -10,8 +10,15 @@ if [ -x "$lab" ]; then
   claudeSkill=@claudeSkill@
   run mkdir -p "$(dirname "$agentSkill")" "$(dirname "$claudeSkill")"
 
-  if run "$lab" skill show >"$agentSkill"; then
-    run cp -f "$agentSkill" "$claudeSkill"
+  # Guarded rather than wrapped in `run`, which under a dry run would
+  # echo the command into the redirect's target.
+  if [[ ! -v DRY_RUN ]]; then
+    if "$lab" skill show >"$agentSkill.tmp"; then
+      mv -f "$agentSkill.tmp" "$agentSkill"
+      cp -f "$agentSkill" "$claudeSkill"
+    else
+      rm -f "$agentSkill.tmp"
+    fi
   fi
 else
   echo "claude-skills: SnippetsLab not installed; skipping its agent skill" >&2
