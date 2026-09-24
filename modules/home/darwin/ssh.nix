@@ -48,12 +48,12 @@ in
     # self-contained. home-config is hand-maintained and deliberately
     # outside Nix; it is named `<context>-config` so it ends in
     # "config", the suffix Zed's SSH Config extension matches on.
-    includes = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin [
+    includes = [
       "~/.orbstack/ssh/config"
       "~/.ssh/home-config"
     ];
 
-    settings = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    settings = {
       # Only this machine can read the macOS light/dark setting, so the
       # other end applies whatever APPEARANCE says. The server must
       # allow it with `AcceptEnv APPEARANCE`.
@@ -93,7 +93,7 @@ in
   };
 
   # For tools that read SSH_AUTH_SOCK rather than ssh_config.
-  home.sessionVariables = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+  home.sessionVariables = {
     SSH_AUTH_SOCK = secretiveSocket;
   };
 }

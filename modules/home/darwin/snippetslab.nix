@@ -17,5 +17,5 @@ let
   );
 in
 {
-  home.packages = lib.optional pkgs.stdenv.hostPlatform.isDarwin lab;
+  home.packages = [ lab ];
 }

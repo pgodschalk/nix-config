@@ -44,7 +44,7 @@ in
   #
   # After setDarwinDefaults, so the preferences are in place before the
   # agent is restarted here.
-  home.activation = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+  home.activation = {
     goldenGateSolarWallpaper = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] (
       substituteFile ./wallpaper/set-wallpaper.sh {
         catalog = lib.escapeShellArg catalog;
