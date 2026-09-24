@@ -35,8 +35,8 @@ the code yet.
   option consumed by a portable module is declared in that module.
 - `pkgs/` holds derivations nixpkgs lacks. There is no overlay: each consumer
   calls `pkgs.callPackage ../../pkgs/<name>.nix { }`. `pkgs/claude-marketplace/`
-  is the local marketplace, whose `.lsp.json` is hand-maintained and carries
-  absolute `/nix/store` paths.
+  is the local marketplace; `modules/home/claude-code.nix` adds the LSP plugin's
+  `.lsp.json`, filled with the same store paths the editors get.
 - `lib/default.nix` provides `substituteFile path { name = value; }`: `@name@`
   substitution at evaluation time, asserting every placeholder exists.
   `builtins.readFile` of a `pkgs.replaceVars` result is import-from-derivation
