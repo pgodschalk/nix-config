@@ -5,7 +5,9 @@
 
     # Not a shell here but a completion engine: `fish --command complete
     # --do-complete=…` reads the vendor_completions.d files Nix packages
-    # ship, with fish never being anyone's login shell.
+    # ship, with fish never being anyone's login shell. On macOS they
+    # reach the profile only through the pathsToLink entry in
+    # modules/darwin/shell.nix.
     pkgs.fish
   ];
 
