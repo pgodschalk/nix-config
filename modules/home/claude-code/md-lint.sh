@@ -8,10 +8,13 @@
 # one edit and the next is how stale-context bugs start.
 set -euo pipefail
 
-: "${MARKDOWNLINT_CONFIG:?the Nix wrapper must supply this}"
+if [ -z "${MARKDOWNLINT_CONFIG-}" ]; then
+  echo "md-lint: MARKDOWNLINT_CONFIG is unset" >&2
+  exit 2
+fi
 
 event=$(cat)
-file=$(jq -r --from-file @filter@ <<<"$event")
+file=$(jq -r --from-file @filter@ <<<"$event") || exit 2
 
 [ -n "$file" ] || exit 0
 [ -f "$file" ] || exit 0
@@ -38,24 +41,34 @@ note() {
   status=2
 }
 
-# --check prints the path and nothing else, so the diff is what tells
-# Claude what to change.
-if ! prettier-md --check "$file" >/dev/null 2>&1; then
+# Both linters load JavaScript configs they find beside the file and in
+# its ancestors, and a hook runs outside the sandbox, so they see only a
+# copy in a directory of its own. agnix reads nothing but .agnix.toml
+# and stays on the original.
+scratch=$(mktemp -d "${TMPDIR:-/tmp}/md-lint.XXXXXX") || exit 2
+trap 'rm -rf "$scratch"' EXIT
+name=$(basename "$file")
+cp -- "$file" "$scratch/$name" || exit 2
+origin=$PWD
+cd "$scratch" || exit 2
+
+# --check prints only the path, so the report is the command to run.
+if ! prettier-md --no-config --no-editorconfig --check "$name" \
+  >/dev/null 2>&1; then
   note "prettier-md: $file is not formatted. Run:
-  prettier-md --write $(printf '%q' "$file")"
+  prettier-md --no-config --no-editorconfig --write $(printf '%q' "$file")"
 fi
 
 # One line per violation with the rule id, which is already the right
 # report.
-if ! out=$(markdownlint-cli2 --config "$MARKDOWNLINT_CONFIG" "$file" 2>&1); then
+if ! out=$(markdownlint-cli2 --config "$MARKDOWNLINT_CONFIG" "$name" 2>&1); then
   note "markdownlint-cli2:
 $out"
 fi
 
 # The agent agnix validates for comes from `tools` in .agnix.toml rather
-# than `--target`, which it deprecates and warns about on every run. Its
-# global options come before the subcommand.
-if [ "$agnix" = true ] && ! out=$(agnix validate "$file" 2>&1); then
+# than `--target`, which it deprecates and warns about on every run.
+if [ "$agnix" = true ] && ! out=$(cd "$origin" && agnix validate "$file" 2>&1); then
   note "agnix:
 $out"
 fi
