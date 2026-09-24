@@ -28,6 +28,12 @@ while read -r file; do
     continue
   fi
 
+  # A relative schema is relative to the file, as the editor reads it.
+  case "$schema" in
+    *://*) ;;
+    *) schema="$(dirname "$file")/$schema" ;;
+  esac
+
   uvx check-jsonschema --schemafile "$schema" "$file" </dev/null || status=1
 done < <(git ls-files "$@")
 

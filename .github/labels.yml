@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=labels.schema.json
+#
+# Synced by .github/workflows/labels.yml, which deletes any label not
+# listed here. Sorted by name.
+---
+- name: accessibility
+  color: "#f143ab"
+  description: Barrier affecting people with disabilities
+- name: apps
+  color: "#1d76db"
+  description: Changes apps.nix
+- name: bug
+  color: "#d73a4a"
+  description: Something isn't working
+- name: ci
+  color: "#ededed"
+  description: Changes CI, its scripts or the bots' configuration
+- name: dependencies
+  color: "#0366d6"
+  description: Moves a pinned input or dependency
+- name: documentation
+  color: "#0075ca"
+  description: Improvements or additions to documentation
+- name: duplicate
+  color: "#cfd3d7"
+  description: This issue or pull request already exists
+- name: enhancement
+  color: "#a2eeef"
+  description: New feature or request
+- name: good first issue
+  color: "#7057ff"
+  description: Good for newcomers
+- name: help wanted
+  color: "#008672"
+  description: Extra attention is needed
+- name: home-manager
+  color: "#5319e7"
+  description: Changes the home-manager configuration
+- name: invalid
+  color: "#e4e669"
+  description: This doesn't seem right
+- name: macos
+  color: "#c5def5"
+  description: Changes something macOS-only
+- name: needs-info
+  color: "#fef2c0"
+  description: Waiting on the reporter
+- name: needs-triage
+  color: "#d93f0b"
+  description: Maintainer has yet to evaluate it
+- name: nix-darwin
+  color: "#bfdadc"
+  description: Changes the nix-darwin system
+- name: packaging
+  color: "#fbca04"
+  description: Changes a derivation under pkgs/
+- name: question
+  color: "#d876e3"
+  description: Further information is requested
+- name: ready-for-agent
+  color: "#0e8a16"
+  description: Specified enough for an AFK agent
+- name: ready-for-human
+  color: "#006b75"
+  description: Needs a human to implement it
+- name: wayfinder:grilling
+  color: "#f9d0c4"
+  description: A wayfinder ticket that stress-tests a decision
+- name: wayfinder:map
+  color: "#b60205"
+  description: The wayfinder map issue
+- name: wayfinder:prototype
+  color: "#d4c5f9"
+  description: A wayfinder ticket that builds a throwaway prototype
+- name: wayfinder:research
+  color: "#c2e0c6"
+  description: A wayfinder ticket that answers a question
+- name: wayfinder:task
+  color: "#bfd4f2"
+  description: A wayfinder ticket that implements something
+- name: wontfix
+  color: "#ffffff"
+  description: This will not be worked on

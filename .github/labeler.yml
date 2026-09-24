@@ -6,18 +6,27 @@ apps:
 
 ci:
   - changed-files:
-      - any-glob-to-any-file: ".github/workflows/**"
-
-dependencies:
-  - changed-files:
       - any-glob-to-any-file:
-          - "flake.nix"
-          - "flake.lock"
-          - "**/Gemfile"
-          - "**/Gemfile.lock"
-          - "**/gemset.nix"
-          - "**/package.json"
-          - "**/package-lock.json"
+          - ".github/dependabot.yml"
+          - ".github/labeler.yml"
+          - ".github/labels.yml"
+          - ".github/scripts/**"
+          - ".github/workflows/**"
+
+# The branch as well, or sync-labels strips the label Dependabot sets
+# from an action bump, which touches only workflows.
+dependencies:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file:
+              - "flake.nix"
+              - "flake.lock"
+              - "**/Gemfile"
+              - "**/Gemfile.lock"
+              - "**/gemset.nix"
+              - "**/package.json"
+              - "**/package-lock.json"
+      - head-branch: "^dependabot/"
 
 documentation:
   - changed-files:
