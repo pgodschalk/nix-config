@@ -38,7 +38,8 @@ built and tested against, but any recent Nix works for evaluating and building.
    ```
 
 3. Check that the macOS configuration still evaluates. This forces the whole
-   module tree without building anything:
+   module tree; it fetches a few sources at evaluation time but builds no
+   system:
 
    ```sh
    nix eval --raw --override-input work path:./stubs/work \
@@ -66,7 +67,7 @@ nix build --override-input work path:./stubs/work \
 ```
 
 You probably shouldn't run `darwin-rebuild switch`: activation writes to `/etc`,
-`/Library` and the login keychain.
+`/Library` and the authorization database.
 
 ## Checks
 
@@ -108,9 +109,8 @@ Bug reports are most useful when they are:
 2. Fork the project.
 3. Create your branch (`git checkout -b fix/stale-pin`).
 4. Commit your changes. This repository uses [Conventional
-   Commits][conventional], validated by commitlint on `commit-msg`: the subject
-   is at most 50 characters and the body wraps at 72. Read a rejection and fix
-   the message rather than bypassing the hook.
+   Commits][conventional]: the subject is at most 50 characters and the body
+   wraps at 72. Nothing here installs a git hook to check that, so it is on you.
 5. Push the branch (`git push origin fix/stale-pin`).
 6. [Open a pull request][compare], describing what changed and how you verified
    it.

@@ -10,8 +10,6 @@
   <a href="https://github.com/pgodschalk/nix-config/issues/new?labels=&template=bug_report.md">Report a Bug</a>
   ·
   <a href="https://github.com/pgodschalk/nix-config/issues/new?labels=&template=feature_request.md">Request a Feature</a>
-  ·
-  <a href="https://github.com/pgodschalk/nix-config/issues/new">Ask a Question</a>
 </div>
 
 <div align="center">
@@ -55,8 +53,8 @@
 ## About
 
 My Nix configuration, declared end to end: the system, the user environment,
-every application's settings, and the toolchain behind them. One
-`darwin-rebuild switch` reproduces the machine.
+every app's settings, and the toolchain behind them. One `darwin-rebuild switch`
+reproduces the machine.
 
 Two things shape it. **Apple's file-system hierarchy comes first** -- user state
 belongs under `~/Library`, not in dotfiles, and a tool that can be told where to
@@ -74,7 +72,7 @@ evaluated, which is what keeps that boundary honest.
 - [Nix] with flakes, installed and managed by [Determinate Nix]
 - [nix-darwin] for system-level configuration
 - [home-manager] for the user environment
-- [brew-nix] for the few applications that exist only as Homebrew casks
+- [brew-nix] for the few apps that exist only as Homebrew casks
 
 ## Getting started
 
@@ -82,7 +80,7 @@ evaluated, which is what keeps that boundary honest.
 
 - Apple silicon running macOS 27 or later.
 - [Determinate Nix]. Verify with `nix --version` and `determinate-nixd status`.
-- Xcode Command Line Tools, since GUI applications call `/usr/bin/git`.
+- Xcode Command Line Tools, since GUI apps call `/usr/bin/git`.
 
 No Homebrew and no Rosetta: neither is installed, and neither is wanted.
 
@@ -102,9 +100,27 @@ nix build --override-input work path:./stubs/work \
 private tree holding employer-specific configuration; `stubs/work` is an empty
 stand-in so everything else still evaluates without it.
 
-To adapt it, change `networking.*` and the `darwinConfigurations` attribute name
-in `flake.nix` to your own `scutil --get LocalHostName`, then work through
-`apps.nix`.
+To adapt it, rename the host and the user everywhere they are spelled out:
+
+- `modules/darwin/identity.nix`, which sets `networking.*`, to your own
+  `scutil --get LocalHostName`;
+- the `darwinConfigurations` attribute and the `checks` that name it in
+  `flake.nix`, and the evaluation target in `.github/workflows/ci.yml`;
+- the `hosts/` directory, and the user in its `default.nix`
+  (`system.primaryUser`, `users.users`, `home-manager.users`) and under `home/`.
+
+Then work through `apps.nix`.
+
+### First activation
+
+On a fresh Mac there is no `darwin-rebuild` yet and nothing points at the clone:
+
+```sh
+sudo -H ln -s "$PWD" /etc/nix-darwin
+sudo -H nix run .#darwin-rebuild -- switch
+```
+
+The commands under Usage work from then on.
 
 ## Usage
 
@@ -113,9 +129,9 @@ below need no `--flake` argument.
 
 ```sh
 # Check that the configuration evaluates and builds, changing nothing:
-darwin-rebuild build --flake /etc/nix-darwin
+darwin-rebuild build
 
-# Apply it. `-H` keeps HOME, so nothing root-owned lands in ~:
+# Apply it. `-H` sets HOME to root's, so nothing root-owned lands in ~:
 sudo -H darwin-rebuild switch
 
 # Undo the last switch:
@@ -147,7 +163,7 @@ nix flake update brew-api    # cask versions, which expire and need refreshing
 | `home/patrick/`        | `common.nix` plus `darwin.nix` or `linux.nix` |
 | `pkgs/`                | Derivations nixpkgs does not carry            |
 | `lib/`                 | Helpers shared across modules                 |
-| `stubs/work/`          | Empty stand-in for the private work flake     |
+| `stubs/work/`          | Empty stand-in for the private work layer     |
 
 ## Roadmap
 
