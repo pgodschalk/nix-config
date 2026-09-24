@@ -25,6 +25,7 @@ DOMAIN = "com.apple.Terminal"
 
 
 def main() -> int:
+    """Parse the arguments and update the Terminal profile."""
     ap = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -58,10 +59,20 @@ def main() -> int:
         )
         return 1
 
+    # A domain that does not exist yet exports as an empty dict, so a
+    # failure here is real, and writing back a plist built from nothing
+    # would erase every other profile.
     exported = subprocess.run(
         ["defaults", "export", DOMAIN, "-"], check=False, capture_output=True
     )
-    plist = plistlib.loads(exported.stdout) if exported.returncode == 0 else {}
+    if exported.returncode != 0:
+        print(
+            f"error: could not read {DOMAIN}\n"
+            f"{exported.stderr.decode(errors='replace')}",
+            file=sys.stderr,
+        )
+        return 1
+    plist = plistlib.loads(exported.stdout)
     settings = plist.setdefault("Window Settings", {})
     profile = dict(
         settings.get(
