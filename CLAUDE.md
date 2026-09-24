@@ -48,45 +48,34 @@ pins on its own. Garbage collection belongs to Determinate Nix rather than
 
 ### Per-language checks
 
-One script per check in `.github/scripts/`, run by `ci.yml` on Linux with the
-editor's own configuration, so a file clean in Zed is clean in CI. These run
-unchanged on this Mac, from the profile or through `npx`/`uvx`:
+One script per check in `.github/scripts/`, run by `ci.yml` with the editor's
+own configuration, so a file clean in Zed is clean in CI. Each takes its tool
+from the flake through `nix-tool.sh`, from the macOS configuration on this Mac
+and the Linux one elsewhere, so they all run here unchanged:
 
 ```sh
+.github/scripts/nix-format.sh
+.github/scripts/nix-lint.sh
+.github/scripts/nu-format.sh
+.github/scripts/nu-lint.sh
 .github/scripts/oxfmt-check.sh '*.json'     # or '*.jsonc', '*.yaml' '*.yml'
 .github/scripts/schema-check.sh '*.json'    # or '*.yaml' '*.yml'
 .github/scripts/markdown-format.sh
-.github/scripts/tombi-check.sh lint         # or: format --check
+.github/scripts/markdown-lint.sh
+.github/scripts/python-check.sh
 .github/scripts/ty-check.sh
 .github/scripts/shell-lint.sh
-ruff check && ruff format --check
-npx --yes markdownlint-cli2 '**/*.md'
-```
-
-`nix-format.sh`, `nix-lint.sh`, `nu-format.sh` and `nu-lint.sh` take their tool
-from the x86_64-linux home configuration through `nix-tool.sh`,
-`shell-format.sh` downloads a linux_amd64 shfmt and `xml-format.sh` runs
-`apt-get`, so those six are Linux-only. The profile carries the same tools:
-
-```sh
-git ls-files '*.nix' | xargs nixfmt --check
-git ls-files '*.nu' | xargs nufmt --dry-run
-git ls-files '*.nu' | xargs nu-lint --format compact
-git ls-files '*.sh' \
-  | xargs shfmt --indent 2 --binary-next-line --case-indent --diff
-
-# nixf-tidy, the linter behind nixd's diagnostics, is not on PATH.
-# It prints [] when a file is clean.
-nixf=$(nix build --no-link --print-out-paths \
-  --override-input work path:./stubs/work \
-  '.#darwinConfigurations.Patricks-MacBook-Pro.pkgs.nixf')
-"$nixf/bin/nixf-tidy" --variable-lookup <modules/home/git.nix
+.github/scripts/shell-format.sh
+.github/scripts/tombi-check.sh lint         # or: format --check
+.github/scripts/xml-format.sh
 ```
 
 ### Claude Code's own environment
 
 - Inside the Bash sandbox `nix` cannot write its cache under Library/Caches and
-  fails with "Operation not permitted"; run `nix` with the sandbox off.
+  fails with "Operation not permitted"; run `nix`, and so every check script,
+  with the sandbox off. `npx` and `uvx` fail the same way, and npm blames
+  root-owned files: that is the sandbox, not ownership.
 - `git` prints `fsmonitor_ipc__send_query: unspecified error` inside the
   sandbox. It is noise; exit codes and output are unaffected.
 - An agent hook (PostToolUse) checks this file, the agent docs and `CONTEXT.md`

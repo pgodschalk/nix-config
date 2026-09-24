@@ -5,7 +5,7 @@
 # 0 whatever it finds, so the gate is its output.
 set -euo pipefail
 
-tidy=$(.github/scripts/nix-tool.sh nixf)/bin/nixf-tidy
+tidy=$(.github/scripts/nix-tool.sh nixf nixf-tidy)
 status=0
 
 while read -r file; do

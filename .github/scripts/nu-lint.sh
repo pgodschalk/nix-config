@@ -6,10 +6,10 @@
 # reports only the count.
 set -euo pipefail
 
-nu_lint=$(.github/scripts/nix-tool.sh nu-lint)/bin/nu-lint
+nu_lint=$(.github/scripts/nix-tool.sh nu-lint)
 status=0
 
-out=$(git ls-files '*.nu' | xargs "$nu_lint" --format compact 2>&1) || status=1
+out=$(git ls-files '*.nu' | xargs -r "$nu_lint" --format compact 2>&1) || status=1
 printf '%s\n' "$out"
 
 case "$out" in

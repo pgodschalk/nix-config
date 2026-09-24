@@ -10,6 +10,7 @@
 # toml and yaml only, and a comment makes it fail to parse the file.
 set -euo pipefail
 
+check_jsonschema=$(.github/scripts/nix-tool.sh check-jsonschema)
 status=0
 
 while read -r file; do
@@ -34,7 +35,7 @@ while read -r file; do
     *) schema="$(dirname "$file")/$schema" ;;
   esac
 
-  uvx check-jsonschema --schemafile "$schema" "$file" </dev/null || status=1
+  "$check_jsonschema" --schemafile "$schema" "$file" </dev/null || status=1
 done < <(git ls-files "$@")
 
 exit "$status"

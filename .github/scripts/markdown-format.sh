@@ -4,6 +4,7 @@
 # in Zed and a file checked here are held to the same rules.
 set -euo pipefail
 
+prettier=$(.github/scripts/nix-tool.sh prettier)
 git ls-files '*.md' \
-  | xargs npx --yes prettier --check \
+  | xargs -r "$prettier" --check \
     --parser=markdown --prose-wrap=always --print-width=80
