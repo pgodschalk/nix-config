@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/pgodschalk/nix-config/blob/main/.github/labels.schema.json",
+  "title": "crazy-max/ghaction-github-labeler labels",
+  "description": "The labels file crazy-max/ghaction-github-labeler syncs to a repository.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["name", "color"],
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50
+      },
+      "color": {
+        "description": "Six hex digits, with or without a leading #.",
+        "type": "string",
+        "pattern": "^#?[0-9A-Fa-f]{6}$"
+      },
+      "description": {
+        "description": "Left unset, the label keeps its current description.",
+        "type": "string",
+        "maxLength": 100
+      },
+      "from_name": {
+        "description": "An existing label to rename to name.",
+        "type": "string"
+      }
+    }
+  }
+}

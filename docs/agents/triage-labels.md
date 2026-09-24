@@ -19,4 +19,5 @@ are identical.
 | `wontfix`          | `wontfix`         | Will not be actioned              |
 
 When a skill names a role, such as "apply the AFK-ready triage label", use the
-label in the middle column. Edit that column if the vocabulary changes.
+label in the middle column. Edit that column if the vocabulary changes, and
+`.github/labels.yml`, which creates the labels on GitHub.
