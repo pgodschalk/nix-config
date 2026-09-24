@@ -58,6 +58,7 @@ def face_suffix(name: str) -> str:
 
 
 def main() -> int:
+    """Parse the arguments and retarget both languages' fonts."""
     ap = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -102,7 +103,8 @@ def main() -> int:
     return overall
 
 
-def retarget(domain: str, key: str, args) -> int:
+def retarget(domain: str, key: str, args: argparse.Namespace) -> int:
+    """Point every style in one domain at the new font family."""
     exported = subprocess.run(
         ["defaults", "export", domain, "-"], check=False, capture_output=True
     )

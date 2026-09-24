@@ -1,3 +1,8 @@
 #:schema https://www.schemastore.org/ruff.json
 
 line-length = 79
+
+[lint]
+# Annotations everywhere and a docstring on every module and public
+# function, on top of the default rules.
+extend-select = ["ANN", "D100", "D103"]

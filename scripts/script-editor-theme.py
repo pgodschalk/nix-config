@@ -26,6 +26,7 @@ import json
 import plistlib
 import subprocess
 import sys
+from typing import Any
 
 # pyobjc populates these namespaces at import time through
 # `objc.loadBundle`, so no static checker can see their members.
@@ -39,6 +40,7 @@ SOURCES = {
 
 
 def face_suffix(weight: str, slant: str) -> str:
+    """Return the PostScript face suffix for a weight and slant."""
     bold = weight.lower() == "bold"
     italic = slant.lower() == "italic"
 
@@ -52,13 +54,19 @@ def face_suffix(weight: str, slant: str) -> str:
     return "-Regular"
 
 
-def colour_from_hex(value: str):
+def colour_from_hex(value: str) -> NSColor:
+    """Return an sRGB NSColor for a `#rrggbb` string.
+
+    sRGB rather than calibrated RGB, which is Generic RGB and would shift
+    every theme colour.
+    """
     value = value.lstrip("#")
     r, g, b = (int(value[i : i + 2], 16) / 255.0 for i in (0, 2, 4))
-    return NSColor.colorWithCalibratedRed_green_blue_alpha_(r, g, b, 1.0)
+    return NSColor.colorWithSRGBRed_green_blue_alpha_(r, g, b, 1.0)
 
 
 def load_theme(path: str) -> dict:
+    """Evaluate the Nix theme at `path` and return it as data."""
     out = subprocess.run(
         ["nix", "eval", "--file", path, "--json"],
         check=False,
@@ -75,7 +83,10 @@ def load_theme(path: str) -> dict:
     return json.loads(out.stdout)
 
 
-def apply_language(theme, language, args) -> bool:
+def apply_language(
+    theme: dict[str, Any], language: str, args: argparse.Namespace
+) -> bool:
+    """Write the theme into one language's domain; return whether it did."""
     domain, key = SOURCES[language]
     # Both arrays use the AppleScript ordering.
     order = theme["languages"]["applescript"]["order"]
@@ -146,6 +157,7 @@ def apply_language(theme, language, args) -> bool:
 
 
 def main() -> int:
+    """Parse the arguments and apply the theme to both languages."""
     ap = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
