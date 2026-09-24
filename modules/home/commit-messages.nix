@@ -107,19 +107,49 @@ let
 
   git = lib.getExe pkgs.git;
 
-  # Hands a repo's own hooks control after ours have run, so a global
-  # core.hooksPath does not silently disable them.
-  #
-  # `--git-dir`, not `--git-path hooks`: the latter resolves through
-  # core.hooksPath and returns this very directory, so the hook would
-  # exec itself forever.
-  chainLocal = ''
-    local_hook="$(${git} rev-parse --git-dir)/hooks/$(basename "$0")"
-    if [ -x "$local_hook" ]; then
-      exec "$local_hook" "$@"
-    fi
-    exit 0
-  '';
+  chainLocal = pkgs.writeShellScript "chain-local-hook" (
+    substituteFile ./commit-messages/chain-local.sh {
+      inherit git;
+      gitLfs = lib.getExe config.programs.git.lfs.package;
+    }
+  );
+
+  # githooks(5), in its order, less the two hooks above and
+  # fsmonitor-watchman, which git runs only when core.fsmonitor names
+  # it.
+  stubHooks = [
+    "applypatch-msg"
+    "pre-applypatch"
+    "post-applypatch"
+    "pre-commit"
+    "pre-merge-commit"
+    "post-commit"
+    "pre-rebase"
+    "post-checkout"
+    "post-merge"
+    "pre-push"
+    "pre-receive"
+    "update"
+    "proc-receive"
+    "post-receive"
+    "post-update"
+    "reference-transaction"
+    "push-to-checkout"
+    "pre-auto-gc"
+    "post-rewrite"
+    "sendemail-validate"
+    "p4-changelist"
+    "p4-prepare-changelist"
+    "p4-post-changelist"
+    "p4-pre-submit"
+    "post-index-change"
+  ];
+
+  hookStub = pkgs.writeScript "chain-local-hook-stub" (
+    substituteFile ./commit-messages/hook-stub.sh {
+      chainLocal = "${chainLocal}";
+    }
+  );
 
   # From git config rather than the environment, so it follows the
   # repository: a hook launched by a GUI has no shell context.
@@ -181,12 +211,14 @@ let
   # fails on one that matches nothing, which catches a placeholder
   # renamed in the script but not here.
   prepareCommitMsg = pkgs.replaceVars ./commit-messages/prepare-commit-msg.sh {
-    inherit chainLocal selectProfile;
+    inherit selectProfile;
+    chainLocal = "${chainLocal}";
     draftScript = "${draftScript}";
   };
 
   commitMsg = pkgs.replaceVars ./commit-messages/commit-msg.sh {
-    inherit chainLocal selectProfile commitlintConfigFor;
+    inherit selectProfile commitlintConfigFor;
+    chainLocal = "${chainLocal}";
     commitlint = lib.getExe commitlintBun;
   };
 
@@ -194,6 +226,8 @@ let
     substituteFile ./commit-messages/install-hooks.sh {
       prepareCommitMsg = "${prepareCommitMsg}";
       commitMsg = "${commitMsg}";
+      hookStub = "${hookStub}";
+      stubHooks = "${pkgs.writeText "stub-hooks" (lib.concatLines stubHooks)}";
     }
   );
 in
