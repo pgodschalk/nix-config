@@ -11,8 +11,12 @@ if /usr/bin/security authorizationdb read system.preferences >"$spRight" \
     2>/dev/null || echo unknown)
 
   if [ "$spShared" != "false" ]; then
-    /usr/libexec/PlistBuddy -c 'Set :shared false' "$spRight" \
-      || /usr/libexec/PlistBuddy -c 'Add :shared bool false' "$spRight"
+    if ! /usr/libexec/PlistBuddy -c 'Set :shared false' "$spRight" \
+      && ! /usr/libexec/PlistBuddy -c 'Add :shared bool false' "$spRight"; then
+      rm -f "$spRight"
+      printf >&2 'error: could not edit the system.preferences right\n'
+      exit 1
+    fi
     if ! /usr/bin/security authorizationdb write system.preferences \
       <"$spRight"; then
       rm -f "$spRight"
