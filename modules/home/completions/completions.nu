@@ -32,9 +32,15 @@ let carapace_completer = {|spans: list<string>|
 # fish emits `value<TAB>description`. --flexible because the description
 # is optional and rows are ragged; --no-infer because a value like `1`
 # must stay the string fish meant.
+#
+# The typed line reaches fish as an argument, never as fish source, so
+# nothing in it can break out of the quoting.
 let fish_completer = {|spans: list<string>|
-    let query = $spans | str replace --all "'" "\\'" | str join ' '
-    let out = (^fish --command $"complete '--do-complete=($query)'" | complete)
+    let query = $spans | str join ' '
+    let out = (
+        ^fish --command 'complete "--do-complete=$argv[1]"' -- $query
+        | complete
+    )
 
     if $out.exit_code != 0 or ($out.stdout | str trim | is-empty) {
         null
@@ -81,7 +87,11 @@ $env.config.completions.external.completer = {|spans: list<string>|
     )
 
     let spans = if $expanded != null {
-        $spans | skip 1 | prepend ($expanded | split row ' ' | take 1)
+
+        # Without its caret: the aliases here expand to `^bat` and the
+        # like, a name neither engine knows.
+        let command = $expanded | split row ' ' | first | str trim --left --char '^'
+        $spans | skip 1 | prepend $command
     } else {
         $spans
     }
