@@ -11,13 +11,14 @@ let
   secretiveData = "${config.home.homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data";
   secretiveSocket = "${secretiveData}/socket.ssh";
 
-  # Secretive names public keys by the secret's id, so the filenames say
-  # nothing. By the name shown in its UI:
-  #   id_ecdsa          aa76ac8c…  authentication
-  #   id_ecdsa_signing  2a9fb71e…  signing
-  #   id_mldsa          3762693a…  authentication, ML-DSA
-  #   id_mldsa_signing  bdb1067a…  signing, ML-DSA
-  secretiveAuthKey = "${secretiveData}/PublicKeys/aa76ac8cc8634906d882a1a967493975.pub";
+  # Secretive's id_ecdsa (PublicKeys/aa76ac8c….pub), as a store file
+  # rather than a path into its container: the container is
+  # TCC-protected per responsible app, and an app without the grant
+  # fails every push with "Load key …: Operation not permitted".
+  # Rotating the key means editing this string.
+  secretiveAuthKey = pkgs.writeText "secretive-id_ecdsa.pub" ''
+    ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBE1Pqccz8P4W5bbzS5qKZUBU3utgDUuvGnpYJTGVV1yIXEuipS+Er6KV2g/51BmyxK/mEvx++5MW/LsrkFVWsq0=
+  '';
 
   # Claude Code probes GitHub's SSH auth on startup with `ssh -T -o
   # BatchMode=yes …`, and BatchMode suppresses password prompts rather
@@ -84,9 +85,8 @@ in
         # What `IdentitiesOnly` in the portable module needs to point
         # at: on its own it makes ssh fall back to the default identity
         # files, none of which exist here, and offer nothing at all --
-        # the agent's keys included. Secretive's own copy, so a rotation
-        # needs no re-syncing. Needs a TCC grant.
-        IdentityFile = secretiveAuthKey;
+        # the agent's keys included.
+        IdentityFile = "${secretiveAuthKey}";
       };
     };
   };
