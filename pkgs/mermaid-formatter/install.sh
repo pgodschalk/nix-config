@@ -8,6 +8,7 @@ mkdir -p "$out/lib/mermaid-formatter"
 cp -R dist package.json "$out/lib/mermaid-formatter/"
 
 makeWrapper @bun@ "$out/bin/mermaidfmt" \
+  --add-flags --no-install \
   --add-flags "$out/lib/mermaid-formatter/dist/cli.js"
 
 # Upstream installs the binary under both names; `mermaidfmt` is the

@@ -8,6 +8,7 @@ mkdir -p "$out/lib/resend-cli"
 cp -R dist skills package.json "$out/lib/resend-cli/"
 
 makeWrapper @bun@ "$out/bin/resend" \
+  --add-flags --no-install \
   --add-flags "$out/lib/resend-cli/dist/cli.cjs"
 
 # Only fish, which is the fallback modules/home/completions.nix reads.
