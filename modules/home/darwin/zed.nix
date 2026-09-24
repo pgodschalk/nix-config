@@ -904,10 +904,6 @@ let
         command = "${githubMcpServer}/bin/github-mcp-server-keychain";
         args = [ "stdio" ];
       };
-      kagi = {
-        command = "${pkgs.uv}/bin/uvx";
-        args = [ "kagimcp" ];
-      };
       playwright = {
         command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
         args = [ ];

@@ -52,13 +52,6 @@ let
       args = [ "stdio" ];
     };
 
-    # Not in nixpkgs and Python, so it runs through `uvx`. Takes
-    # KAGI_API_KEY from the environment.
-    kagi = {
-      command = "${pkgs.uv}/bin/uvx";
-      args = [ "kagimcp" ];
-    };
-
     playwright = {
       command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
       args = [ ];
