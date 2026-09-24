@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+_: {
   system.defaults = {
 
     # Written as root, and the attribute name reaches `defaults write`
@@ -180,14 +179,6 @@
           en_US = 1;
           nl_NL = 1;
         };
-      };
-
-      # Points the wallpaper engine at the catalog
-      # modules/home/wallpaper.nix generates. ForceLocal stops the
-      # engine preferring Apple's remote manifest over it.
-      "com.apple.wallpaper.aerial" = {
-        AerialManifestLocalPathOverride = "${config.system.primaryUserHome}/Library/Application Support/com.apple.wallpaper/aerials/custom/entries.json";
-        AerialManifestForceLocal = true;
       };
     };
     NSGlobalDomain = {

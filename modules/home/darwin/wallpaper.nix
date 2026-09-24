@@ -19,7 +19,9 @@ let
 
   systemCatalog = "/System/Library/ExtensionKit/Extensions/WallpaperAerialsExtension.appex/Contents/Resources/entries.json";
 
-  customDir = "${config.xdg.configHome}/com.apple.wallpaper/aerials/custom";
+  # Where macOS keeps it, not an XDG directory: the preference below
+  # names it, and that is the only link between the two.
+  customDir = "${config.home.homeDirectory}/Library/Application Support/com.apple.wallpaper/aerials/custom";
   catalog = "${customDir}/entries.json";
 
   # Golden Gate has no separate Morning video, so Sunset stands in for
@@ -29,15 +31,21 @@ let
   );
 in
 {
+  # Points the wallpaper engine at the generated catalog. ForceLocal
+  # stops the engine preferring Apple's remote manifest over it.
+  targets.darwin.defaults."com.apple.wallpaper.aerial" = {
+    AerialManifestLocalPathOverride = catalog;
+    AerialManifestForceLocal = true;
+  };
+
   # Regenerated at activation because the catalog is derived from a file
   # inside the OS: a Nix build has no access to /System, and the source
   # changes with every macOS update.
   #
-  # The matching preferences are in modules/darwin/defaults.nix.
-  # nix-darwin writes user defaults before home-manager runs, so they
-  # are in place before the agent is restarted here.
+  # After setDarwinDefaults, so the preferences are in place before the
+  # agent is restarted here.
   home.activation = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
-    goldenGateSolarWallpaper = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+    goldenGateSolarWallpaper = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] (
       substituteFile ./wallpaper/set-wallpaper.sh {
         catalog = lib.escapeShellArg catalog;
         customDir = lib.escapeShellArg customDir;

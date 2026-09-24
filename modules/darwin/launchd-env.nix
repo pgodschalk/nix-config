@@ -7,7 +7,7 @@
 }:
 let
   user = config.system.primaryUser;
-  home = config.system.primaryUserHome;
+  home = config.users.users.${user}.home;
 
   sessionVariables = config.home-manager.users.${user}.home.sessionVariables;
 

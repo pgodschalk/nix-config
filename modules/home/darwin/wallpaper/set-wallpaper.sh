@@ -18,7 +18,7 @@ else
     if ! cmp -s "$wpTmp" "$wpDest" 2>/dev/null; then
       run mkdir -p @customDir@
       run cp "$wpTmp" "$wpDest"
-      run killall WallpaperAgent WallpaperAerialsExtension 2>/dev/null || true
+      run /usr/bin/killall WallpaperAgent WallpaperAerialsExtension 2>/dev/null || true
     fi
   else
     # Apple changed the catalog's shape; leave whatever is there alone
