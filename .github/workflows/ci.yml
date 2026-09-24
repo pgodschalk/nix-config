@@ -28,11 +28,8 @@ jobs:
       - name: Set up Nix
         uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
 
-      - name: Validate Nix (macOS)
-        run: .github/scripts/nix-eval.sh '.#darwinConfigurations.Patricks-MacBook-Pro.system.drvPath'
-
       # Catches a macOS assumption that has leaked out of
-      # modules/home/nushell/theme-setup.nu
+      # modules/home/darwin into the portable half.
       - name: Validate Nix (Linux)
         run: .github/scripts/nix-eval.sh '.#homeConfigurations."patrick@linux".activationPackage.drvPath'
 
@@ -108,3 +105,21 @@ jobs:
 
       - name: Validate YAML
         run: .github/scripts/schema-check.sh '*.yaml' '*.yml'
+
+  darwin:
+    name: Validate the macOS configuration
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Nix
+        uses: DeterminateSystems/nix-installer-action@3138316df39ed29be04236d7ffc686fa525866aa # v23
+
+      # On a Mac because it cannot run anywhere else: claude-skills.nix
+      # enumerates skills with `readDir` over fetched store paths, and
+      # reading a derivation's directory builds it, with a fetcher bound
+      # to aarch64-darwin.
+      - name: Validate Nix (macOS)
+        run: .github/scripts/nix-eval.sh '.#darwinConfigurations.Patricks-MacBook-Pro.system.drvPath'
