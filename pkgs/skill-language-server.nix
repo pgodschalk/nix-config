@@ -5,7 +5,8 @@
 # upstream ships a single bundled `dist/main.cjs` and rebuilding it
 # would mean a lockfile to pin for no benefit. Its only non-builtin
 # `require` is `esprima`, which js-yaml asks for inside a try/catch and
-# falls through without.
+# falls through without -- under bun only with `--no-install`, since
+# bun otherwise fetches a missing module from npm at run time.
 #
 # The binary name matters: Zed's extension resolves
 # `worktree.which("skill-language-server")` before falling back to
