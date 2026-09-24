@@ -2,8 +2,11 @@
   lib,
   python3Packages,
   fetchPypi,
-  replaceVars,
   writeShellScriptBin,
+  # Defaulted rather than required, so a `callPackage` that does not
+  # know about the helper still works. It is pure Nix, so importing it
+  # here costs nothing.
+  substituteFile ? (import ../lib lib).substituteFile,
 }:
 let
   # Community-maintained, an exception to the first-party-only rule for
@@ -54,12 +57,14 @@ in
 #
 # Unlike the Docker Hub server this one can do nothing without a login,
 # so a missing credential is an error rather than a warning.
-writeShellScriptBin "cronometer-mcp-server" (
-  builtins.readFile (
-    replaceVars ./cronometer-mcp-server/wrapper.sh {
-      serviceArg = lib.escapeShellArg service;
-      server = lib.getExe server;
-      inherit service;
-    }
-  )
-)
+#
+# `substituteFile` rather than `builtins.readFile (replaceVars …)`,
+# which would be import-from-derivation.
+(writeShellScriptBin "cronometer-mcp-server" (
+  substituteFile ./cronometer-mcp-server/wrapper.sh {
+    serviceArg = lib.escapeShellArg service;
+    server = lib.getExe server;
+    inherit service;
+  }
+)).overrideAttrs
+  { meta.platforms = lib.platforms.darwin; }
