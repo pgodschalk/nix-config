@@ -7,33 +7,35 @@
 }:
 let
   user = config.system.primaryUser;
-  home = config.users.users.${user}.home;
 
   sessionVariables = config.home-manager.users.${user}.home.sessionVariables;
 
   # Every variable here redirects state out of $HOME. A GUI-spawned CLI
   # that does not see them recreates the dotfiles they exist to prevent.
+  # Sorted, ASCII order.
   redirects = lib.getAttrs (builtins.filter (n: sessionVariables ? ${n}) [
     "ANSIBLE_HOME"
     "BUNDLE_USER_HOME"
+    "BUN_INSTALL"
     "CHECKPOINT_DISABLE"
     "CLAUDE_CONFIG_DIR"
     "CLOUDSDK_CONFIG"
     "GOMODCACHE"
     "GOPATH"
+    "IMPECCABLE_BIN"
+    "IMPECCABLE_HOME"
     "LESSHISTFILE"
     "STARSHIP_CACHE"
+    "XDG_CACHE_HOME"
+    "XDG_CONFIG_HOME"
+    "XDG_DATA_HOME"
+    "XDG_STATE_HOME"
     "npm_config_cache"
     "npm_config_userconfig"
   ]) sessionVariables;
 
   envVariables = {
     PATH = "/etc/profiles/per-user/${user}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-
-    XDG_CONFIG_HOME = "${home}/Library/Application Support";
-    XDG_DATA_HOME = "${home}/Library/Application Support";
-    XDG_STATE_HOME = "${home}/Library/Application Support";
-    XDG_CACHE_HOME = "${home}/Library/Caches";
   }
   // redirects;
 

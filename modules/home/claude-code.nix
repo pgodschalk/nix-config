@@ -82,8 +82,8 @@ in
 {
   home.packages = [ pkgs.claude-code ];
 
-  # Must stay identical to the value in modules/darwin/launchd-env.nix,
-  # which is what GUI-launched processes see.
+  # modules/darwin/launchd-env.nix re-exports it to GUI-launched
+  # processes.
   home.sessionVariables.CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude-code";
 
   # Claude Code watches this directory, so a regenerated theme applies
