@@ -62,6 +62,19 @@ def update-mas [dry: bool]: nothing -> nothing {
     banner "Mac App Store"
     let outdated = mas outdated | complete
 
+    if $outdated.exit_code != 0 {
+        warn $"mas outdated failed \(exit ($outdated.exit_code)\)"
+        for l in (
+            $outdated.stderr
+            | str trim
+            | lines
+            | first 3
+        ) {
+            note $"     ($l)"
+        }
+        return
+    }
+
     if ($outdated.stdout | str trim | is-empty) {
         ok "every App Store app is current"
         return
