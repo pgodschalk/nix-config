@@ -14,7 +14,23 @@ subject_limit=@subjectLimit@
 # generated branches spliced inside one leave a template that is not
 # parseable shell, so the checker gives up on the file rather than
 # checking any of it.
-@contextCase@
+@profileCase@
+
+# lumen's prompt demands `type(scope): subject` whatever --context says,
+# so a profile without that convention has the prefix cut from the
+# subject instead. Only a lower-case type is a prefix: "Fix: x" stays.
+strip_type() {
+  local subject="${1%%$'\n'*}"
+  local rest="${1:${#subject}}"
+  local prefix='^[a-z]+(\([^)]*\))?!?:[[:space:]]*([^[:space:]].*)$'
+
+  if [[ $subject =~ $prefix ]]; then
+    subject="${BASH_REMATCH[2]}"
+    subject="${subject^}"
+  fi
+
+  printf '%s%s\n' "$subject" "$rest"
+}
 
 key="$(@fnox@ get --profile lumen LUMEN_API_KEY 2>/dev/null)" || key=""
 
@@ -24,8 +40,19 @@ if [ -z "$key" ]; then
 fi
 
 draft_once() {
-  LUMEN_API_KEY="$key" @lumen@ \
-    --config @lumenConfig@ --vcs "$vcs" draft --context "$1" 2>/dev/null
+  local out
+  out="$(LUMEN_API_KEY="$key" @lumen@ \
+    --config @lumenConfig@ --vcs "$vcs" draft --context "$1" 2>/dev/null)" \
+    || return
+
+  # conventional is assigned by the profile fragment above. Written
+  # without its `@`, since replaceVars substitutes inside comments too.
+  # shellcheck disable=SC2154
+  if [ "$conventional" = false ]; then
+    strip_type "$out"
+  else
+    printf '%s\n' "$out"
+  fi
 }
 
 # context is assigned by the fragment above, which is an opaque

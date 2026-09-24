@@ -21,7 +21,9 @@ let
     name: p: pkgs.writeText "commitlint.${name}.mjs" p.commitlintConfig
   ) cfg.profiles;
 
-  contextCases = profileCases (_: p: "context=${lib.escapeShellArg p.context}");
+  profileSettingCases = profileCases (
+    _: p: "context=${lib.escapeShellArg p.context} conventional=${lib.boolToString p.conventional}"
+  );
   configCases = profileCases (name: _: "config=${commitlintConfigs.${name}}");
   directoryCases = lib.concatStrings (
     lib.concatLists (
@@ -31,9 +33,9 @@ let
     )
   );
 
-  contextCase = ''
+  profileCase = ''
     case "''${2-}" in
-    ${contextCases}  *) context=${lib.escapeShellArg globalContext} ;;
+    ${profileSettingCases}  *) context=${lib.escapeShellArg globalContext} conventional=true ;;
     esac
   '';
 
@@ -166,7 +168,7 @@ let
   # an API call did not work.
   draftScript = pkgs.writeShellScript "commit-message-draft" (
     substituteFile ./commit-messages/draft.sh {
-      inherit contextCase;
+      inherit profileCase;
       fnox = lib.getExe' pkgs.fnox "fnox";
       lumen = lib.getExe pkgs.lumen;
       lumenConfig = "${lumenConfig}";
@@ -256,6 +258,16 @@ in
             context = lib.mkOption {
               type = lib.types.str;
               description = "Instructions handed to lumen when drafting.";
+            };
+            conventional = lib.mkOption {
+              type = lib.types.bool;
+              default = true;
+              description = ''
+                Whether drafts keep lumen's Conventional Commits prefix.
+                lumen's prompt imposes `type(scope): ` regardless of
+                `context`; when false, the prefix is cut from the drafted
+                subject and its first letter capitalised.
+              '';
             };
             commitlintConfig = lib.mkOption {
               type = lib.types.lines;
