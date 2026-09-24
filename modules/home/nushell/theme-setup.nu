@@ -6,6 +6,9 @@
 # deliberately do with `pro` and `alucard`.
 #
 # nu-lint-ignore-file: dynamic_script_import, string_may_be_bare
+# The module resolves only where it is installed, so a clean checkout
+# cannot parse the `use` or anything it exports.
+# nu-lint-ignore-file: nu_parse_error
 # catch_builtin_error_try: the path `open` is given is a store path
 # substituted at build time, so a failure there means a broken
 # activation and has to be loud rather than caught.
