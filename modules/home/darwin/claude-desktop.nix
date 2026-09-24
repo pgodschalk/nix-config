@@ -40,8 +40,9 @@ in
     lib.hm.dag.entryAfter [ "writeBoundary" ] (
       substituteFile ./claude-desktop/merge-settings.sh {
         file = lib.escapeShellArg configFile;
-        jq = lib.getExe pkgs.jq;
+        mergeJson = lib.getExe (pkgs.callPackage ../../../pkgs/merge-json.nix { });
         declared = "${settingsJson}";
+        state = lib.escapeShellArg "${config.xdg.stateHome}/nix-config/claude-desktop.json";
       }
     )
   );
