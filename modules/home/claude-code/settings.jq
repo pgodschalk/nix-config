@@ -5,7 +5,7 @@
     }
 } |
     .enabledPlugins["nix-lsp@nix-config"] = true |
-    .enabledPlugins = (.enabledPlugins + $plugins) |
+    .enabledPlugins = ((.enabledPlugins // {}) | with_entries(select(.key | endswith("@claude-plugins-official") | not))) + $plugins |
     .permissions.defaultMode = "auto" |
     .remoteControlAtStartup = true |
     .outputStyle = "Concise" |
@@ -19,7 +19,7 @@
     .hooks.PostToolUse = ((.hooks.PostToolUse // [
 
     ]) |
-        map(select(.matcher != "Write|Edit")) + [
+        map(select(any(.hooks[]?; .command? // "" | endswith("/bin/claude-md-lint")) | not)) + [
             {
                 matcher: "Write|Edit",
                 hooks: [

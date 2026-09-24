@@ -53,6 +53,10 @@ let
   # `remember` is third-party -- Digital-Process-Tools/claude-remember,
   # cloned from GitHub -- so it updates when the marketplace refreshes
   # rather than when flake.lock moves.
+  #
+  # The whole of the official marketplace is managed here: settings.jq
+  # disables any of its plugins not listed, so one enabled by hand is
+  # gone after the next switch.
   officialPlugins = [
     "frontend-design"
     "code-review"
