@@ -28,6 +28,27 @@
 }:
 
 let
+  # The compiler's native half, one package per system. Its version
+  # moves with @astrojs/compiler-binding below.
+  astroBindingVersion = "0.5.0";
+  astroBindings = {
+    aarch64-darwin = {
+      target = "darwin-arm64";
+      hash = "sha256-QyhN0B3X2ilwnIM+F4MARYulzF46CB+6DtknsPAP65o=";
+    };
+    aarch64-linux = {
+      target = "linux-arm64-gnu";
+      hash = "sha256-uVQYhk2zqUdClMfN2xvv+cRMLlN+YpYdE1BFJVHirNw=";
+    };
+    x86_64-linux = {
+      target = "linux-x64-gnu";
+      hash = "sha256-F/pgfFyXkf2tOdSRGKJjtfsY7JTQ6Irg+vF/yfaYDp4=";
+    };
+  };
+  astroBinding =
+    astroBindings.${stdenvNoCC.hostPlatform.system}
+      or (throw "prettier-with-plugins: no Astro compiler binding for ${stdenvNoCC.hostPlatform.system}");
+
   plugins = {
     prettier-plugin-awk = fetchurl {
       # @VERSION https://www.npmjs.com/package/prettier-plugin-awk
@@ -46,10 +67,7 @@ let
       hash = "sha256-ZruB+YkX2Su3qVCObcM9n85cB837dMF4s8Ov1UzrZVI=";
     };
     # For Helix, which has no bundled Prettier while
-    # astro-language-server advertises formatting and ships none. Only
-    # the aarch64-darwin compiler binding is fetched below; a NixOS
-    # host needs the matching
-    # @astrojs/compiler-binding-linux-*-gnu.
+    # astro-language-server advertises formatting and ships none.
     prettier-plugin-astro = fetchurl {
       # @VERSION https://www.npmjs.com/package/prettier-plugin-astro
       url = "https://registry.npmjs.org/prettier-plugin-astro/-/prettier-plugin-astro-1.0.1.tgz";
@@ -66,11 +84,9 @@ let
       hash = "sha256-2OcjjlS/53fXZi57Yyxz7GU5ZlFfui7szM5Hq5opAbc=";
     };
 
-    "@astrojs/compiler-binding-darwin-arm64" = fetchurl {
-      # @VERSION
-      # https://www.npmjs.com/package/@astrojs/compiler-binding-darwin-arm64
-      url = "https://registry.npmjs.org/@astrojs/compiler-binding-darwin-arm64/-/compiler-binding-darwin-arm64-0.5.0.tgz";
-      hash = "sha256-QyhN0B3X2ilwnIM+F4MARYulzF46CB+6DtknsPAP65o=";
+    "@astrojs/compiler-binding-${astroBinding.target}" = fetchurl {
+      url = "https://registry.npmjs.org/@astrojs/compiler-binding-${astroBinding.target}/-/compiler-binding-${astroBinding.target}-${astroBindingVersion}.tgz";
+      inherit (astroBinding) hash;
     };
     "@prettier/parse-srcset" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@prettier/parse-srcset
@@ -170,6 +186,6 @@ stdenvNoCC.mkDerivation {
     description = "Prettier with the AWK, INI, Jinja, Gherkin and Astro plugins, plus Markdown and JSON5 wrappers";
     homepage = "https://prettier.io";
     license = lib.licenses.mit;
-    platforms = lib.platforms.all;
+    platforms = lib.attrNames astroBindings;
   };
 }
