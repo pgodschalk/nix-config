@@ -1,0 +1,53 @@
+# Dracula Pro / Alucard for procs.
+#
+# procs does not take hex colours: every style is a `"<dark>|<light>"`
+# pair of *ANSI palette names*. That is not a limitation here -- the
+# terminal's own palette is already Dracula Pro in Dark Mode and Alucard
+# in Light Mode, so naming a slot gets the right colour in both.
+#
+# Which *half* of each pair to use is the part procs gets wrong on its
+# own. `theme = "Auto"` is left below only as a fallback; procs.nu
+# passes `--theme dark` or `--theme light` explicitly.
+#
+# Roles follow the same mapping the other Dracula Pro themes use:
+#   green   things that run        purple  numbers and magnitudes
+#   cyan    structure              yellow  warnings
+#   red     errors and pressure    comment anything muted
+
+[style]
+header = "BrightGreen|Green"
+unit = "BrightMagenta|Magenta"
+tree = "BrightBlack|BrightBlack"
+
+# Load and memory rise from calm to alarming.
+[style.by_percentage]
+color_000 = "BrightCyan|Cyan"
+color_025 = "BrightGreen|Green"
+color_050 = "BrightYellow|Yellow"
+color_075 = "BrightRed|Red"
+color_100 = "BrightRed|Red"
+
+# Process state. Running is green, dead and zombie are red, the rest is
+# muted.
+[style.by_state]
+color_d = "BrightRed|Red"
+color_r = "BrightGreen|Green"
+color_s = "BrightCyan|Cyan"
+color_t = "BrightYellow|Yellow"
+color_z = "BrightRed|Red"
+color_x = "BrightRed|Red"
+color_k = "BrightYellow|Yellow"
+color_w = "BrightYellow|Yellow"
+color_p = "BrightYellow|Yellow"
+
+# Magnitude of a quantity, smallest to largest.
+[style.by_unit]
+color_k = "BrightCyan|Cyan"
+color_m = "BrightGreen|Green"
+color_g = "BrightYellow|Yellow"
+color_t = "BrightRed|Red"
+color_p = "BrightRed|Red"
+color_x = "BrightMagenta|Magenta"
+
+[display]
+theme = "Auto"
