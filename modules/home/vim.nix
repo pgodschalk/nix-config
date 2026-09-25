@@ -7,7 +7,6 @@
 }:
 let
   draculaPro = config.my.theme.dracula.pro;
-  extras = config.my.theme.dracula.extras;
 
   # Vim 8+ loads anything under pack/*/start automatically, so the
   # upstream directory drops in whole: the variants are thin and defer
@@ -22,16 +21,16 @@ let
   fzfPlugin = "${pkgs.fzf}/share/vim-plugins/fzf";
   fzfVimPlugin = pkgs.vimPlugins.fzf-vim;
 
-  # The appearance glue lives in dracula-pro-extras, so it can only be
-  # sourced where that checkout exists.
+  # The appearance glue picks between upstream's colourschemes, so it
+  # is only sourced where that checkout exists.
   appearance =
-    if extras == null then
-      ''" No dracula-pro-extras checkout, so no appearance switching.''
+    if draculaPro == null then
+      ''" No dracula-pro checkout, so no appearance switching.''
     else
       ''
         " Dracula Pro in Dark Mode, Alucard in Light, re-checked on
         " focus.
-        source ${extras}/src/vim/appearance.vim'';
+        source ${./vim/appearance.vim}'';
 in
 {
   # macOS ships vim 9.1 with +termguicolors and +packages, so a second
