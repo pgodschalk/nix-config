@@ -14,6 +14,7 @@
     "@extras@/src/less" # LESS_TERMCAP_*, GROFF_NO_SGR
     "@extras@/src/fzf" # FZF_DEFAULT_OPTS
     "@extras@/src/jaq" # JQ_COLORS
+    "@extras@/src/buildkit" # BUILDKIT_COLORS
 
     # DELTA_FEATURES. delta reads config through libgit2, which ignores
     # GIT_CONFIG_GLOBAL, so it cannot be switched with the rest of git.
