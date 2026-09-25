@@ -332,6 +332,7 @@ let
       "django" = true;
       "dockerfile" = true;
       "emmet" = true;
+      "env" = true;
       "fastapi-lsp" = true;
       "fish" = true;
       "ghostty" = true;
