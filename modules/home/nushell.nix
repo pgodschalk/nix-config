@@ -14,8 +14,8 @@ let
   # Per-variant variables generated here rather than kept in the
   # extras checkout: themes whose variable holds a path, because only
   # nix-config knows where the real git config was written and where
-  # the store paths land, and difftastic's background hint, which is
-  # not a theme.
+  # the store paths land, and the difftastic and lumen settings, which
+  # are no themes but pick among each tool's built-ins.
   gitconfigTemplate = pkgs.writeText "variant.gitconfig" (
     substituteFile ./nushell/path-themes/variant.gitconfig {
       extras = "${extras}";
@@ -31,6 +31,7 @@ let
       # Filled per variant by path-themes.sh.
       variant = null;
       background = null;
+      lumenTheme = null;
       out = null;
     }
   );
@@ -42,6 +43,7 @@ let
       # The placeholders this script fills in the templates.
       variant = null;
       background = null;
+      lumenTheme = null;
       out = null;
     }
   );

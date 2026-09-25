@@ -15,7 +15,6 @@
     "@extras@/src/fzf" # FZF_DEFAULT_OPTS
     "@extras@/src/moor" # MOOR
     "@extras@/src/jaq" # JQ_COLORS
-    "@extras@/src/lumen" # LUMEN_THEME
 
     # DELTA_FEATURES. delta reads config through libgit2, which ignores
     # GIT_CONFIG_GLOBAL, so it cannot be switched with the rest of git.
