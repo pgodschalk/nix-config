@@ -13,7 +13,6 @@
     "@extras@/src/grep" # GREP_COLOR
     "@extras@/src/less" # LESS_TERMCAP_*, GROFF_NO_SGR
     "@extras@/src/fzf" # FZF_DEFAULT_OPTS
-    "@extras@/src/moor" # MOOR
     "@extras@/src/jaq" # JQ_COLORS
 
     # DELTA_FEATURES. delta reads config through libgit2, which ignores

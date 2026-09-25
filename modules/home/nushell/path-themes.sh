@@ -12,10 +12,12 @@ for v in pro alucard; do
     pro)
       background=dark
       lumen_theme=dracula
+      moor_style=dracula
       ;;
     alucard)
       background=light
       lumen_theme=catppuccin-latte
+      moor_style=tango
       ;;
   esac
 
@@ -23,5 +25,6 @@ for v in pro alucard; do
     --replace-fail '@variant@' "$v" \
     --replace-fail '@background@' "$background" \
     --replace-fail '@lumenTheme@' "$lumen_theme" \
+    --replace-fail '@moorStyle@' "$moor_style" \
     --replace-fail '@out@' "$out"
 done

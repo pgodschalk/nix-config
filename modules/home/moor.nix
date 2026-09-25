@@ -9,7 +9,7 @@
   };
 
   # MOOR, which carries the syntax-highlighting style, is set per
-  # appearance variant in modules/home/nushell.nix.
+  # appearance variant in modules/home/nushell/path-themes/variant.env.
   #
   # moor supports neither LESS_TERMCAP_* nor LESSOPEN, so the `less`
   # theme reaches only a directly invoked less, and a LESSOPEN filter
