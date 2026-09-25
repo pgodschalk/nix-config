@@ -11,9 +11,11 @@ let
 
   extras = config.my.theme.dracula.extras;
 
-  # Themes whose variable holds a path rather than the theme itself,
-  # generated here because only nix-config knows where the real git
-  # config was written and where the store paths land.
+  # Per-variant variables generated here rather than kept in the
+  # extras checkout: themes whose variable holds a path, because only
+  # nix-config knows where the real git config was written and where
+  # the store paths land, and difftastic's background hint, which is
+  # not a theme.
   gitconfigTemplate = pkgs.writeText "variant.gitconfig" (
     substituteFile ./nushell/path-themes/variant.gitconfig {
       extras = "${extras}";
@@ -28,6 +30,7 @@ let
       extras = "${extras}";
       # Filled per variant by path-themes.sh.
       variant = null;
+      background = null;
       out = null;
     }
   );
@@ -38,6 +41,7 @@ let
       envTemplate = "${envTemplate}";
       # The placeholders this script fills in the templates.
       variant = null;
+      background = null;
       out = null;
     }
   );

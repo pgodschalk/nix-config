@@ -14,7 +14,6 @@
     "@extras@/src/less" # LESS_TERMCAP_*, GROFF_NO_SGR
     "@extras@/src/fzf" # FZF_DEFAULT_OPTS
     "@extras@/src/moor" # MOOR
-    "@extras@/src/difftastic" # DFT_BACKGROUND
     "@extras@/src/jaq" # JQ_COLORS
     "@extras@/src/lumen" # LUMEN_THEME
 

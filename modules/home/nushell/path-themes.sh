@@ -8,7 +8,13 @@ for v in pro alucard; do
   substitute @gitconfigTemplate@ "$out/$v.gitconfig" \
     --replace-fail '@variant@' "$v"
 
+  case $v in
+    pro) background=dark ;;
+    alucard) background=light ;;
+  esac
+
   substitute @envTemplate@ "$out/$v.env" \
     --replace-fail '@variant@' "$v" \
+    --replace-fail '@background@' "$background" \
     --replace-fail '@out@' "$out"
 done
