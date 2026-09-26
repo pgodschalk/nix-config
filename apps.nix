@@ -30,6 +30,7 @@
     "Amazon Prime Video" = 545519333;
     "Craft: Notes, Documents, AI" = 1487937127;
     DigiD = 1208460960;
+    "Edist - Typst Editor" = 6791705076;
     "Kagi News" = 6748314243;
     "Kagi for Safari" = 1622835804;
     "Nautik for Kubernetes" = 1672838783;
