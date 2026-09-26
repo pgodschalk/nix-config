@@ -84,6 +84,7 @@ let
   ) skillGroups;
 
   localSkills = config.my.agentSkills.localSkills;
+  storeSkills = config.my.agentSkills.storeSkills;
 
   # A checkout outside the store, linked as it stands, so an edit there
   # shows without a switch.
@@ -97,6 +98,7 @@ let
         groupedSkills
         ++ lib.mapAttrsToList lib.nameValuePair skillSingles
         ++ lib.mapAttrsToList lib.nameValuePair localSkills
+        ++ lib.mapAttrsToList lib.nameValuePair storeSkills
       )
     )
   );
@@ -105,7 +107,7 @@ let
     assert lib.assertMsg (duplicateSkills == [ ]) (
       "claude-skills: more than one collection provides " + lib.concatStringsSep ", " duplicateSkills
     );
-    lib.listToAttrs groupedSkills // skillSingles;
+    lib.listToAttrs groupedSkills // skillSingles // storeSkills;
 
   # Both directories get the same flat set: of the consumers only pi
   # discovers skills nested inside grouping folders, and Zed and Claude
@@ -313,6 +315,17 @@ in
     type = lib.types.listOf lib.types.str;
     default = [ ];
     description = "Extra absolute directories to link every skill into.";
+  };
+
+  options.my.agentSkills.storeSkills = lib.mkOption {
+    type = lib.types.attrsOf lib.types.path;
+    default = { };
+    example = lib.literalExpression ''{ my-skill = "''${pkgs.my-skills}/my-skill"; }'';
+    description = ''
+      Skills from the store, by name: a directory holding a SKILL.md,
+      such as one a derivation produces. Linked wherever the other
+      skills are.
+    '';
   };
 
   options.my.agentSkills.localSkills = lib.mkOption {
