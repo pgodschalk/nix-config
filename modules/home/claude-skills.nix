@@ -76,6 +76,7 @@ let
 
   skillSingles = {
     impeccable = "${impeccableSrc}/.agents/skills/impeccable";
+    logging-best-practices = "${boristaneSkills}/skills/logging-best-practices";
   };
 
   groupedSkills = lib.concatMap (
@@ -219,6 +220,16 @@ let
       "https://raw.githubusercontent.com/conventional-changelog/commitlint/"
       + "36dc150fc3c0ef5f0860e9f2ef7729a6d9c7db72/skills/committing-with-commitlint/SKILL.md";
     hash = "sha256-5/BHwXggGmGDMgY0umU3Ea+ivIZxcZIxvzl6IGdqEYo=";
+  };
+
+  # The skill behind loggingsucks.com: wide events and high-cardinality
+  # structured logging.
+  boristaneSkills = pkgs.fetchFromGitHub {
+    owner = "boristane";
+    repo = "agent-skills";
+    # @VERSION https://github.com/boristane/agent-skills/commits/main
+    rev = "8aa14dd16a1340a6049e6d7cd58e2ed52333a550";
+    hash = "sha256-i3pwbHmYm1ezgvSUn5QnnUOZG/T12O8v6GJQ3P448ns=";
   };
 
   # The repository already carries `.agents/skills/impeccable/`, so it
