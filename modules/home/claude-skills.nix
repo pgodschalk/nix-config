@@ -83,11 +83,21 @@ let
     g: map (n: lib.nameValuePair n "${g}/${n}") (skillsInGroup g)
   ) skillGroups;
 
+  localSkills = config.my.agentSkills.localSkills;
+
+  # A checkout outside the store, linked as it stands, so an edit there
+  # shows without a switch.
+  localSkillLinks = lib.mapAttrs (_: config.lib.file.mkOutOfStoreSymlink) localSkills;
+
   # listToAttrs keeps the first of a repeated name and `//` the last, so
   # a collision would drop a skill without a word.
   duplicateSkills = lib.attrNames (
     lib.filterAttrs (_: v: builtins.length v > 1) (
-      lib.groupBy (x: x.name) (groupedSkills ++ lib.mapAttrsToList lib.nameValuePair skillSingles)
+      lib.groupBy (x: x.name) (
+        groupedSkills
+        ++ lib.mapAttrsToList lib.nameValuePair skillSingles
+        ++ lib.mapAttrsToList lib.nameValuePair localSkills
+      )
     )
   );
 
@@ -101,7 +111,10 @@ let
   # discovers skills nested inside grouping folders, and Zed and Claude
   # Code ignore them in silence.
   skillFilesIn =
-    dir: lib.mapAttrs' (n: src: lib.nameValuePair "${dir}/${n}" { source = src; }) flatSkillSources;
+    dir:
+    lib.mapAttrs' (n: src: lib.nameValuePair "${dir}/${n}" { source = src; }) (
+      flatSkillSources // localSkillLinks
+    );
 
   # The same set as real directories of symlinked files, because Xcode's
   # plug-in importer does not descend into a symlinked directory.
@@ -302,6 +315,19 @@ in
     description = "Extra absolute directories to link every skill into.";
   };
 
+  options.my.agentSkills.localSkills = lib.mkOption {
+    type = lib.types.attrsOf lib.types.str;
+    default = { };
+    example = {
+      my-skill = "/Users/me/src/my-skill";
+    };
+    description = ''
+      Skills from checkouts outside the store, by name: the absolute path
+      of a directory holding a SKILL.md. Linked wherever the other skills
+      are, and followed live rather than copied.
+    '';
+  };
+
   config = {
     # One attrset, because `home.file` cannot be defined twice in a
     # module.
@@ -312,6 +338,15 @@ in
         substituteFile ./claude-skills/snippetslab-skill.sh {
           agentSkill = lib.escapeShellArg "${agentSkillsHome}/snippetslab/SKILL.md";
           claudeSkill = lib.escapeShellArg "${skillsDir}/snippetslab/SKILL.md";
+        }
+      )
+    );
+
+    home.activation.localSkillsXcode = lib.mkIf (localSkills != { }) (
+      lib.hm.dag.entryAfter [ "writeBoundary" ] (
+        substituteFile ./claude-skills/local-skills-xcode.sh {
+          xcodeSkillsDir = lib.escapeShellArg xcodeSkillsDir;
+          localSkills = lib.escapeShellArgs (lib.mapAttrsToList (n: path: "${n}=${path}") localSkills);
         }
       )
     );
