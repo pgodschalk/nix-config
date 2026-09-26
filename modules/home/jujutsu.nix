@@ -1,6 +1,7 @@
 { config, lib, ... }:
 let
   gitSettings = config.programs.git.settings;
+  canSign = gitSettings.user ? signingkey;
   extras = config.my.theme.dracula.extras;
 in
 {
@@ -20,21 +21,23 @@ in
         inherit (gitSettings.user) name email;
       };
 
-      # `own` signs every commit you author whenever jj writes it, and
-      # jj rewrites commits far more often than git does, so expect the
-      # Touch ID prompt more often. `behavior = "drop"` plus
-      # `git.sign-on-push` would sign once, at push time.
+      # jj rewrites commits on nearly every command (a working-copy
+      # snapshot, a rebase of descendants), and `own` would ask for
+      # Touch ID on each. `drop` plus `git.sign-on-push` signs only at
+      # `jj git push`, one prompt per unsigned mutable commit pushed.
       #
       # Guarded like git.nix guards commit.gpgsign: the key lives in the
-      # Secure Enclave, and `own` with no key is an error.
-      signing = lib.mkIf (gitSettings.user ? signingkey) {
-        behavior = "own";
+      # Secure Enclave, and signing with no key is an error.
+      signing = lib.mkIf canSign {
+        behavior = "drop";
         backend = "ssh";
         # jj takes the bare public key; `key::` is a git-ism for "a
         # literal, not a path", and jj's ssh backend needs no marker.
         key = lib.removePrefix "key::" gitSettings.user.signingkey;
         backends.ssh.allowed-signers = gitSettings.gpg.ssh.allowedSignersFile;
       };
+
+      git.sign-on-push = lib.mkIf canSign true;
     };
   };
 
