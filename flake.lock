@@ -3,11 +3,11 @@
     "brew-api": {
       "flake": false,
       "locked": {
-        "lastModified": 1790229043,
-        "narHash": "sha256-xXQ9Km5MOuL+r7IurTjOHU0ZVZSfRkQtbZQqDvpsur8=",
+        "lastModified": 1790489367,
+        "narHash": "sha256-dyzSBX+7Kww5A+zZ7ifRaoWSpKWP/3PA8itx8Mhn0YY=",
         "owner": "BatteredBunny",
         "repo": "brew-api",
-        "rev": "4a5eff0c036b0f6dd91c8b499a03399c094ae474",
+        "rev": "d90bac2f4b131ebc5daa005ff8481ea9aa326a16",
         "type": "github"
       },
       "original": {
@@ -165,11 +165,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790225410,
-        "narHash": "sha256-BOyZoliWfm/beS4m3FxFKlu5at6npZen1PsWtvzzihk=",
+        "lastModified": 1790365885,
+        "narHash": "sha256-iQ0ebhiVo64NktTnwft9hNxlFu4j5cvljVxyJaEVIP4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "4900baf1e219645e4a2acba35723852b2091bc20",
+        "rev": "7b4c5ec4bedaf1e062bbc1bcaeddbc6bd242aa1b",
         "type": "github"
       },
       "original": {
@@ -282,11 +282,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1790178388,
-        "narHash": "sha256-kK3t7gwoz4Nx8RF46cs1Xz/skKNcK7y3KYP+gGqX6W8=",
+        "lastModified": 1790480522,
+        "narHash": "sha256-fXrm/q9klVBtVq5rGQ+XpI/dokPuSB15ZK2CZvWxXOk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "00455b0a3690d3f5dc61e9aef4277dc86235b73f",
+        "rev": "8d5d270900d3fc75655ea2d9d248b234f6631439",
         "type": "github"
       },
       "original": {
@@ -309,10 +309,10 @@
     },
     "work": {
       "locked": {
-        "lastModified": 1790424974,
-        "narHash": "sha256-6NILjj5up8oqAirKIuMHIkbfbL+T7a5TLbUNGb5g6iM=",
-        "rev": "1f81f30ec697e9cfcad8fd61bebaedcf59c79fe6",
-        "revCount": 19,
+        "lastModified": 1790506565,
+        "narHash": "sha256-Z/lk8sh3lUSFQh09FWzfYgQGlrk6qYGH5/U7eExmWO4=",
+        "rev": "86aa464cacdbe691163d7249563c99b50dd80255",
+        "revCount": 20,
         "type": "git",
         "url": "file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/ubiops-nix-config"
       },

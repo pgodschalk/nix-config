@@ -25,7 +25,7 @@ buildNpmPackage {
   # @VERSION https://www.npmjs.com/package/markdownlint-lsp
   # Bumping this means bumping ./markdownlint-lsp/package.json and its
   # lockfile too -- JSON takes no comment, so the reminder lives here.
-  version = "0.9.2";
+  version = "0.10.0";
 
   # The pin wrapper rather than upstream's source: package.json names
   # the one dependency and package-lock.json pins its closure.
@@ -33,7 +33,7 @@ buildNpmPackage {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  npmDepsHash = "sha256-LjRaV6ecg0JSkBMCUEgQiY6JeehdwlaJBHus2PnHGaM=";
+  npmDepsHash = "sha256-xfQ7X7MqEVQLNiFuJlzxoDDHRsU68nZlN3LxgiPzxRs=";
 
   # A pure dependency fetch; without this npm looks for a `build` script
   # and fails.

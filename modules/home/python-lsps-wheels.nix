@@ -59,23 +59,23 @@ in
     ++ wheelFor "fastapi-lsp" lib.licenses.mit {
       # @VERSION https://pypi.org/project/fastapi-lsp/#history
       aarch64-darwin = {
-        version = "0.1.8";
-        url = "https://files.pythonhosted.org/packages/73/91/6523d890040486b4e70f1ae148447652c213e6ed44876ac7d26afa6ce9f8/fastapi_lsp-0.1.8-py3-none-macosx_11_0_arm64.whl";
-        hash = "sha256-zxea7SIDDCXJDZB4agreE3QamWGivJjjUoebAneqR7E=";
+        version = "0.1.9";
+        url = "https://files.pythonhosted.org/packages/44/7d/2d27e451cf5d62f64c8545db710920bd71b4e7f3d81218400d9c9b71dd48/fastapi_lsp-0.1.9-py3-none-macosx_11_0_arm64.whl";
+        hash = "sha256-r1kUWTSaAtlwF8aA0Euc8/LGjzK2Bp0WLQdi85MeOHI=";
         description = "Language server for FastAPI routes and dependencies";
         homepage = "https://github.com/alex-oleshkevich/fastapi-lsp";
       };
       aarch64-linux = {
-        version = "0.1.8";
-        url = "https://files.pythonhosted.org/packages/31/68/8c8032a315f526752b3c369fb856f718090b04a5a9504c9d871a4ee3f59f/fastapi_lsp-0.1.8-py3-none-manylinux_2_28_aarch64.whl";
-        hash = "sha256-HzS/wxInJ2PfVFKU+84WO6fjZuBdXI/q9NFYqGGM2gA=";
+        version = "0.1.9";
+        url = "https://files.pythonhosted.org/packages/53/f4/fdd11a2840ca91bd5bd78fe8872b7b918e9773582f4304b590f61b046275/fastapi_lsp-0.1.9-py3-none-manylinux_2_28_aarch64.whl";
+        hash = "sha256-M8PTE4Lh0P+F1CrIeciYH5630agutPMaMuyzjMg5Gfc=";
         description = "Language server for FastAPI routes and dependencies";
         homepage = "https://github.com/alex-oleshkevich/fastapi-lsp";
       };
       x86_64-linux = {
-        version = "0.1.8";
-        url = "https://files.pythonhosted.org/packages/66/f4/05dd00a0ecd62a140205c43826869616b017696b5c764a7fb30eb7ad6e47/fastapi_lsp-0.1.8-py3-none-manylinux_2_28_x86_64.whl";
-        hash = "sha256-VEq2RAJoRIlsMs2vcgOtytU6qZyqymPMeIsG8lds+Q0=";
+        version = "0.1.9";
+        url = "https://files.pythonhosted.org/packages/60/c8/71ec50428bc7c98d97a7dd589d1ff6c4a071622d99e33c37b3d09fb59e86/fastapi_lsp-0.1.9-py3-none-manylinux_2_28_x86_64.whl";
+        hash = "sha256-4tnn/02ss0+T10AplNDi5Sy8QAFVe6G6AFl8a6/5GsM=";
         description = "Language server for FastAPI routes and dependencies";
         homepage = "https://github.com/alex-oleshkevich/fastapi-lsp";
       };
@@ -84,23 +84,23 @@ in
     ++ wheelFor "sqlalchemy-lsp" lib.licenses.mit {
       # @VERSION https://pypi.org/project/sqlalchemy-lsp/#history
       aarch64-darwin = {
-        version = "0.2.1";
-        url = "https://files.pythonhosted.org/packages/7f/d0/290dd31b991b0de10b76c66233163bab23505d80fb451acce35ed55563c8/sqlalchemy_lsp-0.2.1-py3-none-macosx_11_0_arm64.whl";
-        hash = "sha256-PVKik2el+Qs+fGQYVmxaknY1rV5eO5VkjHnfDCUjfok=";
+        version = "0.2.3";
+        url = "https://files.pythonhosted.org/packages/74/ee/edda70ec236288d0e6ebd4408bdbe1deb32243039e7280c81f7bea7dec55/sqlalchemy_lsp-0.2.3-py3-none-macosx_11_0_arm64.whl";
+        hash = "sha256-e/PiYwp3Jq6FYtbqjNZdurlsNhikiL0Qbf4UDONLXqc=";
         description = "Language server for SQLAlchemy models and queries";
         homepage = "https://github.com/alex-oleshkevich/sqlalchemy-lsp";
       };
       aarch64-linux = {
-        version = "0.2.1";
-        url = "https://files.pythonhosted.org/packages/4a/59/74d3bfd7650cfb306ca18b69c09dcce6d12bea1db3d615f04a5bc8d26c8c/sqlalchemy_lsp-0.2.1-py3-none-manylinux_2_28_aarch64.whl";
-        hash = "sha256-MjOfkkSb2j5+nBxbotj9Ibqnb7vy0+dWyxASsGqPmg8=";
+        version = "0.2.3";
+        url = "https://files.pythonhosted.org/packages/27/8f/5015694f33ac20e3bc23bdb2512331bdda8c0129a87eab570b09274d4dc2/sqlalchemy_lsp-0.2.3-py3-none-manylinux_2_28_aarch64.whl";
+        hash = "sha256-/k4m4GmZ5Eax5S1bVzOcVvmvPIKY5/CrRy0oKafyy5k=";
         description = "Language server for SQLAlchemy models and queries";
         homepage = "https://github.com/alex-oleshkevich/sqlalchemy-lsp";
       };
       x86_64-linux = {
-        version = "0.2.1";
-        url = "https://files.pythonhosted.org/packages/35/ad/9dc12882b0582b828e732fe7684a3a6f656cb9d1dd063f9cc2e662386c18/sqlalchemy_lsp-0.2.1-py3-none-manylinux_2_28_x86_64.whl";
-        hash = "sha256-+l5ClePt/ezrBjZlvKz37Q0unEFdIOIcOpBRDS26pF4=";
+        version = "0.2.3";
+        url = "https://files.pythonhosted.org/packages/a8/f6/68b6d36547f8517646e6ce5e2cee86c68f4e5b2d47342e8385c849ca3cf1/sqlalchemy_lsp-0.2.3-py3-none-manylinux_2_28_x86_64.whl";
+        hash = "sha256-OR/HBQGpZfDQTTyZ2OYGfm1uH4xUn3IFF8Ua706qJVA=";
         description = "Language server for SQLAlchemy models and queries";
         homepage = "https://github.com/alex-oleshkevich/sqlalchemy-lsp";
       };

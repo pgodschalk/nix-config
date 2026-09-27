@@ -31,19 +31,19 @@
 let
   # The compiler's native half, one package per system. Its version
   # moves with @astrojs/compiler-binding below.
-  astroBindingVersion = "0.5.0";
+  astroBindingVersion = "0.5.1";
   astroBindings = {
     aarch64-darwin = {
       target = "darwin-arm64";
-      hash = "sha256-QyhN0B3X2ilwnIM+F4MARYulzF46CB+6DtknsPAP65o=";
+      hash = "sha256-WlTz6cMkuCZHeLtKBuhy42B7sogikpag6C1g6OqRYHQ=";
     };
     aarch64-linux = {
       target = "linux-arm64-gnu";
-      hash = "sha256-uVQYhk2zqUdClMfN2xvv+cRMLlN+YpYdE1BFJVHirNw=";
+      hash = "sha256-dYTyvZ78RMt9TSKisqPabhgmg36bQHrDVet8S0AYiYc=";
     };
     x86_64-linux = {
       target = "linux-x64-gnu";
-      hash = "sha256-F/pgfFyXkf2tOdSRGKJjtfsY7JTQ6Irg+vF/yfaYDp4=";
+      hash = "sha256-TPLyz2GWPxvI1GkNu11qkQnjEWlklqEn7oeuMU6zEL8=";
     };
   };
   astroBinding =
@@ -70,18 +70,18 @@ let
     # astro-language-server advertises formatting and ships none.
     prettier-plugin-astro = fetchurl {
       # @VERSION https://www.npmjs.com/package/prettier-plugin-astro
-      url = "https://registry.npmjs.org/prettier-plugin-astro/-/prettier-plugin-astro-1.0.1.tgz";
-      hash = "sha256-V0bLhIhknRZOk6YNsa6aeWVyNGE9QhssIIPygZ1B8V4=";
+      url = "https://registry.npmjs.org/prettier-plugin-astro/-/prettier-plugin-astro-1.1.0.tgz";
+      hash = "sha256-3VHplC8g9+T9C7K7xi00eUp3Q8vgIpTyQZsnHTq0Dzo=";
     };
     "@astrojs/compiler-rs" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-rs
-      url = "https://registry.npmjs.org/@astrojs/compiler-rs/-/compiler-rs-0.5.0.tgz";
-      hash = "sha256-+Zzc+dx/dIKZb6dqh5yo9zhe8kcCsAUzPfw78+qYvUE=";
+      url = "https://registry.npmjs.org/@astrojs/compiler-rs/-/compiler-rs-0.5.1.tgz";
+      hash = "sha256-IzgV8QUIfE5nHLP4RNsBnAWxBD+N/rSbbZUChe2tiTA=";
     };
     "@astrojs/compiler-binding" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-binding
-      url = "https://registry.npmjs.org/@astrojs/compiler-binding/-/compiler-binding-0.5.0.tgz";
-      hash = "sha256-2OcjjlS/53fXZi57Yyxz7GU5ZlFfui7szM5Hq5opAbc=";
+      url = "https://registry.npmjs.org/@astrojs/compiler-binding/-/compiler-binding-0.5.1.tgz";
+      hash = "sha256-w8bkg2U1FmPnFUuFv8GstaPBSt/EwJO1/mn7G622VGc=";
     };
 
     "@astrojs/compiler-binding-${astroBinding.target}" = fetchurl {
