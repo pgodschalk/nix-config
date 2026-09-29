@@ -60,7 +60,7 @@ let
     agent.default_model = {
       provider = "zed.dev";
       # @VERSION https://platform.claude.com/docs/en/models/overview
-      model = "claude-opus-5";
+      model = "claude-opus-5-5";
     };
 
     # Zed generates commit messages with its own model and never
@@ -72,7 +72,7 @@ let
     agent.commit_message_model = {
       provider = "zed.dev";
       # @VERSION https://platform.claude.com/docs/en/models/overview
-      model = "claude-sonnet-5";
+      model = "claude-sonnet-5-5";
     };
     tabs.close_position = "left";
     format_on_save = "on";

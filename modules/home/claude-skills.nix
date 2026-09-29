@@ -233,7 +233,7 @@ let
     # @VERSION https://github.com/conventional-changelog/commitlint/commits/master
     url =
       "https://raw.githubusercontent.com/conventional-changelog/commitlint/"
-      + "9741cee8f521b70c0fb154c1fdb398dbcc056359/skills/committing-with-commitlint/SKILL.md";
+      + "0b1ae9c7d5946babb1431f38de9f35401026e53f/skills/committing-with-commitlint/SKILL.md";
     hash = "sha256-5/BHwXggGmGDMgY0umU3Ea+ivIZxcZIxvzl6IGdqEYo=";
   };
 
@@ -254,8 +254,8 @@ let
     owner = "pbakaus";
     repo = "impeccable";
     # @VERSION https://github.com/pbakaus/impeccable/releases
-    rev = "d446ed6411522d6379ea86a0cc3a0955bc1251b2";
-    hash = "sha256-9xSv2O1VPhZwzfDKM6i0Yp7stG5E6o8umaIueBljdjo=";
+    rev = "6dd107f66e43fa517eceb3633586f3d7791e07f0";
+    hash = "sha256-W9fr8UPrpIIOxe/saIEAE9T6sPmrIS90cEuT9H2cVQk=";
   };
 
   # The engine binary, pinned so the launcher never reaches its download

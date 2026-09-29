@@ -19,20 +19,20 @@
 
 let
   # @VERSION https://github.com/hyyan/zed-test-coverage-highlight/releases
-  version = "0.1.2";
+  version = "0.1.3";
 
   targets = {
     aarch64-darwin = {
       triple = "aarch64-apple-darwin";
-      hash = "sha256-kl7HSOD6VwcqeksiZnAMKFhBMnJ97VmCxseAkYaDxms=";
+      hash = "sha256-kvXcj9Q/4tp73pmErS+lgtum1r8XnuefhWnHZlRxWQU=";
     };
     aarch64-linux = {
       triple = "aarch64-unknown-linux-gnu";
-      hash = "sha256-RnCj7asRTdfE8DQVUTWE2r9i9s/mSO2GJZTDKrDYZjc=";
+      hash = "sha256-fLKwR5YCEtJh9WggIrH2BAUMzInOBYK60o5joJEyh0s=";
     };
     x86_64-linux = {
       triple = "x86_64-unknown-linux-gnu";
-      hash = "sha256-ZsmsOPb+cfmLb+qk76G6yxMUgV7J5zz6+8U2yEh2gPY=";
+      hash = "sha256-TqI3Y8HBU9/d3PS0GxAApbYlI//PtCynmQxMSKuOd9Y=";
     };
   };
 

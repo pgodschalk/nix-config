@@ -15,13 +15,13 @@
 buildGoModule (finalAttrs: {
   pname = "helmfmt";
   # @VERSION https://github.com/digitalstudium/helmfmt/releases
-  version = "0.6.1";
+  version = "0.7.0";
 
   src = fetchFromGitHub {
     owner = "digitalstudium";
     repo = "helmfmt";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-DABL+Kygs9cF124QK76YfsBlNyLEk6nYfOjyWpP8NT0=";
+    hash = "sha256-vFG1/uWLY6f9LY8ZJcJCw7ddjWjk8rw/XmGxfjfhz2s=";
   };
   vendorHash = "sha256-r/dmfRzZpEdOEObhkMzA2SFlmDD89h6ZBmFoMdMOwSg=";
 

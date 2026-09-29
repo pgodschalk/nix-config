@@ -50,7 +50,7 @@ let
   # bare `lumen draft` then fails with a 404 that reads like an auth
   # problem -- a bad key gives 401. Always name the model.
   # @VERSION https://platform.claude.com/docs/en/models/overview
-  model = "claude-sonnet-5";
+  model = "claude-sonnet-5-5";
 
   # The house style lives here because lumen has no length or style
   # settings of its own.
