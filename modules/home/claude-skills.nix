@@ -79,9 +79,21 @@ let
     logging-best-practices = "${boristaneSkills}/skills/logging-best-practices";
   };
 
-  groupedSkills = lib.concatMap (
-    g: map (n: lib.nameValuePair n "${g}/${n}") (skillsInGroup g)
-  ) skillGroups;
+  # An upstream rename would let a left-out skill back in under its new
+  # name in silence, so every name listed has to exist upstream.
+  eccOverlaps = lib.attrNames (import ./claude-skills/ecc-overlaps.nix);
+  eccAll = skillsInGroup "${eccSkills}/skills";
+  eccMissing = lib.subtractLists eccAll eccOverlaps;
+  eccKept =
+    assert lib.assertMsg (eccMissing == [ ]) (
+      "claude-skills: ecc-overlaps.nix names skills ECC no longer has: "
+      + lib.concatStringsSep ", " eccMissing
+    );
+    lib.subtractLists eccOverlaps eccAll;
+
+  groupedSkills =
+    lib.concatMap (g: map (n: lib.nameValuePair n "${g}/${n}") (skillsInGroup g)) skillGroups
+    ++ map (n: lib.nameValuePair n "${eccSkills}/skills/${n}") eccKept;
 
   localSkills = config.my.agentSkills.localSkills;
   storeSkills = config.my.agentSkills.storeSkills;
@@ -217,14 +229,24 @@ let
     hash = "sha256-L3CpIT2DeI+fUFl9fcygojtQo2DzEen69rMD1XqR1vM=";
   };
 
-  # By far the largest collection here, and a skill's frontmatter is
-  # always in context, so this is the entry to trim first.
+  # A skill's frontmatter is always in context, so this and ECC, the two
+  # largest collections here, are the entries to trim first.
   jeffallanSkills = pkgs.fetchFromGitHub {
     owner = "Jeffallan";
     repo = "claude-skills";
     # @VERSION https://github.com/Jeffallan/claude-skills/commits/main
     rev = "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf";
     hash = "sha256-XOy2b60XpqRB/hkpR0ddtDMAhbO1tW5C4TfXgCozg5o=";
+  };
+
+  # Everything Claude Code: linked as a group, less the skills in
+  # ecc-overlaps.nix.
+  eccSkills = pkgs.fetchFromGitHub {
+    owner = "affaan-m";
+    repo = "ECC";
+    # @VERSION https://github.com/affaan-m/ECC/commits/main
+    rev = "c70874fae9eb0e5ad0365beb7e2955899fd1d30f";
+    hash = "sha256-8lzhKpcYtGCvddJ7NjDsVHOJrbLMWpqwzOaKdKvmU4U=";
   };
 
   # Teaches an agent to read the enforced commit convention and to
