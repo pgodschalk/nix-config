@@ -10,13 +10,13 @@
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "path-server";
   # @VERSION https://github.com/kunlinglio/path-server/releases
-  version = "1.4.2";
+  version = "1.4.3";
 
   # Upstream publishes one plain binary per target rather than an
   # archive.
   src = fetchurl {
     url = "https://github.com/kunlinglio/path-server/releases/download/v${finalAttrs.version}/path-server_v${finalAttrs.version}_aarch64-apple-darwin";
-    hash = "sha256-SGKQpDmPp8pLCJK9mKLE/835D2JIxcD1H2UC9GwWYSw=";
+    hash = "sha256-Nt8z6B/xBStG8ky7uUEdzCotBwSX7iXx1sPpddXm3Gs=";
   };
 
   nativeBuildInputs = lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook;

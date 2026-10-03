@@ -84,23 +84,23 @@ in
     ++ wheelFor "sqlalchemy-lsp" lib.licenses.mit {
       # @VERSION https://pypi.org/project/sqlalchemy-lsp/#history
       aarch64-darwin = {
-        version = "0.2.3";
-        url = "https://files.pythonhosted.org/packages/74/ee/edda70ec236288d0e6ebd4408bdbe1deb32243039e7280c81f7bea7dec55/sqlalchemy_lsp-0.2.3-py3-none-macosx_11_0_arm64.whl";
-        hash = "sha256-e/PiYwp3Jq6FYtbqjNZdurlsNhikiL0Qbf4UDONLXqc=";
+        version = "0.2.4";
+        url = "https://files.pythonhosted.org/packages/2b/73/51acf96b31e50664360ec87a08f7801a5005582e336ed958443a7c04d0e5/sqlalchemy_lsp-0.2.4-py3-none-macosx_11_0_arm64.whl";
+        hash = "sha256-H2jB8DfwYN1fsT/yLpm9Ab4PZvdiLPnj+VsTCC49IjM=";
         description = "Language server for SQLAlchemy models and queries";
         homepage = "https://github.com/alex-oleshkevich/sqlalchemy-lsp";
       };
       aarch64-linux = {
-        version = "0.2.3";
-        url = "https://files.pythonhosted.org/packages/27/8f/5015694f33ac20e3bc23bdb2512331bdda8c0129a87eab570b09274d4dc2/sqlalchemy_lsp-0.2.3-py3-none-manylinux_2_28_aarch64.whl";
-        hash = "sha256-/k4m4GmZ5Eax5S1bVzOcVvmvPIKY5/CrRy0oKafyy5k=";
+        version = "0.2.4";
+        url = "https://files.pythonhosted.org/packages/57/fd/7e62d21adbf84f4c317d9d37fec38359458f1871eaa2ef439386da0efe36/sqlalchemy_lsp-0.2.4-py3-none-manylinux_2_28_aarch64.whl";
+        hash = "sha256-JqsHHDuTpBK+ytO8hXGetibG+kYSnpjAFfEoBfv44P8=";
         description = "Language server for SQLAlchemy models and queries";
         homepage = "https://github.com/alex-oleshkevich/sqlalchemy-lsp";
       };
       x86_64-linux = {
-        version = "0.2.3";
-        url = "https://files.pythonhosted.org/packages/a8/f6/68b6d36547f8517646e6ce5e2cee86c68f4e5b2d47342e8385c849ca3cf1/sqlalchemy_lsp-0.2.3-py3-none-manylinux_2_28_x86_64.whl";
-        hash = "sha256-OR/HBQGpZfDQTTyZ2OYGfm1uH4xUn3IFF8Ua706qJVA=";
+        version = "0.2.4";
+        url = "https://files.pythonhosted.org/packages/88/7d/5e825c4d7666f6984155772f0a73ce87e2ffcd8e6372d34a2e777c4e12f7/sqlalchemy_lsp-0.2.4-py3-none-manylinux_2_28_x86_64.whl";
+        hash = "sha256-l0mrf5XWl+RwCNZKfcLNwTycK+38/EIoKHxgmMdeXxc=";
         description = "Language server for SQLAlchemy models and queries";
         homepage = "https://github.com/alex-oleshkevich/sqlalchemy-lsp";
       };
