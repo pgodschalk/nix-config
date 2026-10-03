@@ -64,6 +64,19 @@
       enable = true;
       # In the nix.conf reference's order, which is alphabetical.
       customSettings = {
+        # The system libicucore loads its data from /usr/share/icu,
+        # which the sandbox denies. The setting has no `extra-` form, so
+        # the first four entries repeat the defaults. A path here is
+        # only requestable: a derivation still has to ask for it
+        # through `__impureHostDeps`.
+        allowed-impure-host-deps = [
+          "/System/Library"
+          "/bin/sh"
+          "/dev"
+          "/usr/lib"
+          "/usr/share/icu"
+        ];
+
         # The defaults multiply out: `cores = 0` means every core per
         # derivation, so eight concurrent builds each claim eight cores.
         # The product here is 8, so the machine stays usable, and one
