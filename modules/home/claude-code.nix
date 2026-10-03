@@ -84,7 +84,7 @@ let
   );
 in
 {
-  home.packages = [ pkgs.claude-code ];
+  home.packages = [ (pkgs.callPackage ../../pkgs/claude-code.nix { }) ];
 
   # modules/darwin/launchd-env.nix re-exports it to GUI-launched
   # processes.

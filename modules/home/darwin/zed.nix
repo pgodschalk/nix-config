@@ -901,7 +901,7 @@ let
     # whole settings section with it silently.
     agent_servers = {
       claude-acp.type = "custom";
-      claude-acp.command = "${pkgs.claude-agent-acp}/bin/claude-agent-acp";
+      claude-acp.command = "${claudeAgentAcp}/bin/claude-agent-acp";
 
       claude-acp.default_config_options.mode = "auto";
     };
@@ -978,6 +978,10 @@ let
   agnixLsp = pkgs.callPackage ../../../pkgs/agnix-lsp.nix { };
 
   tsgo = pkgs.callPackage ../../../pkgs/tsgo.nix { };
+
+  claudeAgentAcp = pkgs.claude-agent-acp.override {
+    claude-code = pkgs.callPackage ../../../pkgs/claude-code.nix { };
+  };
 
   # tsgo's server id is `typescript-ls`, which is also why the
   # css-modules-kit extension cannot reach it: that extension matches
