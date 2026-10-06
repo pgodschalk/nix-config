@@ -67,12 +67,14 @@
     ../../modules/home/resend.nix
     ../../modules/home/ripgrep.nix
     ../../modules/home/ruby.nix
+    ../../modules/home/rust.nix
     ../../modules/home/sentry.nix
     ../../modules/home/shell-script.nix
     ../../modules/home/spellcheck.nix
     ../../modules/home/sql.nix
     ../../modules/home/ssh.nix
     ../../modules/home/starship.nix
+    ../../modules/home/svelte.nix
     ../../modules/home/swift.nix
     ../../modules/home/systemd.nix
     ../../modules/home/tailwind.nix

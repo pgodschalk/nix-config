@@ -115,9 +115,9 @@ let
   # (`typescriptreact`, `shellscript`, `objective-c`) rather than file
   # extensions, and an id it does not use is ignored, so the full spec
   # spelling is the safe choice; a language the spec does not name --
-  # Nix, TOML, Astro, fish, Nushell -- cannot be wired at all. There is
-  # no room for arguments, so every server sits behind a wrapper
-  # supplying its own.
+  # Nix, TOML, Astro, Svelte, fish, Nushell -- cannot be wired at all.
+  # There is no room for arguments, so every server sits behind a
+  # wrapper supplying its own.
   #
   # Absolute, because a GUI app has no Nix PATH after a logout.
   profileBin = "${config.home.profileDirectory}/bin";
@@ -146,6 +146,7 @@ let
     perl = lspWrapper "perl" "${profileBin}/perlnavigator" [ "--stdio" ];
     pwsh = lspWrapper "pwsh" "${profileBin}/pwsh-lsp" [ ];
     ruby = lspWrapper "ruby" "${profileBin}/ruby-lsp" [ ];
+    rust = lspWrapper "rust" "${profileBin}/rust-analyzer" [ ];
     bash = lspWrapper "bash" "${profileBin}/bash-language-server" [ "start" ];
     sql = lspWrapper "sql" "${profileBin}/postgres-language-server" [ "lsp-proxy" ];
     sourcekit = lspWrapper "sourcekit" "/usr/bin/sourcekit-lsp" [ ];
@@ -175,6 +176,7 @@ let
     powershell = lsp.pwsh;
     python = lsp.ty;
     ruby = lsp.ruby;
+    rust = lsp.rust;
     shellscript = lsp.bash;
     sql = lsp.sql;
     swift = lsp.sourcekit;

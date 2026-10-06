@@ -380,6 +380,7 @@ let
       "sql" = true;
       "sqlalchemy-lsp" = true;
       "ssh-config" = true;
+      "svelte" = true;
       "swift" = true;
       "terraform" = true;
       "test-coverage-highlight-lsp" = true;
@@ -676,6 +677,16 @@ let
       ];
     };
 
+    languages.Rust = {
+      tab_size = 4;
+      inlay_hints.enabled = true;
+
+      wrap_guides = [
+        72
+        100
+      ];
+    };
+
     languages."Shell Script".formatter.external = {
       command = "shfmt";
       arguments = [
@@ -696,6 +707,8 @@ let
     };
 
     languages.Strings = dataFile;
+
+    languages.Svelte.inlay_hints.enabled = true;
 
     languages.Swift = {
       tab_size = 4;
@@ -847,17 +860,52 @@ let
 
     lsp.ruff.initialization_options.settings.lineLength = 79;
 
+    lsp.rust-analyzer.binary.path = "${config.home.profileDirectory}/bin/rust-analyzer";
+    lsp.rust-analyzer.initialization_options = {
+      # A target directory of the server's own, so its `cargo check`
+      # and a build in the terminal neither wait on one lock nor,
+      # where a project pins another toolchain through mise, rebuild
+      # what the other built. Zed's documentation spells the key
+      # `rust.analyzerTargetDir`, which rust-analyzer reads as an
+      # alias of this one.
+      cargo.targetDir = true;
+
+      inlayHints = {
+        closureReturnTypeHints.enable = "always";
+        lifetimeElisionHints = {
+          enable = "skip_trivial";
+          useParameterNames = true;
+        };
+      };
+    };
+
     # Steep is gradual, so it stays silent until a project has
     # sig/*.rbs; this lets it start without a Steepfile at the root.
     lsp.steep.settings.require_root_steepfile = false;
 
+    # The extension reads no binary setting and installs its own copy
+    # from npm; Zed itself honours `binary.path` ahead of asking it.
+    lsp."svelte-language-server".binary = {
+      path = "${config.home.profileDirectory}/bin/svelteserver";
+      arguments = [ "--stdio" ];
+    };
+
+    # `class="…"` in either quoting serves Astro and Svelte;
+    # `class:list` is Astro's; the `class:name` directive and a
+    # `class:` key in an object literal are Svelte's.
     lsp."tailwindcss-language-server".settings = {
-      includeLanguages.astro = "html";
+      includeLanguages = {
+        astro = "html";
+        svelte = "html";
+      };
       experimental.classRegex = [
         ''class="([^"]*)"''
         "class='([^']*)'"
         ''class:list="{([^}]*)}"''
         "class:list='{([^}]*)}'"
+        ''class:\s*([^\s{]+)''
+        ''\{\s*class:\s*"([^"]*)"''
+        "\\{\\s*class:\\s*'([^']*)'"
       ];
     };
 

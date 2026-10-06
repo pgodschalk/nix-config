@@ -285,11 +285,47 @@
       ".rjs": "ruby"
     }
   },
+  "rust-analyzer": {
+    "command": "rust-analyzer",
+    "extensionToLanguage": {
+      ".rs": "rust"
+    },
+    "initializationOptions": {
+      "cargo": {
+        "targetDir": true
+      },
+      "files": {
+        "watcher": "server"
+      },
+      "inlayHints": {
+        "closingBraceHints": {
+          "minLines": 10
+        },
+        "closureReturnTypeHints": {
+          "enable": "always"
+        },
+        "discriminantHints": {
+          "enable": "fieldless"
+        },
+        "lifetimeElisionHints": {
+          "enable": "skip_trivial",
+          "useParameterNames": true
+        }
+      }
+    }
+  },
   "sourcekit-lsp": {
     "command": "sourcekit-lsp",
     "extensionToLanguage": {
       ".swift": "swift",
       ".swiftinterface": "swift"
+    }
+  },
+  "svelteserver": {
+    "command": "svelteserver",
+    "args": ["--stdio"],
+    "extensionToLanguage": {
+      ".svelte": "svelte"
     }
   },
   "systemd-lsp": {

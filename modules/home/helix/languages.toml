@@ -345,6 +345,10 @@ language-servers = ["ruby-lsp", "rubocop", "steep", "deps-lsp"]
 rulers = [73, 81]
 
 [[language]]
+name = "rust"
+rulers = [73, 101]
+
+[[language]]
 name = "scss"
 language-servers = [
   "vscode-css-language-server",
@@ -362,6 +366,10 @@ name = "sql"
 indent = { tab-width = 2, unit = "\t" }
 language-servers = [{ name = "postgres-language-server", except-features = ["format"] }]
 formatter = { command = "pgfmt-1nl" }
+
+[[language]]
+name = "svelte"
+language-servers = ["svelteserver", "tailwindcss-ls"]
 
 # The formatter is the wrapper rather than Helix's bare `swift-format`,
 # which is not on PATH -- Xcode's is reachable only through xcrun -- and
@@ -598,6 +606,27 @@ args = ["--lsp"]
 [language-server.ruff.config.settings]
 lineLength = 79
 
+# A `config` table replaces Helix's bundled one rather than merging into
+# it, so `files.watcher` and the two bundled hints that differ from
+# rust-analyzer's defaults, `closingBraceHints` and `discriminantHints`,
+# are restated beside what is set here.
+#
+# `targetDir` gives the server a target directory of its own, so its
+# `cargo check` and a build in the terminal neither wait on one lock
+# nor, where a project pins another toolchain through mise, rebuild what
+# the other built.
+[language-server.rust-analyzer.config.cargo]
+targetDir = true
+
+[language-server.rust-analyzer.config.files]
+watcher = "server"
+
+[language-server.rust-analyzer.config.inlayHints]
+closingBraceHints = { minLines = 10 }
+closureReturnTypeHints = { enable = "always" }
+discriminantHints = { enable = "fieldless" }
+lifetimeElisionHints = { enable = "skip_trivial", useParameterNames = true }
+
 [language-server.skill-language-server]
 command = "skill-language-server"
 args = ["--stdio"]
@@ -609,14 +638,20 @@ args = ["langserver"]
 # Under `tailwindCSS`: the server asks for that section, and Helix
 # answers by walking `config` along its path.
 [language-server.tailwindcss-ls.config.tailwindCSS]
-includeLanguages = { astro = "html" }
+includeLanguages = { astro = "html", svelte = "html" }
 
+# `class="…"` in either quoting serves Astro and Svelte; `class:list`
+# is Astro's; the `class:name` directive and a `class:` key in an
+# object literal are Svelte's.
 [language-server.tailwindcss-ls.config.tailwindCSS.experimental]
 classRegex = [
   'class="([^"]*)"',
   "class='([^']*)'",
   'class:list="{([^}]*)}"',
   "class:list='{([^}]*)}'",
+  'class:\s*([^\s{]+)',
+  '\{\s*class:\s*"([^"]*)"',
+  "\\{\\s*class:\\s*'([^']*)'",
 ]
 
 # terraform-ls formats by shelling out to a CLI and reads this as
