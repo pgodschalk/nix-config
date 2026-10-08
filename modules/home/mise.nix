@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  substituteFile,
   ...
 }:
 let
@@ -9,10 +10,15 @@ let
   # the hash, so `use` would define the wrapper as `<hash>-mise`. The
   # external binary still answers most calls, so only `mise shell`,
   # `mise use` and `mise deactivate` break, and silently.
-  activate = pkgs.runCommand "mise-activate" { } ''
-    mkdir -p $out
-    ${lib.getExe pkgs.mise} activate nu > $out/mise.nu
-  '';
+  #
+  # `mise activate` writes the PATH it runs under into the script, and
+  # here that is the build sandbox's, which would replace the shell's
+  # PATH at startup. These two variables suppress both assignments; the
+  # script fails the build if a later mise writes one anyway.
+  activate = pkgs.runCommand "mise-activate" {
+    MISE_ACTIVATE_SHIMS = "false";
+    __MISE_ORIG_PATH = "";
+  } (substituteFile ./mise/activate.sh { mise = lib.getExe pkgs.mise; });
 in
 {
   home.packages = [ pkgs.mise ];
