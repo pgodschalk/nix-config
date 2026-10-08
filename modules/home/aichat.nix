@@ -9,7 +9,7 @@ let
   # stops at claude-opus-4, and an undeclared name fails with
   # "Unsupported model".
   # @VERSION https://platform.claude.com/docs/en/models/overview
-  model = "claude-haiku-4-5-20251001";
+  model = "claude-haiku-5-5";
 
   # aichat falls back to $SHELL, which here is the login shell /bin/zsh
   # while the shell being typed into is Nushell.

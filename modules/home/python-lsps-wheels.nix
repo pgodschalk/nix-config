@@ -112,26 +112,26 @@ in
     ++ wheelFor "django-language-server" lib.licenses.asl20 {
       # @VERSION https://pypi.org/project/django-language-server/#history
       aarch64-darwin = {
-        version = "6.1.0";
+        version = "6.1.1";
         binary = "djls";
-        url = "https://files.pythonhosted.org/packages/6f/dd/e3363242a99f1ac92272c874c75644c2b0dadbf3bc39ccf599b1190d134d/django_language_server-6.1.0-py3-none-macosx_11_0_arm64.whl";
-        hash = "sha256-v6OsMbGL00mKLT6R+fO6uevfeVakC77T9chcLGWB3Eg=";
+        url = "https://files.pythonhosted.org/packages/e1/15/22473ba69ce8e30dc3debe2ad69ba7470b4df0d0de3008f3d77deb192630/django_language_server-6.1.1-py3-none-macosx_11_0_arm64.whl";
+        hash = "sha256-zPEnKT+Z+5r024YbzASuDyrMcZr7pcWevXXW57ngQhI=";
         description = "Language server for Django projects and templates";
         homepage = "https://github.com/joshuadavidthomas/django-language-server";
       };
       aarch64-linux = {
-        version = "6.1.0";
+        version = "6.1.1";
         binary = "djls";
-        url = "https://files.pythonhosted.org/packages/41/b6/dc055f92528c3e1c0cb1d0f63c65257cc01efe6e6df155e065603d31d3e8/django_language_server-6.1.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl";
-        hash = "sha256-L3mdz3A6nKmgpAQ9hg8ub3FcnY6QoXk90NQgMGdzWk0=";
+        url = "https://files.pythonhosted.org/packages/2f/80/90853cfa2f2a63c19506afd3d673af420c9d718ef66b7332de779a383882/django_language_server-6.1.1-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl";
+        hash = "sha256-buUHEYFJ1Jl7UIfUlLAeB1+LNNdYvAwgIVrbCiUbfQc=";
         description = "Language server for Django projects and templates";
         homepage = "https://github.com/joshuadavidthomas/django-language-server";
       };
       x86_64-linux = {
-        version = "6.1.0";
+        version = "6.1.1";
         binary = "djls";
-        url = "https://files.pythonhosted.org/packages/f7/28/08d3e50125ae59b5520220657a3b3d2028bf06e64a743f55669a906a49af/django_language_server-6.1.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl";
-        hash = "sha256-VsvZ8c2/v0o9n1kixHl/G6QQsdTKXuCFYnqkRlTBCBk=";
+        url = "https://files.pythonhosted.org/packages/78/13/a48c84e7d71fe02641f85453b91686b0a11e65e15bdd3d3e0cac7324d982/django_language_server-6.1.1-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl";
+        hash = "sha256-D8MKnXTY3qsCIj75UkAFbCMZbPGVA0X+lHZkRU8QbEs=";
         description = "Language server for Django projects and templates";
         homepage = "https://github.com/joshuadavidthomas/django-language-server";
       };

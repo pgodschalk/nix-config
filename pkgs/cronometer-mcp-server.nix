@@ -1,6 +1,6 @@
 {
   lib,
-  python3Packages,
+  python3,
   fetchPypi,
   writeShellScriptBin,
   # Defaulted rather than required, so a `callPackage` that does not
@@ -9,6 +9,14 @@
   substituteFile ? (import ../lib lib).substituteFile,
 }:
 let
+  # An interpreter of its own whose package set carries MCP SDK 2;
+  # `self` points the set back at it, or the overrides would be lost.
+  python = python3.override {
+    self = python;
+    packageOverrides = import ./cronometer-mcp-server/mcp-sdk2.nix { inherit lib; };
+  };
+  python3Packages = python.pkgs;
+
   # Community-maintained, an exception to the first-party-only rule for
   # MCP servers: Cronometer publishes no MCP server and no public API.
   # It drives the web app's GWT-RPC calls, so it needs a Cronometer Gold
@@ -16,13 +24,13 @@ let
   server = python3Packages.buildPythonApplication rec {
     pname = "cronometer-mcp";
     # @VERSION https://github.com/cphoskins/cronometer-mcp/releases
-    version = "2.2.0";
+    version = "2.3.0";
     pyproject = true;
 
     src = fetchPypi {
       pname = "cronometer_mcp";
       inherit version;
-      hash = "sha256-BH3+LdZfZ/MU5AClmvuFB6GFa8CG5LvXcI9sm/bKavg=";
+      hash = "sha256-9BzH/czsvWIg+JH6wF+aB5ro3NptgXHiQFikykgqTCs=";
     };
 
     build-system = [ python3Packages.hatchling ];

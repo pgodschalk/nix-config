@@ -25,8 +25,8 @@ let
     owner = "VoltAgent";
     repo = "awesome-claude-code-subagents";
     # @VERSION https://github.com/VoltAgent/awesome-claude-code-subagents/commits/main
-    rev = "82b73821baa7a911d5b14cfb6da238b7f0db6b42";
-    hash = "sha256-OPy2toCmhPbDnqUcM7B+Ufm6BA8xIpNc6U8Gemc/1jk=";
+    rev = "721e9734670bfaf7283194e234ebb88e94c82dcd";
+    hash = "sha256-1+MHY0PFNwooYEuVHluxxUMqT3pX/Po7r5nN+pIkZqM=";
   };
 
   agentsDir = "${config.xdg.configHome}/claude-code/agents";
@@ -213,7 +213,7 @@ let
   superpowers = pkgs.fetchFromGitHub {
     owner = "obra";
     repo = "superpowers";
-    # @VERSION https://github.com/obra/superpowers/commits/main
+    # @VERSION https://github.com/obra/superpowers/releases
     rev = "8ca22dba9a94f28898bbce59f2537ff4d87c747d";
     hash = "sha256-BWPiXoXV+jePP+wn/Z+Af4iehIL7oei00plaWaTzq8s=";
   };
@@ -224,9 +224,9 @@ let
   mattpocockSkills = pkgs.fetchFromGitHub {
     owner = "mattpocock";
     repo = "skills";
-    # @VERSION https://github.com/mattpocock/skills/commits/main
-    rev = "d81f3a183412e71a5b1e84ca21bc1a35eea03a60";
-    hash = "sha256-zQ/wVrcHjIC+UjP4nDw3HARMqZd6LIDFmHKlp8AADYI=";
+    # @VERSION https://github.com/mattpocock/skills/releases
+    rev = "24fe0ef7737efae15c87225755e9f6f5965e4888";
+    hash = "sha256-/mAmj7QFdyOWhLmy3Rt2/Hfsh5qwirTRax7hmQffFdo=";
   };
 
   # A skill's frontmatter is always in context, so this and ECC, the two
@@ -234,9 +234,9 @@ let
   jeffallanSkills = pkgs.fetchFromGitHub {
     owner = "Jeffallan";
     repo = "claude-skills";
-    # @VERSION https://github.com/Jeffallan/claude-skills/commits/main
-    rev = "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf";
-    hash = "sha256-XOy2b60XpqRB/hkpR0ddtDMAhbO1tW5C4TfXgCozg5o=";
+    # @VERSION https://github.com/Jeffallan/claude-skills/releases
+    rev = "1be15d8064f88fc25216442406d40add8fd23b53";
+    hash = "sha256-QZpFGh/2TX+ECBLpk/80EzajmmuK7kK+bIX1Vg92deU=";
   };
 
   # Everything Claude Code: linked as a group, less the skills in
@@ -244,18 +244,18 @@ let
   eccSkills = pkgs.fetchFromGitHub {
     owner = "affaan-m";
     repo = "ECC";
-    # @VERSION https://github.com/affaan-m/ECC/commits/main
-    rev = "c70874fae9eb0e5ad0365beb7e2955899fd1d30f";
-    hash = "sha256-8lzhKpcYtGCvddJ7NjDsVHOJrbLMWpqwzOaKdKvmU4U=";
+    # @VERSION https://github.com/affaan-m/ECC/releases
+    rev = "c05b2d6614f62f6db0047669aa4eefb223d478f9";
+    hash = "sha256-YYQKYFyY17Z6UykhnX+r/t5Y8Ld4EHNrFvzo+Upnl0w=";
   };
 
   # Teaches an agent to read the enforced commit convention and to
   # self-correct from a rejection rather than reach for --no-verify.
   commitlintSkill = pkgs.fetchurl {
-    # @VERSION https://github.com/conventional-changelog/commitlint/commits/master
+    # @VERSION https://github.com/conventional-changelog/commitlint/releases
     url =
       "https://raw.githubusercontent.com/conventional-changelog/commitlint/"
-      + "39a088d7395489017089b71c6ea2564da834ee70/skills/committing-with-commitlint/SKILL.md";
+      + "95d40569d2592bf9719bc27da2d51fc6b801e4ef/skills/committing-with-commitlint/SKILL.md";
     hash = "sha256-5/BHwXggGmGDMgY0umU3Ea+ivIZxcZIxvzl6IGdqEYo=";
   };
 
@@ -276,8 +276,8 @@ let
     owner = "pbakaus";
     repo = "impeccable";
     # @VERSION https://github.com/pbakaus/impeccable/releases
-    rev = "508d7e8955de3b3caf2d8676e85206723d41a887";
-    hash = "sha256-bWmBWThANkAyJ5xd6rrO3UXL/QMm7sut4nf0tgqVk74=";
+    rev = "83dc4b60ca4c3a13ea3cde748804858d37ef47c9";
+    hash = "sha256-kcV/zsxkpkFN+FAG+Ga7eMY7RQX67gUGPe+K1xAdyOs=";
   };
 
   # The engine binary, pinned so the launcher never reaches its download
