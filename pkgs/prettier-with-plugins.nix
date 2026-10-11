@@ -70,8 +70,8 @@ let
     # astro-language-server advertises formatting and ships none.
     prettier-plugin-astro = fetchurl {
       # @VERSION https://www.npmjs.com/package/prettier-plugin-astro
-      url = "https://registry.npmjs.org/prettier-plugin-astro/-/prettier-plugin-astro-1.1.0.tgz";
-      hash = "sha256-3VHplC8g9+T9C7K7xi00eUp3Q8vgIpTyQZsnHTq0Dzo=";
+      url = "https://registry.npmjs.org/prettier-plugin-astro/-/prettier-plugin-astro-1.1.1.tgz";
+      hash = "sha256-Pgb2NIg/qf9czRrQ4bOKBy42ClAZWftpb208LIHrvPs=";
     };
     "@astrojs/compiler-rs" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-rs
@@ -119,8 +119,8 @@ let
     # needed; ini and jinja have no dependencies.
     web-tree-sitter = fetchurl {
       # @VERSION https://www.npmjs.com/package/web-tree-sitter
-      url = "https://registry.npmjs.org/web-tree-sitter/-/web-tree-sitter-0.27.0.tgz";
-      hash = "sha256-Jm6DnZ1/ichLps4In/3slZmwpmjAEDCPhXuq0FcKDVA=";
+      url = "https://registry.npmjs.org/web-tree-sitter/-/web-tree-sitter-0.27.1.tgz";
+      hash = "sha256-c0bbZZ64cKUoQkKFGreu3qQdc5e4x+lf+NnsW1qAJw8=";
     };
     tree-sitter-awk = fetchurl {
       # @VERSION https://www.npmjs.com/package/tree-sitter-awk

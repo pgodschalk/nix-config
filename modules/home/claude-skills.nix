@@ -25,8 +25,8 @@ let
     owner = "VoltAgent";
     repo = "awesome-claude-code-subagents";
     # @VERSION https://github.com/VoltAgent/awesome-claude-code-subagents/commits/main
-    rev = "721e9734670bfaf7283194e234ebb88e94c82dcd";
-    hash = "sha256-1+MHY0PFNwooYEuVHluxxUMqT3pX/Po7r5nN+pIkZqM=";
+    rev = "408d3c9eee2d0c75c12a3abb5de29e53c2ca6b9e";
+    hash = "sha256-QlC4sVV/hHhvOx4HI/6rbxJMQ09WDhcmj6dtkRzkSAU=";
   };
 
   agentsDir = "${config.xdg.configHome}/claude-code/agents";
@@ -214,8 +214,8 @@ let
     owner = "obra";
     repo = "superpowers";
     # @VERSION https://github.com/obra/superpowers/releases
-    rev = "8ca22dba9a94f28898bbce59f2537ff4d87c747d";
-    hash = "sha256-BWPiXoXV+jePP+wn/Z+Af4iehIL7oei00plaWaTzq8s=";
+    rev = "bb92a77741419a4ab5f06e711a283343f1ada0c3";
+    hash = "sha256-UCVI+T7j1Xh1LDkrvnJduis7eHFqrizCyGTWAGW5d6U=";
   };
 
   # Three of five categories: in-progress and deprecated are excluded,
@@ -276,8 +276,8 @@ let
     owner = "pbakaus";
     repo = "impeccable";
     # @VERSION https://github.com/pbakaus/impeccable/releases
-    rev = "83dc4b60ca4c3a13ea3cde748804858d37ef47c9";
-    hash = "sha256-kcV/zsxkpkFN+FAG+Ga7eMY7RQX67gUGPe+K1xAdyOs=";
+    rev = "d631a8827f99414d2b6daba4ef08b7f8701751d7";
+    hash = "sha256-0QpNzNnSon34/VVPPaitnSTBjpu9qJGXJzCJctS4gM0=";
   };
 
   # The engine binary, pinned so the launcher never reaches its download
@@ -294,22 +294,22 @@ let
   # an old engine against new skill files. The assertion below holds
   # the two together.
   # @VERSION https://github.com/pbakaus/impeccable/releases
-  impeccableEngineVersion = "0.1.11";
+  impeccableEngineVersion = "0.1.14";
   impeccableSkillVersion = lib.trim (
     builtins.readFile "${impeccableSrc}/.agents/skills/impeccable/scripts/VERSION"
   );
   impeccableEngineAssets = {
     aarch64-darwin = {
       asset = "impeccable-darwin-arm64";
-      hash = "sha256-dCeRjW51UHQBobe2ke7+WKfAGi/GO3EgFv/FoKwcBeY=";
+      hash = "sha256-q71p1UBTK5HpWZxB06YSffuquuXiS6/XT/fi+xj0+Hw=";
     };
     aarch64-linux = {
       asset = "impeccable-linux-arm64";
-      hash = "sha256-owNsXC2gisahT6SIbpaosWUb6rMyr3XL4ygJJSjW5Ao=";
+      hash = "sha256-OWJj7mlHgNuUJIP8gJM6AS7wi/mB9fJrDaXha2IIyUg=";
     };
     x86_64-linux = {
       asset = "impeccable-linux-x64";
-      hash = "sha256-AiFgfh9TWvk36iZ8NHsfkCM7hdwlY8vS7u/fQuDlxZQ=";
+      hash = "sha256-PTHsGmZKw1yBXqHXwQq60RVc42TQ9GEVfrg3o0No77Y=";
     };
   };
   impeccableEngineAsset = impeccableEngineAssets.${pkgs.stdenv.hostPlatform.system} or null;
