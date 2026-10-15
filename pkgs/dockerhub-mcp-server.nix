@@ -24,7 +24,7 @@
 }:
 let
   # @VERSION https://github.com/docker/hub-mcp/tags
-  version = "0.18.0";
+  version = "0.19.0";
   service = "dockerhub-mcp-server";
 
   server = buildNpmPackage (finalAttrs: {
@@ -35,7 +35,7 @@ let
       owner = "docker";
       repo = "hub-mcp";
       tag = "dockerhub-mcp/v${finalAttrs.version}";
-      hash = "sha256-n4JQKOUOu2OK9RvsOrddTu8bLCUlhDCRW8jkc4a4Ayk=";
+      hash = "sha256-wkPuRKmJoT3tyh7ECInwpnkf0vM/9ecN1Ax6aczqyuY=";
     };
 
     nativeBuildInputs = [ makeWrapper ];

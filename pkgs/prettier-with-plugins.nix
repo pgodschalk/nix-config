@@ -31,19 +31,19 @@
 let
   # The compiler's native half, one package per system. Its version
   # moves with @astrojs/compiler-binding below.
-  astroBindingVersion = "0.5.1";
+  astroBindingVersion = "0.5.2";
   astroBindings = {
     aarch64-darwin = {
       target = "darwin-arm64";
-      hash = "sha256-WlTz6cMkuCZHeLtKBuhy42B7sogikpag6C1g6OqRYHQ=";
+      hash = "sha256-js9jhcZEeLaffjvOUJyNa/mgUw2g/RqMjmR6/c1eBBY=";
     };
     aarch64-linux = {
       target = "linux-arm64-gnu";
-      hash = "sha256-dYTyvZ78RMt9TSKisqPabhgmg36bQHrDVet8S0AYiYc=";
+      hash = "sha256-xFuv5DfmEkfbb631nIoGrrhmUi+Ejbf881Tr4eTI4GI=";
     };
     x86_64-linux = {
       target = "linux-x64-gnu";
-      hash = "sha256-TPLyz2GWPxvI1GkNu11qkQnjEWlklqEn7oeuMU6zEL8=";
+      hash = "sha256-3uUQEDHOJzfmTaYeSX2GN9z2csOjIdWmODdmATqZLOg=";
     };
   };
   astroBinding =
@@ -75,13 +75,13 @@ let
     };
     "@astrojs/compiler-rs" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-rs
-      url = "https://registry.npmjs.org/@astrojs/compiler-rs/-/compiler-rs-0.5.1.tgz";
-      hash = "sha256-IzgV8QUIfE5nHLP4RNsBnAWxBD+N/rSbbZUChe2tiTA=";
+      url = "https://registry.npmjs.org/@astrojs/compiler-rs/-/compiler-rs-0.5.2.tgz";
+      hash = "sha256-8lQxqofab8StsOSt4AupC2TaTx5TIUhojvDqY0XB9Dk=";
     };
     "@astrojs/compiler-binding" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-binding
-      url = "https://registry.npmjs.org/@astrojs/compiler-binding/-/compiler-binding-0.5.1.tgz";
-      hash = "sha256-w8bkg2U1FmPnFUuFv8GstaPBSt/EwJO1/mn7G622VGc=";
+      url = "https://registry.npmjs.org/@astrojs/compiler-binding/-/compiler-binding-0.5.2.tgz";
+      hash = "sha256-I1pmFe6Jin0mCR8+buRxnJ3JTV5NHC0DYiqlkSERtdA=";
     };
 
     "@astrojs/compiler-binding-${astroBinding.target}" = fetchurl {
