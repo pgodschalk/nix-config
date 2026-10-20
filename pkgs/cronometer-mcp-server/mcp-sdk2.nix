@@ -39,8 +39,8 @@ in
   httpcore2 = wheel {
     pname = "httpcore2";
     # @VERSION https://pypi.org/project/httpcore2/#history
-    version = "2.13.1";
-    hash = "sha256-4eBdTyX319SWv7lnSPb0tnZXsD2gabOmjDYGnz23PQo=";
+    version = "2.15.1";
+    hash = "sha256-cw9gMFjCYKMog3ghe0ZHEzUMI+O4/ou6dTcBBUAy2Yo=";
     dependencies = with self; [
       anyio
       h11
@@ -54,8 +54,8 @@ in
   httpx2 = wheel {
     pname = "httpx2";
     # @VERSION https://pypi.org/project/httpx2/#history
-    version = "2.13.1";
-    hash = "sha256-bf9Q+rwnDuX9JdhF0LB47SBWRXl0TW2WKFCXWZbS+aQ=";
+    version = "2.15.1";
+    hash = "sha256-dYQc2D0WtBf31tqPIInOgSCAbv2/lq831GxRKcSQFb4=";
     dependencies = with self; [
       anyio
       httpcore2

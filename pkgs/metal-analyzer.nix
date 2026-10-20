@@ -18,12 +18,12 @@
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "metal-analyzer";
   # @VERSION https://github.com/computer-graphics-tools/metal-analyzer/releases
-  version = "0.1.25";
+  version = "0.1.26";
 
   src = fetchurl {
     url = "https://github.com/computer-graphics-tools/metal-analyzer/releases/download/${finalAttrs.version}/metal-analyzer-aarch64-apple-darwin.tar.gz";
     # Matches upstream's signed SHA256SUMS for this asset.
-    hash = "sha256-3bsubP/3Kzxqee+D5F/mdRkYhKcp8BFceZQppIqyzxE=";
+    hash = "sha256-x7w5efbxBGK+s5h4OQg7aGJSJ7/YyhbO2E0XP1ZGyyc=";
   };
 
   nativeBuildInputs = [ darwin.autoSignDarwinBinariesHook ];
