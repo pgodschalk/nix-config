@@ -1,36 +1,26 @@
 # Language-agnostic filesystem path completion over LSP. Not in nixpkgs
 # and not on crates.io, so it comes from the upstream release binary.
-{
-  lib,
-  stdenvNoCC,
-  fetchurl,
-  darwin,
-}:
+{ lib, callPackage }:
 
-stdenvNoCC.mkDerivation (finalAttrs: {
-  pname = "path-server";
+let
   # @VERSION https://github.com/kunlinglio/path-server/releases
   version = "1.4.4";
+in
+callPackage ./lib/release-binary.nix {
+  pname = "path-server";
+  inherit version;
 
   # Upstream publishes one plain binary per target rather than an
   # archive.
-  src = fetchurl {
-    url = "https://github.com/kunlinglio/path-server/releases/download/v${finalAttrs.version}/path-server_v${finalAttrs.version}_aarch64-apple-darwin";
+  assets.aarch64-darwin = {
+    url = "https://github.com/kunlinglio/path-server/releases/download/v${version}/path-server_v${version}_aarch64-apple-darwin";
     hash = "sha256-5fkQJ0Izv34yFWOklBpXS56Z5KqZKaCtxItR3ovaqQ4=";
   };
-
-  nativeBuildInputs = lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook;
-
-  dontUnpack = true;
-  dontBuild = true;
-
-  installPhase = builtins.readFile ./path-server/install.sh;
 
   meta = {
     description = "Language server providing filesystem path completion";
     homepage = "https://github.com/kunlinglio/path-server";
     license = lib.licenses.asl20;
     mainProgram = "path-server";
-    platforms = [ "aarch64-darwin" ];
   };
-})
+}
