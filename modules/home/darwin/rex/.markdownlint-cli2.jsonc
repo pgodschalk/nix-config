@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/main/schema/markdownlint-cli2-config-schema.json",
+  "config": {
+    // skill/SKILL.md is Rex's own stub, kept verbatim: its body opens
+    // with a sentence rather than a heading.
+    "MD041": false
+  }
+}
