@@ -291,46 +291,20 @@ let
   #
   # Must equal the skill's own scripts/VERSION: the launcher execs
   # IMPECCABLE_BIN without comparing versions, so a mismatch would run
-  # an old engine against new skill files. The assertion below holds
-  # the two together.
-  # @VERSION https://github.com/pbakaus/impeccable/releases
-  impeccableEngineVersion = "0.1.18";
+  # an old engine against new skill files.
   impeccableSkillVersion = lib.trim (
     builtins.readFile "${impeccableSrc}/.agents/skills/impeccable/scripts/VERSION"
   );
-  impeccableEngineAssets = {
-    aarch64-darwin = {
-      asset = "impeccable-darwin-arm64";
-      hash = "sha256-VD7i9yA2rRhdyZkaw7qGt02R+Yjz1Jd3agiLi2XIqeE=";
-    };
-    aarch64-linux = {
-      asset = "impeccable-linux-arm64";
-      hash = "sha256-MXyxjWSw93FWgd1uV0rWSyrbWmyvjnobO1eWX4BUBL4=";
-    };
-    x86_64-linux = {
-      asset = "impeccable-linux-x64";
-      hash = "sha256-c27XhedK4jRNMDYSf2FN3eWrUgpSfYvIKokWEu9x9kg=";
-    };
-  };
-  impeccableEngineAsset = impeccableEngineAssets.${pkgs.stdenv.hostPlatform.system} or null;
 
   impeccableEngine =
-    assert lib.assertMsg (impeccableSkillVersion == impeccableEngineVersion) (
+    let
+      engine = pkgs.callPackage ../../pkgs/impeccable-engine.nix { };
+    in
+    assert lib.assertMsg (impeccableSkillVersion == engine.version) (
       "claude-skills: impeccable's skill wants engine ${impeccableSkillVersion},"
-      + " but impeccableEngineVersion is ${impeccableEngineVersion}"
+      + " but pkgs/impeccable-engine.nix is ${engine.version}"
     );
-    if impeccableEngineAsset == null then
-      null
-    else
-      pkgs.runCommand "impeccable-engine-${impeccableEngineVersion}" {
-        src = pkgs.fetchurl {
-          url =
-            "https://github.com/pbakaus/impeccable/releases/download/"
-            + "engine-v${impeccableEngineVersion}/${impeccableEngineAsset.asset}";
-          inherit (impeccableEngineAsset) hash;
-        };
-        meta.mainProgram = "impeccable";
-      } (builtins.readFile ./claude-skills/impeccable-engine.sh);
+    if lib.meta.availableOn pkgs.stdenv.hostPlatform engine then engine else null;
 in
 {
   options.my.agentSkills.extraDirs = lib.mkOption {
