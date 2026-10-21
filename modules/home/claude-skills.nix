@@ -361,8 +361,9 @@ in
     );
 
     # IMPECCABLE_HOME as well, so that a version ignoring
-    # IMPECCABLE_BIN, or a system with no hash here, puts its cache
-    # under Library rather than in a dotdir.
+    # IMPECCABLE_BIN, or a system with no asset in
+    # pkgs/impeccable-engine.nix, puts its cache under Library rather
+    # than in a dotdir.
     home.sessionVariables = lib.mkMerge [
       { IMPECCABLE_HOME = "${config.xdg.cacheHome}/impeccable"; }
       (lib.mkIf (impeccableEngine != null) {

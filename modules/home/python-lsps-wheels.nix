@@ -1,7 +1,8 @@
 { lib, pkgs, ... }:
 let
   mkWheelLsp = pkgs.callPackage ../../pkgs/python-lsp-wheel.nix { };
-
+in
+{
   # Keyed by `hostPlatform.system`, and a system with no entry silently
   # gets no server rather than a broken one. x86_64-darwin is absent
   # because Rosetta is a dead end, and the musllinux wheels are ignored
@@ -10,8 +11,6 @@ let
   # PyPI puts each file under a content-addressed directory, so a
   # version bump means re-reading every URL from
   # https://pypi.org/pypi/<name>/json as well as the hash.
-in
-{
   home.packages = lib.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform) [
     (mkWheelLsp {
       pname = "pytest-language-server";

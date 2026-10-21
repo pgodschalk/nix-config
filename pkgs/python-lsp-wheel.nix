@@ -23,6 +23,8 @@
   substituteFile ? (import ../lib lib).substituteFile,
 }:
 
+# Package arguments come in a second call so `callPackage` cannot fill
+# a defaulted one from `pkgs`.
 {
   pname,
   version,
