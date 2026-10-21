@@ -16,7 +16,7 @@ let
   # @VERSION https://github.com/agent-sh/agnix/releases
   version = "0.59.0";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "agnix-lsp";
   inherit version;
 

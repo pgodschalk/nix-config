@@ -11,7 +11,7 @@ let
   # @VERSION https://www.npmjs.com/package/mermaid-formatter
   version = "0.3.0";
 in
-callPackage ./lib/bun-package.nix {
+callPackage ./lib/bun-package.nix { } {
   pname = "mermaid-formatter";
   inherit version;
   hash = "sha256-PKv0cFTu7lr8U5raoGhF/xbjEx1cQEvZ9xhSY51jFHQ=";

@@ -11,7 +11,7 @@ let
   # @VERSION https://github.com/lmn451/css-lsp-rust/releases
   version = "0.3.7";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "css-variable-lsp";
   inherit version;
 

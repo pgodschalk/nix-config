@@ -9,7 +9,7 @@ let
   # @VERSION https://www.npmjs.com/package/resend-cli
   version = "2.26.0";
 in
-callPackage ./lib/bun-package.nix {
+callPackage ./lib/bun-package.nix { } {
   pname = "resend-cli";
   inherit version;
   hash = "sha256-dGnj4Up/UbOtUWJC3JsVVk4ZNDvklEaoHoMpwkhIiq4=";

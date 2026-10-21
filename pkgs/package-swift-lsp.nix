@@ -26,7 +26,7 @@ let
   # @VERSION https://github.com/kattouf/package-swift-lsp/releases
   version = "1.6.1";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "package-swift-lsp";
   inherit version;
 

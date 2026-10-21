@@ -13,12 +13,13 @@
   fetchurl,
   bun,
   makeWrapper,
+}:
+
+{
   pname, # also the npm package name
   version,
   hash, # of the registry tarball
   entry, # path inside the tarball that bun runs
-  # `callPackage` fills this from `pkgs.binary` when it is not passed, so
-  # every caller passes it.
   binary ? pname,
   copy ? [
     "dist"

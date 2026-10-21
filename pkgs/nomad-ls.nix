@@ -13,7 +13,7 @@ let
   # @VERSION https://github.com/loczek/nomad-ls/releases
   version = "0.0.8";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "nomad-ls";
   inherit version;
 

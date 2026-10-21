@@ -14,7 +14,7 @@ let
   # @VERSION https://github.com/computer-graphics-tools/metal-analyzer/releases
   version = "0.1.26";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "metal-analyzer";
   inherit version;
 

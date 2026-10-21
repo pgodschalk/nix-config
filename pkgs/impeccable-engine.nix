@@ -9,7 +9,7 @@ let
   version = "0.1.16";
   base = "https://github.com/pbakaus/impeccable/releases/download/engine-v${version}";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "impeccable-engine";
   inherit version;
 

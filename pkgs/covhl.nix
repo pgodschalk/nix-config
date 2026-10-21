@@ -13,7 +13,7 @@ let
   # @VERSION https://github.com/hyyan/zed-test-coverage-highlight/releases
   version = "0.1.3";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "covhl";
   inherit version;
 
