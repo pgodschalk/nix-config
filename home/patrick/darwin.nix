@@ -22,6 +22,7 @@
     ../../modules/home/darwin/orbstack.nix
     ../../modules/home/darwin/python-lsps.nix
     ../../modules/home/darwin/rectangle-pro.nix
+    ../../modules/home/darwin/rex.nix
     ../../modules/home/darwin/setapp.nix
     ../../modules/home/darwin/snippetslab.nix
     ../../modules/home/darwin/ssh.nix
