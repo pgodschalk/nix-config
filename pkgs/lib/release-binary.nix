@@ -11,6 +11,9 @@
   darwin,
   autoPatchelfHook,
   unzip,
+}:
+
+{
   pname,
   version,
   assets,
