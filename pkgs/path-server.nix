@@ -6,7 +6,7 @@ let
   # @VERSION https://github.com/kunlinglio/path-server/releases
   version = "1.4.4";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "path-server";
   inherit version;
 

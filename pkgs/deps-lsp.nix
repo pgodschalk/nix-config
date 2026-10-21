@@ -16,7 +16,7 @@ let
   # @VERSION https://github.com/bug-ops/deps-lsp/releases
   version = "5.0.0";
 in
-callPackage ./lib/release-binary.nix {
+callPackage ./lib/release-binary.nix { } {
   pname = "deps-lsp";
   inherit version;
 

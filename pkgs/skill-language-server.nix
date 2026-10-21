@@ -17,12 +17,11 @@ let
   # @VERSION https://www.npmjs.com/package/skill-language-server
   version = "0.8.2";
 in
-callPackage ./lib/bun-package.nix {
+callPackage ./lib/bun-package.nix { } {
   pname = "skill-language-server";
   inherit version;
   hash = "sha256-mBXlgyzV8z31eliSkeUfqLgP0sFRibPos72cM/aa1Nk=";
   entry = "dist/main.cjs";
-  binary = "skill-language-server";
 
   meta = {
     description = "Language server for agent skill files, making /skill-name and $skill-name real symbols";
