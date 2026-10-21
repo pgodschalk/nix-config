@@ -23,21 +23,26 @@
   substituteFile ? (import ../lib lib).substituteFile,
 }:
 
+# Package arguments come in a second call so `callPackage` cannot fill
+# a defaulted one from `pkgs`.
 {
   pname,
   version,
   binary ? pname,
-  url,
-  hash,
+  wheels, # attrsOf { url; hash }, keyed by hostPlatform.system
   description,
   homepage,
   license,
 }:
 
+let
+  inherit (stdenvNoCC.hostPlatform) system;
+  wheel = wheels.${system} or (throw "${pname}: no wheel for ${system}");
+in
 stdenvNoCC.mkDerivation {
   inherit pname version;
 
-  src = fetchurl { inherit url hash; };
+  src = fetchurl { inherit (wheel) url hash; };
 
   # On darwin the binary has to be re-signed: an ad-hoc signature does
   # not survive being rewritten into the store, and macOS refuses to
@@ -62,6 +67,6 @@ stdenvNoCC.mkDerivation {
   meta = {
     inherit description homepage license;
     mainProgram = binary;
-    platforms = lib.platforms.unix;
+    platforms = lib.attrNames wheels;
   };
 }

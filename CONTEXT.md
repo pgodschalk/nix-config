@@ -34,10 +34,17 @@ _Avoid_: work repository, work flake, work input, personal layer
 **Stub**:\
 The empty stand-in for the work layer, so everything else evaluates without it.
 
+**Registry**:\
+An option any module contributes to and one module renders, declared where both
+halves see it; the MCP server list is one.
+
 ### Applications
 
 **Package**:\
 Anything from nixpkgs or `pkgs/` installed into a user profile.
+
+**Release binary**:\
+A prebuilt binary from an upstream release page, packaged rather than built.
 
 **Cask**:\
 A Homebrew cask, unpacked into the store, for an app that is on neither the App
@@ -85,6 +92,13 @@ _Avoid_: Dark and Light as names, outside the file names an app forces
 One of the two working copies, dracula-pro and dracula-pro-extras, that themes
 are linked from; absent on a host without them.\
 _Avoid_: working copy
+
+**Follower**:\
+A tool that cannot follow the appearance itself, so a link is swapped under it
+when the appearance changes.
+
+**Watcher**:\
+The launchd job that polls the appearance and swaps the followers' links.
 
 ### State
 

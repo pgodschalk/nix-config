@@ -10,68 +10,35 @@
 # machine; file contents do not. api.github.com is queried without a
 # token, so the 60-requests-an-hour ceiling applies and the symptom of
 # hitting it is hints going quiet rather than an error.
-{
-  lib,
-  stdenvNoCC,
-  fetchurl,
-  darwin,
-  autoPatchelfHook,
-  stdenv,
-}:
+{ lib, callPackage }:
 
 let
   # @VERSION https://github.com/bug-ops/deps-lsp/releases
   version = "3.0.0";
-
-  targets = {
-    aarch64-darwin = {
-      triple = "aarch64-apple-darwin";
-      hash = "sha256-Ye84o33h3njAAGfjtUvkdCEA3uMBPP0iBrbNZt0US0A=";
-    };
-    aarch64-linux = {
-      triple = "aarch64-unknown-linux-gnu";
-      hash = "sha256-X6RoLtjafgLJTnHq3I2eHBS0y98eM7aeNT8SGHBRCW8=";
-    };
-    x86_64-linux = {
-      triple = "x86_64-unknown-linux-gnu";
-      hash = "sha256-DcEmxcOfB1tYwR/nBS+4+Oyczi6Qi96grpTsaRG6pxI=";
-    };
-  };
-
-  target =
-    targets.${stdenvNoCC.hostPlatform.system}
-      or (throw "deps-lsp: no upstream release asset for ${stdenvNoCC.hostPlatform.system}");
 in
-stdenvNoCC.mkDerivation {
+callPackage ./lib/release-binary.nix { } {
   pname = "deps-lsp";
   inherit version;
 
-  src = fetchurl {
-    url = "https://github.com/bug-ops/deps-lsp/releases/download/v${version}/deps-lsp-${target.triple}.tar.gz";
-    inherit (target) hash;
+  assets = {
+    aarch64-darwin = {
+      url = "https://github.com/bug-ops/deps-lsp/releases/download/v${version}/deps-lsp-aarch64-apple-darwin.tar.gz";
+      hash = "sha256-Ye84o33h3njAAGfjtUvkdCEA3uMBPP0iBrbNZt0US0A=";
+    };
+    aarch64-linux = {
+      url = "https://github.com/bug-ops/deps-lsp/releases/download/v${version}/deps-lsp-aarch64-unknown-linux-gnu.tar.gz";
+      hash = "sha256-X6RoLtjafgLJTnHq3I2eHBS0y98eM7aeNT8SGHBRCW8=";
+    };
+    x86_64-linux = {
+      url = "https://github.com/bug-ops/deps-lsp/releases/download/v${version}/deps-lsp-x86_64-unknown-linux-gnu.tar.gz";
+      hash = "sha256-DcEmxcOfB1tYwR/nBS+4+Oyczi6Qi96grpTsaRG6pxI=";
+    };
   };
-
-  nativeBuildInputs =
-    lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook
-    ++ lib.optional stdenvNoCC.hostPlatform.isLinux autoPatchelfHook;
-
-  # Upstream's Linux builds are glibc binaries with the FHS loader, so
-  # on Linux they are patched to find it and their libraries in the
-  # store.
-  buildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
-
-  # The tarball is a single bare binary, no leading directory.
-  sourceRoot = ".";
-
-  dontBuild = true;
-
-  installPhase = builtins.readFile ./deps-lsp/install.sh;
 
   meta = {
     description = "Language server for dependency manifests across 14 package ecosystems";
     homepage = "https://github.com/bug-ops/deps-lsp";
     license = lib.licenses.mit;
     mainProgram = "deps-lsp";
-    platforms = lib.attrNames targets;
   };
 }
