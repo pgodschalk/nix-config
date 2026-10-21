@@ -15,6 +15,8 @@
   makeWrapper,
 }:
 
+# Package arguments come in a second call so `callPackage` cannot fill
+# a defaulted one from `pkgs`.
 {
   pname, # also the npm package name
   version,
