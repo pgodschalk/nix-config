@@ -39,8 +39,8 @@ in
     (mkWheelLsp {
       pname = "django-language-server";
       # The binary is `djls`, not the package name: the wheel ships
-      # `…data/scripts/djls` and the Zed extension looks for exactly that,
-      # so any other name leaves this copy unused.
+      # `…data/scripts/djls` and the Zed extension looks for exactly
+      # that, so any other name leaves this copy unused.
       binary = "djls";
       # @VERSION https://pypi.org/project/django-language-server/#history
       version = "6.1.1";
