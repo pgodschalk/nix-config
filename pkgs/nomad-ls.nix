@@ -7,31 +7,20 @@
 # precedence.
 #
 # The asset name is the one the extension constructs.
-{
-  lib,
-  stdenvNoCC,
-  fetchurl,
-  darwin,
-}:
+{ lib, callPackage }:
 
-stdenvNoCC.mkDerivation (finalAttrs: {
-  pname = "nomad-ls";
+let
   # @VERSION https://github.com/loczek/nomad-ls/releases
   version = "0.0.8";
+in
+callPackage ./lib/release-binary.nix {
+  pname = "nomad-ls";
+  inherit version;
 
-  src = fetchurl {
-    url = "https://github.com/loczek/nomad-ls/releases/download/v${finalAttrs.version}/nomad-ls_darwin_arm64.tar.gz";
+  assets.aarch64-darwin = {
+    url = "https://github.com/loczek/nomad-ls/releases/download/v${version}/nomad-ls_darwin_arm64.tar.gz";
     hash = "sha256-FKC4odJXgOagLwjSce7MMHZnzIxtoRkeQyMM2DMvUow=";
   };
-
-  nativeBuildInputs = lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook;
-
-  # The tarball is a single bare binary, no leading directory.
-  sourceRoot = ".";
-
-  dontBuild = true;
-
-  installPhase = builtins.readFile ./nomad-ls/install.sh;
 
   meta = {
     description = "Language server for HashiCorp Nomad job specifications";
@@ -39,6 +28,5 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     # Upstream publishes no license, so all rights are reserved.
     license = lib.licenses.unfree;
     mainProgram = "nomad-ls";
-    platforms = [ "aarch64-darwin" ];
   };
-})
+}
