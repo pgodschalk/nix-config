@@ -33,6 +33,28 @@ case "/$file" in
   *) exit 0 ;;
 esac
 
+# MD_LINT_LINE_LENGTHS holds one `directory<TAB>length<TAB>config` line
+# per directory whose markdown is held to another line length than the
+# 80 prettier-md and MARKDOWNLINT_CONFIG build in, longest directory
+# first. The first line whose directory contains the file wins. A
+# later --print-width overrides the one prettier-md adds itself.
+case "$file" in
+  /*) path=$file ;;
+  *) path=$PWD/$file ;;
+esac
+widthFlag=""
+config=$MARKDOWNLINT_CONFIG
+while IFS=$'\t' read -r directory length override; do
+  [ -n "$directory" ] || continue
+  case "$path" in
+    "$directory"/*)
+      widthFlag="--print-width=$length"
+      config=$override
+      break
+      ;;
+  esac
+done <<<"${MD_LINT_LINE_LENGTHS-}"
+
 status=0
 report=""
 
@@ -53,15 +75,15 @@ origin=$PWD
 cd "$scratch" || exit 2
 
 # --check prints only the path, so the report is the command to run.
-if ! prettier-md --no-config --no-editorconfig --check "$name" \
-  >/dev/null 2>&1; then
+if ! prettier-md --no-config --no-editorconfig ${widthFlag:+"$widthFlag"} \
+  --check "$name" >/dev/null 2>&1; then
   note "prettier-md: $file is not formatted. Run:
-  prettier-md --no-config --no-editorconfig --write $(printf '%q' "$file")"
+  prettier-md --no-config --no-editorconfig ${widthFlag:+$widthFlag }--write $(printf '%q' "$file")"
 fi
 
 # One line per violation with the rule id, which is already the right
 # report.
-if ! out=$(markdownlint-cli2 --config "$MARKDOWNLINT_CONFIG" "$name" 2>&1); then
+if ! out=$(markdownlint-cli2 --config "$config" "$name" 2>&1); then
   note "markdownlint-cli2:
 $out"
 fi
