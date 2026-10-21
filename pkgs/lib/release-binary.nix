@@ -13,11 +13,15 @@
   unzip,
 }:
 
+# Package arguments come in a second call so `callPackage` cannot fill
+# a defaulted one from `pkgs`.
 {
   pname,
   version,
   assets,
+  # installed to $out/bin; a bare .gz or bare file lands under the first
   binaries ? [ pname ],
+  # applied on every platform; guard with isLinux in the caller
   buildInputs ? [ ],
   meta,
 }:
@@ -30,6 +34,8 @@ let
   toList = x: if builtins.isList x then x else [ x ];
   fetch = a: fetchurl { inherit (a) url hash; };
 
+  # Read off the first system, not the host's, so an absent host
+  # system still exposes `meta.platforms`.
   first = lib.head (lib.attrValues assets);
   firstUrl = (lib.head (toList first)).url;
   archive =
