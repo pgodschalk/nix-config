@@ -21,24 +21,24 @@
 
 let
   # @VERSION https://github.com/agent-sh/agnix/releases
-  version = "0.59.0";
+  version = "0.59.3";
 
   # Hashes from each asset's published .sha256 sidecar.
   targets = {
     aarch64-darwin = {
       triple = "aarch64-apple-darwin";
-      lspHash = "sha256-ZCz9XspINpz7kz3WBaonWs6LMkjqtc2p2wF91voUkmw=";
-      cliHash = "sha256-OW/3LfIKO5joud2u+r7vE2TWPkbpu1KnwPsLnV9B0uk=";
+      lspHash = "sha256-SQzKkhCvdc6wJG3YrhxO4oELL3Dmq3itmRDDafQGRBw=";
+      cliHash = "sha256-8gy/KzN+C/64syjbOyZektkzcg8HdLDJmS8PvNFTtUI=";
     };
     aarch64-linux = {
       triple = "aarch64-unknown-linux-gnu";
-      lspHash = "sha256-LBHuuOOdnFO/ONlqFTSiXGfumZGLxv46uScOcI8RJgA=";
-      cliHash = "sha256-wpOrv80Amxv1WUrgbzsElct7DCGnLGG8H+m668MhaHM=";
+      lspHash = "sha256-9jh/uckv8pR5Q++dMFJrNyiod8TBOXYzVjG74Rpi8dc=";
+      cliHash = "sha256-o1CsSLFgfgK5uo9Qq/9TOkuRFVnd4qH2yoMrFpBDbpM=";
     };
     x86_64-linux = {
       triple = "x86_64-unknown-linux-gnu";
-      lspHash = "sha256-OkMd1bthHGnueEc0kvdDJWm3k1Ol8GpPw54yEx3nxxE=";
-      cliHash = "sha256-/XqKxbQCF3ZKJke/vkZbQ9xc18rrfOSLapYmu6LBmN4=";
+      lspHash = "sha256-yVOvWfq/Wa5oOYI8gok/FlmGzhnLGrhpzYv7ogw6Cw0=";
+      cliHash = "sha256-8uBUkob7FIsoFFWSIhKb1WHbad3CHNPGwFtS887wnuQ=";
     };
   };
 

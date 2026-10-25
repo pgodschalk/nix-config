@@ -70,8 +70,8 @@ let
     # astro-language-server advertises formatting and ships none.
     prettier-plugin-astro = fetchurl {
       # @VERSION https://www.npmjs.com/package/prettier-plugin-astro
-      url = "https://registry.npmjs.org/prettier-plugin-astro/-/prettier-plugin-astro-1.1.1.tgz";
-      hash = "sha256-Pgb2NIg/qf9czRrQ4bOKBy42ClAZWftpb208LIHrvPs=";
+      url = "https://registry.npmjs.org/prettier-plugin-astro/-/prettier-plugin-astro-1.1.2.tgz";
+      hash = "sha256-FZniSOPpTjZN+fNfnXSyfVIUDcsknOV08HBoSCikcho=";
     };
     "@astrojs/compiler-rs" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-rs

@@ -24,13 +24,13 @@ let
   server = python3Packages.buildPythonApplication rec {
     pname = "cronometer-mcp";
     # @VERSION https://github.com/cphoskins/cronometer-mcp/releases
-    version = "2.3.0";
+    version = "2.4.0";
     pyproject = true;
 
     src = fetchPypi {
       pname = "cronometer_mcp";
       inherit version;
-      hash = "sha256-9BzH/czsvWIg+JH6wF+aB5ro3NptgXHiQFikykgqTCs=";
+      hash = "sha256-A9YOyGN98shMvwALNH+tuvBVu3RdFBnxn5aaAS/jPTA=";
     };
 
     build-system = [ python3Packages.hatchling ];

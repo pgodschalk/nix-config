@@ -214,8 +214,8 @@ let
     owner = "obra";
     repo = "superpowers";
     # @VERSION https://github.com/obra/superpowers/releases
-    rev = "bb92a77741419a4ab5f06e711a283343f1ada0c3";
-    hash = "sha256-UCVI+T7j1Xh1LDkrvnJduis7eHFqrizCyGTWAGW5d6U=";
+    rev = "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b";
+    hash = "sha256-9+69YEdjdaDu5sWTyAbufSVcZgGD7h6wAq4nUVY2syE=";
   };
 
   # Three of five categories: in-progress and deprecated are excluded,
@@ -276,8 +276,8 @@ let
     owner = "pbakaus";
     repo = "impeccable";
     # @VERSION https://github.com/pbakaus/impeccable/releases
-    rev = "aeeb3d8c30b5f95aeeb3e893b0f1a308af8fdb8f";
-    hash = "sha256-E6rGF4Qu1TZsO959h2DZDNkfz81TDaSIF1O6ssiHIyQ=";
+    rev = "bdeeeec723426d4dc2945e420e849e98abe6cda2";
+    hash = "sha256-wHTWrhkJCrdbmSIF5q9thJ3eaBibfQQBbWSpTbTESqA=";
   };
 
   # The engine binary, pinned so the launcher never reaches its download
@@ -294,22 +294,22 @@ let
   # an old engine against new skill files. The assertion below holds
   # the two together.
   # @VERSION https://github.com/pbakaus/impeccable/releases
-  impeccableEngineVersion = "0.1.16";
+  impeccableEngineVersion = "0.1.17";
   impeccableSkillVersion = lib.trim (
     builtins.readFile "${impeccableSrc}/.agents/skills/impeccable/scripts/VERSION"
   );
   impeccableEngineAssets = {
     aarch64-darwin = {
       asset = "impeccable-darwin-arm64";
-      hash = "sha256-XADDEwuWHzqhBm8E7Q4fWOh4CK0VPvoA8cRBhIAAhPI=";
+      hash = "sha256-caU/N3UO+UMihVRUqGnpQeo3dNhtJjSGfr+V4GhPfqE=";
     };
     aarch64-linux = {
       asset = "impeccable-linux-arm64";
-      hash = "sha256-qaGL+m1wZCcBRG7TsSo+Xm7v5KS0xW7/4wtEnMsynEs=";
+      hash = "sha256-vCZwui6zKbC0X/6IU/PiDuwHgVO+NXB1pZeu+iKx4uY=";
     };
     x86_64-linux = {
       asset = "impeccable-linux-x64";
-      hash = "sha256-qJCltLfZ157FSqdGErXpJOX1tCJgCiX96Ly9oRsDF4c=";
+      hash = "sha256-RMDWAemFmAqcOXGP7hW0io98vmd3n2rgXv6RJIF6tik=";
     };
   };
   impeccableEngineAsset = impeccableEngineAssets.${pkgs.stdenv.hostPlatform.system} or null;
