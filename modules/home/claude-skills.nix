@@ -276,8 +276,8 @@ let
     owner = "pbakaus";
     repo = "impeccable";
     # @VERSION https://github.com/pbakaus/impeccable/releases
-    rev = "bdeeeec723426d4dc2945e420e849e98abe6cda2";
-    hash = "sha256-wHTWrhkJCrdbmSIF5q9thJ3eaBibfQQBbWSpTbTESqA=";
+    rev = "414603bf14c7a344edb466bb1f85690c77ce8b7d";
+    hash = "sha256-gwI+IhgwmELfQnfXjUuel6u+zdFD0LZZCLhGH5MSIWk=";
   };
 
   # The engine binary, pinned so the launcher never reaches its download
@@ -294,22 +294,22 @@ let
   # an old engine against new skill files. The assertion below holds
   # the two together.
   # @VERSION https://github.com/pbakaus/impeccable/releases
-  impeccableEngineVersion = "0.1.17";
+  impeccableEngineVersion = "0.1.18";
   impeccableSkillVersion = lib.trim (
     builtins.readFile "${impeccableSrc}/.agents/skills/impeccable/scripts/VERSION"
   );
   impeccableEngineAssets = {
     aarch64-darwin = {
       asset = "impeccable-darwin-arm64";
-      hash = "sha256-caU/N3UO+UMihVRUqGnpQeo3dNhtJjSGfr+V4GhPfqE=";
+      hash = "sha256-VD7i9yA2rRhdyZkaw7qGt02R+Yjz1Jd3agiLi2XIqeE=";
     };
     aarch64-linux = {
       asset = "impeccable-linux-arm64";
-      hash = "sha256-vCZwui6zKbC0X/6IU/PiDuwHgVO+NXB1pZeu+iKx4uY=";
+      hash = "sha256-MXyxjWSw93FWgd1uV0rWSyrbWmyvjnobO1eWX4BUBL4=";
     };
     x86_64-linux = {
       asset = "impeccable-linux-x64";
-      hash = "sha256-RMDWAemFmAqcOXGP7hW0io98vmd3n2rgXv6RJIF6tik=";
+      hash = "sha256-c27XhedK4jRNMDYSf2FN3eWrUgpSfYvIKokWEu9x9kg=";
     };
   };
   impeccableEngineAsset = impeccableEngineAssets.${pkgs.stdenv.hostPlatform.system} or null;

@@ -18,11 +18,11 @@
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "resend-cli";
   # @VERSION https://www.npmjs.com/package/resend-cli
-  version = "2.26.0";
+  version = "2.26.1";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/resend-cli/-/resend-cli-${finalAttrs.version}.tgz";
-    hash = "sha256-dGnj4Up/UbOtUWJC3JsVVk4ZNDvklEaoHoMpwkhIiq4=";
+    hash = "sha256-rVYIsOSNVWmvBPWscsr1/RjUL/n93F2QVEtVl3mHdyE=";
   };
 
   nativeBuildInputs = [ makeWrapper ];

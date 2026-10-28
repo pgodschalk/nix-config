@@ -76,7 +76,10 @@
       mkcert # local dev CA
       ouch # archive (de)compressor
       stern # multi-pod Kubernetes log tailing
-      vagrant
+      # Linux defaults to the libvirt provider, which drags in
+      # libguestfs: marked broken in nixpkgs. Off is already the
+      # macOS default, so only the Linux build changes.
+      (vagrant.override { withLibvirt = false; })
       xh # HTTP client
     ];
 
