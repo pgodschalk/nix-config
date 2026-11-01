@@ -22,8 +22,8 @@ let
     owner = "github";
     repo = "gitignore";
     # @VERSION https://github.com/github/gitignore/commits/main
-    rev = "0e5d690153ca3da8a4a1aef2d053406f408f531c";
-    hash = "sha256-nFxjp+p0s5J3IwVkHs+ZAHLDd2cPliL7NqmAq3KIa/g=";
+    rev = "6bb5af7a1b050e5add3a71b6e6365c93498822ac";
+    hash = "sha256-f2MBx5AXS8xVvwM24/3GUloU9gv2MBpIcWWiAN3O0lg=";
   };
 
   gitattributesUpstream = pkgs.fetchFromGitHub {

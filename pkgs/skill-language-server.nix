@@ -26,11 +26,11 @@
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "skill-language-server";
   # @VERSION https://www.npmjs.com/package/skill-language-server
-  version = "0.8.0";
+  version = "0.8.2";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/skill-language-server/-/skill-language-server-${finalAttrs.version}.tgz";
-    hash = "sha256-ZGW15IR4DNG6kRjFVL9FggbBXo4l+vsU1WbCgYpC4c4=";
+    hash = "sha256-mBXlgyzV8z31eliSkeUfqLgP0sFRibPos72cM/aa1Nk=";
   };
 
   nativeBuildInputs = [ makeWrapper ];

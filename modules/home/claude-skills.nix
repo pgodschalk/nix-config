@@ -25,8 +25,8 @@ let
     owner = "VoltAgent";
     repo = "awesome-claude-code-subagents";
     # @VERSION https://github.com/VoltAgent/awesome-claude-code-subagents/commits/main
-    rev = "408d3c9eee2d0c75c12a3abb5de29e53c2ca6b9e";
-    hash = "sha256-QlC4sVV/hHhvOx4HI/6rbxJMQ09WDhcmj6dtkRzkSAU=";
+    rev = "f2e2ea7e0202cc05fa2d469fcb2c57fe08603450";
+    hash = "sha256-/a0NKZbHSALBUyTpAEBi7p6vjC7c98x6js6Z9o63bow=";
   };
 
   agentsDir = "${config.xdg.configHome}/claude-code/agents";
@@ -225,8 +225,8 @@ let
     owner = "mattpocock";
     repo = "skills";
     # @VERSION https://github.com/mattpocock/skills/releases
-    rev = "24fe0ef7737efae15c87225755e9f6f5965e4888";
-    hash = "sha256-/mAmj7QFdyOWhLmy3Rt2/Hfsh5qwirTRax7hmQffFdo=";
+    rev = "d1478fcb140db0b93c0c8df17bcfd311844749d0";
+    hash = "sha256-ej0ATi0BWaAx+83dBwgCQxr9J2L2qEwKhUIeIRJ03Go=";
   };
 
   # A skill's frontmatter is always in context, so this and ECC, the two

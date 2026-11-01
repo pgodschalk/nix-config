@@ -20,11 +20,11 @@
     "brew-api": {
       "flake": false,
       "locked": {
-        "lastModified": 1793169366,
-        "narHash": "sha256-byRHDGYLK5w95YglSVn7RO+ik/R9/vQiQHYucyjW2JU=",
+        "lastModified": 1793547965,
+        "narHash": "sha256-/ie47FrWi7Fv9fhdYZXKTQ1AMq1xNHxqbhUgSEL0EvI=",
         "owner": "BatteredBunny",
         "repo": "brew-api",
-        "rev": "3b4064ecbbf421f1fab2ac9f1bb8f331af4b7121",
+        "rev": "90d6fef98184526bd56ed2b67fb3b7e2db76edfa",
         "type": "github"
       },
       "original": {
@@ -224,11 +224,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792737899,
-        "narHash": "sha256-P0/GhewcEQmAbzq3QunNWY2jLJaYH9F6c/5dEM/jQ4M=",
+        "lastModified": 1793418699,
+        "narHash": "sha256-+RpTlcdh9KqZ+ZiLkNSTvibQWm935EcIdBzRPCTFsrQ=",
         "owner": "nix-darwin",
         "repo": "nix-darwin",
-        "rev": "bb0b90dbd54e207100de72b5dcbe3188c98a4b69",
+        "rev": "ff0e21a414d4547183396da1b44a66f2577b65e9",
         "type": "github"
       },
       "original": {
@@ -327,10 +327,10 @@
     },
     "work": {
       "locked": {
-        "lastModified": 1792933299,
-        "narHash": "sha256-g3QYODzgGfmfSWW0NlPMLO8vyQmgrTJd8AemdV8t7aM=",
-        "rev": "695c008ad8081819de03f5007ad4471c2bdbf66d",
-        "revCount": 30,
+        "lastModified": 1793564147,
+        "narHash": "sha256-gQfTiMfXcE6L5aXXOTfj3BD6utGLbAsucmupAUcHXiA=",
+        "rev": "9355fad974ab18f694c317cb89a848bf7b83d2a1",
+        "revCount": 32,
         "type": "git",
         "url": "file:///Users/patrick/Developer/git.dutchanalytics.net/patrick.godschalk/ubiops-nix-config"
       },
