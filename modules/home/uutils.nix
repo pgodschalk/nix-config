@@ -13,6 +13,6 @@
   home.packages = with pkgs; [
     uutils-coreutils-noprefix
     uutils-findutils
-    uutils-diffutils
+    (callPackage ../../pkgs/uutils-diffutils.nix { })
   ];
 }

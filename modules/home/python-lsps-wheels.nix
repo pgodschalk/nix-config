@@ -27,26 +27,26 @@ in
     wheelFor "pytest-language-server" lib.licenses.mit {
       # @VERSION https://pypi.org/project/pytest-language-server/#history
       aarch64-darwin = {
-        version = "0.25.0";
+        version = "0.26.0";
         binary = "pytest-language-server";
-        url = "https://files.pythonhosted.org/packages/65/87/388076351a2eea1f759dc11ec343688ec762a156a950b61a84214254334f/pytest_language_server-0.25.0-py3-none-macosx_11_0_arm64.whl";
-        hash = "sha256-5mVms+LtBAXU0xPPGgvZAPcLa5OcKGhWeXqarcnKjB4=";
+        url = "https://files.pythonhosted.org/packages/84/22/39a70c3f3f3e9b34efa2f80723278862e2f0cf284895a80e7fc529c08524/pytest_language_server-0.26.0-py3-none-macosx_11_0_arm64.whl";
+        hash = "sha256-4HSmD3NjR55aAiMle1F4Oe08jzv4+j+PTrZCekYq6fY=";
         description = "Language server for pytest";
         homepage = "https://github.com/bellini666/pytest-language-server";
       };
       aarch64-linux = {
-        version = "0.25.0";
+        version = "0.26.0";
         binary = "pytest-language-server";
-        url = "https://files.pythonhosted.org/packages/c2/6d/2a5de22028e57bc3deefffb50427964b2bb4e4c2456ecad45cb212a901d4/pytest_language_server-0.25.0-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl";
-        hash = "sha256-HpnKlFNQ4JT9YPe2ureGLX2lWY/nJf6bF00WCLZOfnU=";
+        url = "https://files.pythonhosted.org/packages/7a/34/a718559e65105d766bdcde1b9385a248a02cc76f6177a59c4f703e4f95f8/pytest_language_server-0.26.0-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl";
+        hash = "sha256-Poni5HFnZsR4eAGnlEFHr55NGoRnm9DZg0BnXSitiF8=";
         description = "Language server for pytest";
         homepage = "https://github.com/bellini666/pytest-language-server";
       };
       x86_64-linux = {
-        version = "0.25.0";
+        version = "0.26.0";
         binary = "pytest-language-server";
-        url = "https://files.pythonhosted.org/packages/80/7f/5bf002061534e0f1a16fdf9a19a8ec78b2937f0555c96cbf7bfe38854ee0/pytest_language_server-0.25.0-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl";
-        hash = "sha256-fFIKBv8py2gpv5+a4LJG9ONo65UEyJsEDUMLcRUss1A=";
+        url = "https://files.pythonhosted.org/packages/47/34/133a968c56f27b9c589247299aa031ad4e1d5b37f5a7eee60c0cdbdbc2f0/pytest_language_server-0.26.0-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl";
+        hash = "sha256-GgOOTdvaFeFApYm9/12UrZXbvkdBH6VB1h7KVy4e7a0=";
         description = "Language server for pytest";
         homepage = "https://github.com/bellini666/pytest-language-server";
       };

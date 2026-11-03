@@ -16,20 +16,20 @@
 
 let
   # @VERSION https://github.com/lmn451/css-lsp-rust/releases
-  version = "0.3.7";
+  version = "0.3.8";
 
   targets = {
     aarch64-darwin = {
       asset = "macos-aarch64";
-      hash = "sha256-Y1q8zjAgmTy9c04ow6q/PxlCEtlKxBooCvRRmAWykbg=";
+      hash = "sha256-D/o8RoWq+3qI/sAI/6Wvj4r8H08i6kzAkniDUS5famc=";
     };
     aarch64-linux = {
       asset = "linux-aarch64";
-      hash = "sha256-RO/1w7uekG+xdv+x869dngIuV4Vd5XnPnU9uyGie18c=";
+      hash = "sha256-vH2goLJYhieA8h0o9tMnO+CRC3iVSoJS3TKNr6yZje8=";
     };
     x86_64-linux = {
       asset = "linux-x86_64";
-      hash = "sha256-0dTbCQS5bVREI4WNOmnSSI4+gDpimYAwdO07/5zpf6o=";
+      hash = "sha256-GH6Y/tpNt4+vXX7bWMaVn0gF3sfLbu61YOzSR/6iZFE=";
     };
   };
 

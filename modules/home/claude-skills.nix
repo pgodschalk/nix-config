@@ -25,8 +25,8 @@ let
     owner = "VoltAgent";
     repo = "awesome-claude-code-subagents";
     # @VERSION https://github.com/VoltAgent/awesome-claude-code-subagents/commits/main
-    rev = "f2e2ea7e0202cc05fa2d469fcb2c57fe08603450";
-    hash = "sha256-/a0NKZbHSALBUyTpAEBi7p6vjC7c98x6js6Z9o63bow=";
+    rev = "ed74d115b7fb7026a22a4f816a8e3250f425e3b4";
+    hash = "sha256-JMtJ2jtUxkEjEGfFADXgp6F2ZPjmVHdulr55dukBnKs=";
   };
 
   agentsDir = "${config.xdg.configHome}/claude-code/agents";

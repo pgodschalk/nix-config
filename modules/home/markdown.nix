@@ -10,7 +10,7 @@
   #   skill-language-server  navigation for skill references
   #   markdownlint-lsp       style and structure of the prose
   home.packages = [
-    pkgs.marksman
+    (pkgs.callPackage ../../pkgs/marksman.nix { })
 
     # agnix's extension never calls `which` and would fetch a release of
     # its own; skill-language-server's resolves `which` first, so being
