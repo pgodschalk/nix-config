@@ -7,3 +7,9 @@ where to keep its state, and tolerates a dotfile only when the tool hardcodes
 the name. The cost is the occasional tool tripping over the space in
 "Application Support"; the gain is a home directory holding only what the user
 put there.
+
+On Linux, a NixOS host or an ephemeral environment, the XDG base directories are
+the native counterpart of `~/Library` and stay at their defaults; there is no
+`~/Library` there. The rest holds unchanged: every tool that can be told where
+to keep its state is told, and a dotfile is tolerated only when the tool
+hardcodes the name.

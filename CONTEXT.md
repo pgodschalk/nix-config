@@ -8,23 +8,44 @@ settings and the toolchain behind them.
 ### Layering
 
 **Host**:\
-One configured machine, as the flake names it.\
+One configured machine, as the flake names it, running macOS or NixOS.\
 _Avoid_: machine, which is the hardware alone
 
+**NixOS host**:\
+A dedicated, headless host running NixOS, reached remotely for development.
+
+**Ephemeral environment**:\
+A short-lived container or virtual machine that this repository configures
+through the portable half alone; the flake builds a configuration per user and
+system for it, but never names it as a host.\
+_Avoid_: ephemeral host, workspace, which is an Agentastic worktree
+
 **System module**:\
-A nix-darwin module, macOS-only by nature; it lives under `modules/darwin/`.
+A nix-darwin or NixOS module, bound to its platform by nature; a nix-darwin one
+lives under `modules/darwin/`, a NixOS one under `modules/nixos/`.
+
+**Shared system module**:\
+A system module both platforms import, for what every host configures alike; it
+lives under `modules/shared/`.\
+_Avoid_: common module, system module, for this one
 
 **Home module**:\
 A home-manager module. Portable when it lives in `modules/home/` and must
-evaluate on Linux; macOS-only when it lives in `modules/home/darwin/`.
+evaluate on Linux; macOS-only when it lives in `modules/home/darwin/`, and
+Linux-only in `modules/home/linux/`.
 
 **Portable half**:\
-Every home module that must evaluate on Linux.\
-_Avoid_: half, for any pair of things other than these two
+Every home module that must evaluate on Linux. Every host and every ephemeral
+environment sees it.\
+_Avoid_: half, for anything other than these three
 
 **macOS half**:\
-Every module only macOS sees: the system modules and the macOS-only home
-modules.
+Every module only macOS sees: the nix-darwin system modules and the macOS-only
+home modules.
+
+**NixOS half**:\
+Every module only a NixOS host sees: its system modules and any Linux-only home
+modules. A host sees the portable half plus exactly one platform half.
 
 **Work layer**:\
 The private employer configuration, a separate flake that adds modules to both
