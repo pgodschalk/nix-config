@@ -20,6 +20,10 @@ through the portable half alone; the flake builds a configuration per user and
 system for it, but never names it as a host.\
 _Avoid_: ephemeral host, workspace, which is an Agentastic worktree
 
+**Remote**:\
+A NixOS host or an ephemeral environment, as reached from the Mac.\
+_Avoid_: remote machine, server
+
 **System module**:\
 A nix-darwin or NixOS module, bound to its platform by nature; a nix-darwin one
 lives under `modules/darwin/`, a NixOS one under `modules/nixos/`.
