@@ -229,7 +229,23 @@ _Avoid_: Determinate Nixd, nixd, for either
 **Target build**:\
 A remote's closure built on that remote, from derivations the Mac evaluated and
 copied there.\
-_Avoid_: remote build, which is Nix's builder delegation; deploy
+_Avoid_: remote build, which is Nix's builder delegation; deploy, which
+activates what was built
+
+**Install**:\
+Wiping a machine and putting a NixOS host's first generation on it, from the
+Mac.\
+_Avoid_: provision, bootstrap
+
+**Deploy**:\
+Activating a new generation on a NixOS host, pushed from the Mac after its
+target build.\
+_Avoid_: rebuild, switch, which are one tool's commands
+
+**Break-glass**:\
+Recovering a NixOS host from its console when neither Tailscale SSH nor the
+agent forwarder reaches it.\
+_Avoid_: rescue, which is a provider's own boot image
 
 **nixd**:\
 The Nix language server, and nothing else.
