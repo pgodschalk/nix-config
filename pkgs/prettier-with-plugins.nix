@@ -75,13 +75,13 @@ let
     };
     "@astrojs/compiler-rs" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-rs
-      url = "https://registry.npmjs.org/@astrojs/compiler-rs/-/compiler-rs-0.5.2.tgz";
-      hash = "sha256-8lQxqofab8StsOSt4AupC2TaTx5TIUhojvDqY0XB9Dk=";
+      url = "https://registry.npmjs.org/@astrojs/compiler-rs/-/compiler-rs-0.5.3.tgz";
+      hash = "sha256-q7cm4t1HR+0eRABMSXmmW5cEbiIKTdW0DvRfYzKPygk=";
     };
     "@astrojs/compiler-binding" = fetchurl {
       # @VERSION https://www.npmjs.com/package/@astrojs/compiler-binding
-      url = "https://registry.npmjs.org/@astrojs/compiler-binding/-/compiler-binding-0.5.2.tgz";
-      hash = "sha256-I1pmFe6Jin0mCR8+buRxnJ3JTV5NHC0DYiqlkSERtdA=";
+      url = "https://registry.npmjs.org/@astrojs/compiler-binding/-/compiler-binding-0.5.3.tgz";
+      hash = "sha256-/nPWzIqbSyFj0LPZtndcx60JgiVuoZv1JbL7gAWg6eI=";
     };
 
     "@astrojs/compiler-binding-${astroBinding.target}" = fetchurl {
@@ -119,8 +119,8 @@ let
     # needed; ini and jinja have no dependencies.
     web-tree-sitter = fetchurl {
       # @VERSION https://www.npmjs.com/package/web-tree-sitter
-      url = "https://registry.npmjs.org/web-tree-sitter/-/web-tree-sitter-0.27.1.tgz";
-      hash = "sha256-c0bbZZ64cKUoQkKFGreu3qQdc5e4x+lf+NnsW1qAJw8=";
+      url = "https://registry.npmjs.org/web-tree-sitter/-/web-tree-sitter-0.27.2.tgz";
+      hash = "sha256-Cx0bLtzBR2x7FxCipFie75ypz0YbqlD4mVbVdTCWQ2I=";
     };
     tree-sitter-awk = fetchurl {
       # @VERSION https://www.npmjs.com/package/tree-sitter-awk

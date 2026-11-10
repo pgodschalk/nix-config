@@ -15,9 +15,8 @@ let
   # no trailing newline while having read it perfectly well, and the
   # script would die partway through parsing its own input.
   #
-  # jq is deliberately not a runtime input -- pkgs.jq is kept out of
-  # this configuration so it does not shadow macOS's identical
-  # /usr/bin/jq, and the script resolves it from PATH.
+  # jq is not a runtime input: the script resolves it from PATH, where
+  # modules/home/jaq.nix installs it.
   claudeStatusline = pkgs.writeShellApplication {
     name = "claude-statusline";
     runtimeInputs = [ pkgs.git ];

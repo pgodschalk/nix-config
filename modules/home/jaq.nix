@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   # `jq` is aliased to jaq in modules/home/nushell.nix, which binds in
   # interactive Nushell only; anything here needing jq's exact behaviour
@@ -8,8 +8,10 @@
 
     # For `.jq` filter files rather than the `jq` command.
     pkgs.jq-lsp
-  ]
-  # macOS ships its own jq at /usr/bin/jq, so installing one there would
-  # only shadow an identical binary.
-  ++ lib.optionals (!pkgs.stdenv.hostPlatform.isDarwin) [ pkgs.jq ];
+
+    # Shadows macOS's /usr/bin/jq, a 1.7.1 that rejects the 24-bit
+    # JQ_COLORS fields the Dracula theme exports, so every script
+    # running jq would print "Failed to set $JQ_COLORS".
+    pkgs.jq
+  ];
 }

@@ -20,11 +20,12 @@ result-*
 __pycache__/
 node_modules/
 
-# The global excludes file ignores these names and *.webp, which hold
-# sources here.
+# The global excludes file ignores these names, *.webp and *.patch,
+# which hold sources here.
 ![Ll]ib
 ![Ss]cripts
 !/docs/screenshots/*.webp
+!/pkgs/**/*.patch
 
 # Agentastic's shared notes and its per-task worktrees.
 /.context/

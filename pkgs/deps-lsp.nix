@@ -21,20 +21,20 @@
 
 let
   # @VERSION https://github.com/bug-ops/deps-lsp/releases
-  version = "4.0.0";
+  version = "5.0.0";
 
   targets = {
     aarch64-darwin = {
       triple = "aarch64-apple-darwin";
-      hash = "sha256-FqkjbsrXnuo48tE+QgtJdbic3RSmiEpnTAmbWlK/hsQ=";
+      hash = "sha256-OTsXh0vK/AL6VLjrM8umsv1VeZeqM4bfRdVnNJwIxFE=";
     };
     aarch64-linux = {
       triple = "aarch64-unknown-linux-gnu";
-      hash = "sha256-3Hn/xcL+qcF7Or2kIqZwughtR8ARslHQxG9Z/R1IFQI=";
+      hash = "sha256-/ObdocbpMOzCDC8h/OIHDM8Bt8BU+QtT3veOMNRZgco=";
     };
     x86_64-linux = {
       triple = "x86_64-unknown-linux-gnu";
-      hash = "sha256-stEuBkuNGwwOt6jTxRZzjybmvIjhIMHIaJtDtaNBxyw=";
+      hash = "sha256-K91fgaAM5+7DGjIwaYto4phcquz8TdPHvY6UnnDyGsU=";
     };
   };
 

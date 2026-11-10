@@ -214,8 +214,8 @@ let
     owner = "obra";
     repo = "superpowers";
     # @VERSION https://github.com/obra/superpowers/releases
-    rev = "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b";
-    hash = "sha256-9+69YEdjdaDu5sWTyAbufSVcZgGD7h6wAq4nUVY2syE=";
+    rev = "22f0b463e7a5e579904dd6211a520321035526f7";
+    hash = "sha256-rP5YsyGuPd9YSW/Fj3aukrq1bLuV+nwwQMK4JaZQgkI=";
   };
 
   # Three of five categories: in-progress and deprecated are excluded,

@@ -1,0 +1,37 @@
+--- a/dist/cli.js
++++ b/dist/cli.js
+@@ -2690,18 +2690,22 @@
+ }
+ function executeProcessIncarnationCommand(command, args, env = process.env, timeout = processIncarnationCommandTimeout) {
+ 	return new Promise((resolveCommand) => {
+-		execFile(command, args, {
+-			encoding: "utf8",
+-			env,
+-			timeout,
+-			windowsHide: true
+-		}, (error, stdout) => {
+-			if (error) {
+-				resolveCommand(null);
+-				return;
+-			}
+-			resolveCommand(stdout.trim() || null);
+-		});
++		try {
++			execFile(command, args, {
++				encoding: "utf8",
++				env,
++				timeout,
++				windowsHide: true
++			}, (error, stdout) => {
++				if (error) {
++					resolveCommand(null);
++					return;
++				}
++				resolveCommand(stdout.trim() || null);
++			});
++		} catch {
++			resolveCommand(null);
++		}
+ 	});
+ }
+ function assertReconciliationLockAcquisitionTimeRemaining(acquisitionDeadline, key) {

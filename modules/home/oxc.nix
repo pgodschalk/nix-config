@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home.packages = [
-    pkgs.oxlint
+    (pkgs.callPackage ../../pkgs/oxlint.nix { })
     pkgs.oxfmt
   ];
 }
