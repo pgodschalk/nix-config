@@ -15,22 +15,34 @@ let
     ) cfg.hostProfiles
   );
 
-  # glamour_style points at a stable path that the appearance watcher
-  # repoints, because glab takes the style from that key and ignores
-  # GLAMOUR_STYLE.
-  #
-  # The `hosts:` stanza holds no secret and is load-bearing: `glab auth
-  # status` enumerates configured hosts, so without it glab reports
-  # nothing authenticated while every real command works off
-  # $GITLAB_TOKEN. Declaring the host with no `token:` key lists it and
-  # keeps the token off disk.
-  #
-  # Only gitlab.com. glab probes every configured host on each `auth
-  # status`, so one reachable only over a VPN costs the full timeout
-  # off-VPN. Other hosts need no entry: GITLAB_HOST plus GITLAB_TOKEN
-  # is enough.
-  glabConfig = pkgs.replaceVars ./glab/config.yml {
-    configHome = config.xdg.configHome;
+  # pkgs.formats.yaml sorts the keys, so the order here is for the
+  # reader only.
+  glabConfig = (pkgs.formats.yaml { }).generate "glab-config.yml" {
+    git_protocol = "ssh";
+
+    # A stable path that the appearance watcher repoints, because glab
+    # takes the style from this key and ignores GLAMOUR_STYLE.
+    glamour_style = "${config.xdg.configHome}/glamour/style.json";
+
+    # glab's own default is true, and the nixpkgs wrapper that sets
+    # GLAB_SEND_TELEMETRY=0 is not a contract.
+    telemetry = false;
+
+    # Holds no secret and is load-bearing: `glab auth status` enumerates
+    # configured hosts, and `--hostname` names only a configured one, so
+    # a host missing here reads as signed out while every real command
+    # works off $GITLAB_TOKEN. Orca recognises a GitLab repository only
+    # through that check. A host with no `token:` key is listed and
+    # keeps the token off disk.
+    #
+    # Every hostProfiles host is listed, a VPN-only one included: Orca's
+    # --hostname check needs it. The wrappers narrow a bare `auth
+    # status` to the host whose token they hold, so it neither waits
+    # out an unreachable host nor shows it another host's token.
+    hosts = lib.genAttrs ([ "gitlab.com" ] ++ lib.attrNames cfg.hostProfiles) (host: {
+      api_protocol = "https";
+      api_host = host;
+    });
   };
 
   fnoxFragment = "\n" + builtins.readFile ./glab/fnox.toml;
@@ -40,7 +52,7 @@ in
   options.my.glab.hostProfiles = lib.mkOption {
     type = lib.types.attrsOf lib.types.str;
     default = { };
-    description = "GitLab host to the fnox profile holding its GITLAB_TOKEN.";
+    description = "GitLab host to the fnox profile holding its GITLAB_TOKEN; each is also listed in glab's config.";
   };
 
   config = {

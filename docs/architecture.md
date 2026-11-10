@@ -60,8 +60,8 @@ the code yet.
   (`Number("@x@")`).
 - Theme checkouts (`my.theme.dracula.*`) are nullable: anything linking into
   them is `lib.mkIf (extras != null)` with `mkOutOfStoreSymlink`.
-- Apps that rewrite their own settings file (Claude Code, Claude desktop,
-  Agentastic, Zed) get no link; their keys are merged or rendered by an
-  activation entry after `writeBoundary`.
+- Apps that rewrite their own settings file (Claude Code, Claude desktop, Zed)
+  get no link; their keys are merged or rendered by an activation entry after
+  `writeBoundary`.
 - `codebook.toml` at the root is this repository's spellcheck word list; jargon
   used in a comment goes there.

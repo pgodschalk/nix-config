@@ -42,7 +42,7 @@ carries a different environment, which is a common source of false symptoms.
 
 **Application-specific?** Some behaviour depends on which application ran the
 command, because macOS grants file and folder access per app. Say whether it
-differs between Ghostty, Terminal, Zed and Agentastic.dev.
+differs between Ghostty, Terminal, Zed and Orca.
 
 **Additional context** Anything else relevant: a recent `nix flake update`, a
 macOS update, or a setting changed by hand.

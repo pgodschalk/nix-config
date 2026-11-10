@@ -7,8 +7,8 @@
 }:
 {
   imports = [
-    ../../modules/home/darwin/agentastic.nix
     ../../modules/home/darwin/amie.nix
+    ../../modules/home/darwin/android-studio.nix
     ../../modules/home/darwin/appearance.nix
     ../../modules/home/darwin/betterdisplay.nix
     ../../modules/home/darwin/c-cpp.nix
@@ -20,6 +20,7 @@
     ../../modules/home/darwin/mcp.nix
     ../../modules/home/darwin/metal.nix
     ../../modules/home/darwin/orbstack.nix
+    ../../modules/home/darwin/orca.nix
     ../../modules/home/darwin/python-lsps.nix
     ../../modules/home/darwin/rectangle-pro.nix
     ../../modules/home/darwin/rex.nix

@@ -26,7 +26,3 @@ node_modules/
 ![Ss]cripts
 !/docs/screenshots/*.webp
 !/pkgs/**/*.patch
-
-# Agentastic's shared notes and its per-task worktrees.
-/.context/
-/.worktree/

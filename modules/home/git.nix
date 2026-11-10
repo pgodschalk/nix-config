@@ -203,50 +203,54 @@ in
     #patrick@kernelpanics.nl ssh-mldsa-87 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
   '';
 
-  # github/gitignore's Global set verbatim, with no local section:
-  # upstream's Agents.gitignore already carries CLAUDE.local.md.
+  # github/gitignore's Global set verbatim, then git/local.gitignore
+  # for what upstream lacks. Upstream's Agents.gitignore already carries
+  # CLAUDE.local.md.
   #
   # Note Images and Archives ignore whole extensions, so in a repository
   # with image assets `git add .` skips them silently.
   #
   # A dotfile in $HOME: Xcode reads ~/.gitignore_global by that name and
   # ignores core.excludesfile, so the name is fixed.
-  home.file.".gitignore_global".text = concatGlobals gitignoreUpstream "gitignore" [
-    { name = "Agents"; }
-    { name = "Ansible"; }
-    { name = "Archives"; }
-    { name = "Backup"; }
-    { name = "Diff"; }
-    { name = "Images"; }
-    {
-      name = "Linux";
-      when = !isDarwin;
-    }
-    { name = "Patch"; }
-    { name = "Redis"; }
-    { name = "Tags"; }
-    { name = "Vagrant"; }
-    { name = "Vim"; }
-    { name = "VirtualEnv"; }
-    {
-      name = "VisualStudioCode";
-      when = isWSL;
-    }
-    {
-      name = "Windows";
-      when = isWSL;
-    }
-    {
-      name = "Xcode";
-      when = isDarwin;
-    }
-    { name = "Zed"; }
-    {
-      name = "macOS";
-      when = isDarwin;
-    }
-    { name = "mise"; }
-  ];
+  home.file.".gitignore_global".text =
+    concatGlobals gitignoreUpstream "gitignore" [
+      { name = "Agents"; }
+      { name = "Ansible"; }
+      { name = "Archives"; }
+      { name = "Backup"; }
+      { name = "Diff"; }
+      { name = "Images"; }
+      {
+        name = "Linux";
+        when = !isDarwin;
+      }
+      { name = "Patch"; }
+      { name = "Redis"; }
+      { name = "Tags"; }
+      { name = "Vagrant"; }
+      { name = "Vim"; }
+      { name = "VirtualEnv"; }
+      {
+        name = "VisualStudioCode";
+        when = isWSL;
+      }
+      {
+        name = "Windows";
+        when = isWSL;
+      }
+      {
+        name = "Xcode";
+        when = isDarwin;
+      }
+      { name = "Zed"; }
+      {
+        name = "macOS";
+        when = isDarwin;
+      }
+      { name = "mise"; }
+    ]
+    + "\n# --- Local ---\n"
+    + builtins.readFile ./git/local.gitignore;
 
   # core.attributesfile names this explicitly rather than relying on
   # git's XDG default, so it is found by a process that never sees

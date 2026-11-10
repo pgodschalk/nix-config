@@ -18,7 +18,7 @@ A dedicated, headless host running NixOS, reached remotely for development.
 A short-lived container or virtual machine that this repository configures
 through the portable half alone; the flake builds a configuration per user and
 system for it, but never names it as a host.\
-_Avoid_: ephemeral host, workspace, which is an Agentastic worktree
+_Avoid_: ephemeral host, workspace, which is an Orca worktree
 
 **Remote**:\
 A NixOS host or an ephemeral environment, as reached from the Mac.\

@@ -223,7 +223,6 @@ def report-manual []: nothing -> nothing {
 
     let items = [
         1Password
-        Agentastic.dev
         "Apple Books"
         "Citrix Workspace"
         Discord
@@ -231,6 +230,7 @@ def report-manual []: nothing -> nothing {
         "GarageBand, Logic Pro, MainStage"
         "Google Drive"
         "Microsoft Teams"
+        Orca
         "Secretive -- https://github.com/maxgoedjen/secretive/releases"
         Setapp
         Wipr

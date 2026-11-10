@@ -15,6 +15,14 @@ def --wrapped glab [...args: string]: any -> string {
     let profile = match $host {
         @hostArms@_ => "glab"
     }
+    # A bare `auth status` would probe every configured host with this
+    # one host's token.
+    let bare_status = ($args | take 2) == [auth status] and not ($args | any {|a| $a starts-with "--hostname" })
+    let args = if $bare_status {
+        $args | append [--hostname $host]
+    } else {
+        $args
+    }
     with-env {GITLAB_TOKEN: (fnox-secret $profile GITLAB_TOKEN)} {
         ^glab ...$args
     }

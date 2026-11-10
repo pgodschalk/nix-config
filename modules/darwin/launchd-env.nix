@@ -14,6 +14,9 @@ let
   # that does not see them recreates the dotfiles they exist to prevent.
   # Sorted, ASCII order.
   redirects = lib.getAttrs (builtins.filter (n: sessionVariables ? ${n}) [
+    "ANDROID_AVD_HOME"
+    "ANDROID_EMULATOR_HOME"
+    "ANDROID_USER_HOME"
     "ANSIBLE_HOME"
     "BUNDLE_USER_HOME"
     "BUN_INSTALL"
@@ -22,9 +25,11 @@ let
     "CLOUDSDK_CONFIG"
     "GOMODCACHE"
     "GOPATH"
+    "GRADLE_USER_HOME"
     "IMPECCABLE_BIN"
     "IMPECCABLE_HOME"
     "LESSHISTFILE"
+    "PI_CODING_AGENT_DIR"
     "STARSHIP_CACHE"
     "XDG_CACHE_HOME"
     "XDG_CONFIG_HOME"
@@ -36,6 +41,10 @@ let
 
   envVariables = {
     PATH = "/etc/profiles/per-user/${user}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+    # nixpkgs' claude-code wrapper hands this bundle to Node as
+    # NODE_EXTRA_CA_CERTS; without it a GUI-spawned `claude` cannot
+    # verify api.anthropic.com.
+    inherit (config.environment.variables) NIX_SSL_CERT_FILE;
   }
   // redirects;
 

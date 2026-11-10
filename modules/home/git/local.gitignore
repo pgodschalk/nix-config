@@ -1,0 +1,3 @@
+# Orca's worktrees, when its workspace directory is a relative path:
+# Orca resolves that against each repository, so they land inside it.
+.orca/worktrees/

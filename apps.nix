@@ -56,6 +56,7 @@
   # since brew-nix unpacks it and rewraps its bare `Contents/` as an
   # .app; a distribution pkg that runs installer scripts does not.
   casks = [
+    "android-studio"
     "betterdisplay"
     "claude" # the Claude desktop app, not claude-code
     "finbar"

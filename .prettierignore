@@ -1,3 +1,7 @@
 # Written by `rex skill setup` and kept byte for byte, or
 # `rex skill status` reports it outdated.
 modules/home/darwin/rex/skill/SKILL.md
+
+# Written by `orca skills install` and kept as Orca ships them, so a
+# refresh is a plain copy.
+modules/home/darwin/orca/skills/

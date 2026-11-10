@@ -13,13 +13,6 @@ in
   # stays in that module.
   options.my = {
 
-    # modules/home/darwin/agentastic.nix
-    agentastic.settings = lib.mkOption {
-      type = json;
-      default = { };
-      description = "Agentastic.dev settings merged into its settings.json.";
-    };
-
     # modules/home/darwin/mas.nix
     masApps = lib.mkOption {
       type = lib.types.attrsOf lib.types.int;

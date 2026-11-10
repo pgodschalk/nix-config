@@ -110,7 +110,6 @@ let
 
       "**/.cache"
       "**/.ruby-lsp"
-      "**/.agentastic"
       "**/.claude"
       "**/.pi"
       "**/.remember"

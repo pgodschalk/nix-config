@@ -4,7 +4,6 @@
     # Apps whose own command palette Finbar must not shadow.
     globalShortcutExcludedApps = [
       "com.mitchellh.ghostty"
-      "dev.agentastic.Agentastic"
       "dev.zed.Zed"
     ];
 
