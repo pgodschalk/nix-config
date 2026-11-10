@@ -181,6 +181,13 @@ issued and never taken from a vault: Claude Code's `/login`, a codespace's
 `GITHUB_TOKEN`.\
 _Avoid_: secret, for these
 
+**Container engine**:\
+The daemon that builds and runs containers for a host: OrbStack on the Mac,
+rootless Docker on a NixOS host. An ephemeral environment uses whatever its
+platform brings.\
+_Avoid_: container runtime, which is the OCI runtime (runc, crun) beneath it;
+Docker, as the generic name
+
 **Link**:\
 A symlink to a file home-manager owns, the default way a setting reaches an app.
 A link into a theme checkout leaves the store.
