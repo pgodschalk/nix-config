@@ -240,8 +240,14 @@ Always qualified. Secretive is the one in use; 1Password's runs but is not.
 
 **Agent forwarder**:\
 The Mac's one standing connection to a NixOS host that carries the SSH agent to
-a fixed socket there; nothing else forwards the agent.\
+a fixed socket there, and the Mac's loopback forwards to that host; nothing else
+forwards the agent.\
 _Avoid_: agent forwarding, which is the per-connection mechanism it replaces
+
+**Loopback forward**:\
+A port on a remote's loopback reached as the same port on the Mac's `localhost`,
+so the browser sees a local origin.\
+_Avoid_: tunnel, port forward, on their own
 
 **Secrets broker**:\
 The Mac-side daemon, one per NixOS host, that runs `op` for that host behind
