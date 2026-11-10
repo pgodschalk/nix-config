@@ -98,6 +98,11 @@ fnox's own unit: a named set of secrets a tool reads at run time.
 The macOS light or dark setting, which every tool follows.\
 _Avoid_: theme, for the light or dark choice
 
+**Appearance state**:\
+One machine's record of the Mac's current Appearance, kept by exactly one writer
+on that machine and read by every tool there that follows the Appearance.\
+_Avoid_: mode, appearance file
+
 **Theme**:\
 Dracula Pro, the one theme, in two variants.
 
@@ -107,8 +112,9 @@ one.\
 _Avoid_: Dark and Light as names, outside the file names an app forces
 
 **Theme checkout**:\
-One of the two working copies, dracula-pro and dracula-pro-extras, that themes
-are linked from; absent on a host without them.\
+One of the Mac's two working copies, dracula-pro and dracula-pro-extras, that
+themes are linked from. A remote links from a read-only copy of each instead,
+and a machine with neither gets no theme.\
 _Avoid_: working copy
 
 ### State
