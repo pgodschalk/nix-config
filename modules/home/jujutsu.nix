@@ -23,8 +23,9 @@ in
 
       # jj rewrites commits on nearly every command (a working-copy
       # snapshot, a rebase of descendants), and `own` would ask for
-      # Touch ID on each. `drop` plus `git.sign-on-push` signs only at
-      # `jj git push`, one prompt per unsigned mutable commit pushed.
+      # Touch ID on each. `drop` plus `revsets.git-sign-on-push` signs
+      # only at `jj git push`, one prompt per unsigned mutable commit
+      # pushed.
       #
       # Guarded like git.nix guards commit.gpgsign: the key lives in the
       # Secure Enclave, and signing with no key is an error.
@@ -37,7 +38,7 @@ in
         backends.ssh.allowed-signers = gitSettings.gpg.ssh.allowedSignersFile;
       };
 
-      git.sign-on-push = lib.mkIf canSign true;
+      revsets.git-sign-on-push = lib.mkIf canSign "~signed() & mine()";
     };
   };
 
