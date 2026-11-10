@@ -171,8 +171,15 @@ A wrapper that lets the tool's exit code and output reach the caller unchanged.
 
 **Secret**:\
 A value that is never on disk in this tree; it reaches a process at run time
-through fnox or `op`, or, for three MCP wrappers, from the login keychain.\
+through fnox or `op` (on a remote, through the secrets broker), or, for three
+MCP wrappers on the Mac, from the login keychain.\
 _Avoid_: credential, outside a tool's own name
+
+**Session credential**:\
+A login an app or platform issues and holds itself, revocable where it was
+issued and never taken from a vault: Claude Code's `/login`, a codespace's
+`GITHUB_TOKEN`.\
+_Avoid_: secret, for these
 
 **Link**:\
 A symlink to a file home-manager owns, the default way a setting reaches an app.
@@ -228,6 +235,16 @@ Always qualified. Secretive is the one in use; 1Password's runs but is not.
 The Mac's one standing connection to a NixOS host that carries the SSH agent to
 a fixed socket there; nothing else forwards the agent.\
 _Avoid_: agent forwarding, which is the per-connection mechanism it replaces
+
+**Secrets broker**:\
+The Mac-side daemon, one per NixOS host, that runs `op` for that host behind
+Touch ID and reads only the references the flake declares for it.\
+_Avoid_: op-forward, which is a different tool
+
+**Broker client**:\
+The only `op` on a remote: it sends each read to the secrets broker over the
+agent forwarder's connection.\
+_Avoid_: op shim, since a shim is a wrapper and this wraps nothing
 
 **Instructions**:\
 A CLAUDE.md or AGENTS.md an agent loads: **global instructions** in the Claude
