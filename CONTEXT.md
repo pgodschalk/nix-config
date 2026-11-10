@@ -226,6 +226,11 @@ The Nix distribution in use; it owns the Nix settings and garbage collection.
 Its daemon is written `determinate-nixd` in full.\
 _Avoid_: Determinate Nixd, nixd, for either
 
+**Target build**:\
+A remote's closure built on that remote, from derivations the Mac evaluated and
+copied there.\
+_Avoid_: remote build, which is Nix's builder delegation; deploy
+
 **nixd**:\
 The Nix language server, and nothing else.
 
