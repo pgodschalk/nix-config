@@ -224,6 +224,11 @@ One of the files under `docs/agents/` the engineering skills read.
 **SSH agent**:\
 Always qualified. Secretive is the one in use; 1Password's runs but is not.
 
+**Agent forwarder**:\
+The Mac's one standing connection to a NixOS host that carries the SSH agent to
+a fixed socket there; nothing else forwards the agent.\
+_Avoid_: agent forwarding, which is the per-connection mechanism it replaces
+
 **Instructions**:\
 A CLAUDE.md or AGENTS.md an agent loads: **global instructions** in the Claude
 Code config directory, **repository instructions** at a repository root.\
