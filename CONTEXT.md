@@ -34,14 +34,20 @@ lives under `modules/shared/`.\
 _Avoid_: common module, system module, for this one
 
 **Home module**:\
-A home-manager module. Portable when it lives in `modules/home/` and must
-evaluate on Linux; macOS-only when it lives in `modules/home/darwin/`, and
-Linux-only in `modules/home/linux/`.
+A home-manager module. Portable when it lives directly in `modules/home/` and
+must evaluate on Linux; host-only when it lives in `modules/home/host/`;
+macOS-only when it lives in `modules/home/darwin/`, and Linux-only in
+`modules/home/linux/`.
 
 **Portable half**:\
-Every home module that must evaluate on Linux. Every host and every ephemeral
-environment sees it.\
+Every home module that must evaluate on Linux and that every host and every
+ephemeral environment sees.\
 _Avoid_: half, for anything other than these three
+
+**Host-only module**:\
+A home module that must evaluate on Linux and that every host sees, but no
+ephemeral environment.\
+_Avoid_: portable, for these
 
 **macOS half**:\
 Every module only macOS sees: the nix-darwin system modules and the macOS-only
@@ -49,11 +55,13 @@ home modules.
 
 **NixOS half**:\
 Every module only a NixOS host sees: its system modules and any Linux-only home
-modules. A host sees the portable half plus exactly one platform half.
+modules. A host sees the portable half, the host-only modules and exactly one
+platform half.
 
 **Work layer**:\
-The private employer configuration, a separate flake that adds modules to both
-halves. This repository is nix-config, never its counterpart.\
+The private employer configuration, a separate flake that adds modules to a
+host's configuration, never to an ephemeral environment's. This repository is
+nix-config, never its counterpart.\
 _Avoid_: work repository, work flake, work input, personal layer
 
 **Stub**:\
@@ -139,7 +147,7 @@ The evaluation of the throwaway Linux home configuration, the only check that
 catches a leak.
 
 **Leak**:\
-A macOS assumption that has reached the portable half.
+A macOS assumption that has reached the portable half or a host-only module.
 
 **Check script**:\
 One script under `.github/scripts/`, what CI runs and what can be run by hand.
@@ -238,8 +246,8 @@ Mac.\
 _Avoid_: provision, bootstrap
 
 **Deploy**:\
-Activating a new generation on a NixOS host, pushed from the Mac after its
-target build.\
+Activating a new generation on a remote, pushed from the Mac after its target
+build: a NixOS host's system, or an ephemeral environment's home configuration.\
 _Avoid_: rebuild, switch, which are one tool's commands
 
 **Break-glass**:\
@@ -266,8 +274,8 @@ One of the files under `docs/agents/` the engineering skills read.
 Always qualified. Secretive is the one in use; 1Password's runs but is not.
 
 **Agent forwarder**:\
-The Mac's one standing connection to a NixOS host that carries the SSH agent to
-a fixed socket there, and the Mac's loopback forwards to that host; nothing else
+The Mac's one standing connection to a remote that carries the SSH agent to a
+fixed socket there, and the Mac's loopback forwards to that remote; nothing else
 forwards the agent.\
 _Avoid_: agent forwarding, which is the per-connection mechanism it replaces
 
@@ -277,8 +285,8 @@ so the browser sees a local origin.\
 _Avoid_: tunnel, port forward, on their own
 
 **Secrets broker**:\
-The Mac-side daemon, one per NixOS host, that runs `op` for that host behind
-Touch ID and reads only the references the flake declares for it.\
+The Mac-side daemon, one per remote, that runs `op` for that remote behind Touch
+ID and reads only the references that remote's configuration declares.\
 _Avoid_: op-forward, which is a different tool
 
 **Broker client**:\
