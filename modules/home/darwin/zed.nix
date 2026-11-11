@@ -124,6 +124,7 @@ let
       "**/.claude"
       "**/.pi"
       "**/.remember"
+      "**/.orca/worktrees"
     ];
 
     edit_predictions.allow_data_collection = "no";
