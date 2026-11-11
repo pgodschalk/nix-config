@@ -1,0 +1,11 @@
+# Every check calls nix: run it with the Bash sandbox off.
+
+[checks]
+full = "mise run test"
+lint = "mise run lint"
+
+# NAME is a language: json, markdown, nix, nu, python, shell, toml, xml
+# or yaml.
+[checks.focused]
+lint = "jouet test --cmd -- mise run lint:NAME"
+eval-darwin = "jouet test --cmd -- mise run eval:darwin"
