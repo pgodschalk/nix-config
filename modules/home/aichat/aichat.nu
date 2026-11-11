@@ -32,7 +32,9 @@ def --wrapped "??" [...args: string] {
     # an API error that looks like a bad key.
     let key = fnox-secret aichat CLAUDE_API_KEY
     if ($key | is-empty) {
-        error make --unspanned {msg: "could not resolve CLAUDE_API_KEY from 1Password -- is the app unlocked?"}
+        error make --unspanned {
+            msg: "could not resolve CLAUDE_API_KEY from 1Password -- is the app unlocked?"
+        }
     }
 
     let cmd = with-env {CLAUDE_API_KEY: $key} {
