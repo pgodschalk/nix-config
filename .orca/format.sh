@@ -3,8 +3,10 @@
 # Usage: format.sh FILE < CONTENT > FORMATTED
 #
 # Orca's format-on-save command: formats stdin as FILE's language with
-# the flags CI's .github/scripts pass, and prints the result. A file of
-# no listed language comes back unchanged.
+# the flags CI's .github/scripts pass, and prints the result. A language
+# CI does not check gets the formatter Zed is given globally. A file of
+# no listed language comes back unchanged, and so does jq: jqfmt drops
+# its comments.
 set -euo pipefail
 
 # Orca runs this outside a login shell.
@@ -16,10 +18,14 @@ cd "$root"
 
 case "$file" in
   *.nix) exec "$bin/nixfmt" --filename="$file" ;;
-  *.sh)
+  *.sh | *.zsh)
     exec "$bin/shfmt" --indent 2 --binary-next-line --case-indent \
       --filename "$file"
     ;;
+  *.js | *.mjs | *.cjs | *.ts | *.mts | *.cts)
+    exec "$bin/oxfmt" --stdin-filepath "$file"
+    ;;
+  *.ini | *.prefs) exec "$bin/prettier-ini" ;;
   *.md) exec "$bin/prettier-md" --stdin-filepath "$file" ;;
   *.json | *.jsonc | *.yaml | *.yml)
     exec "$bin/oxfmt" -c "$root/modules/home/oxc/oxfmtrc.json" \
