@@ -8,6 +8,7 @@ run @jq@ \
   --arg path "$marketplace" \
   --arg statusline @statusline@ \
   --arg mdlint @mdlint@ \
+  --arg vcsguard @vcsguard@ \
   --argjson plugins @plugins@ \
   --from-file @filter@ \
   "$settings" >"$settings.tmp"

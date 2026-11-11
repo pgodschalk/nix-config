@@ -82,6 +82,22 @@ let
     };
   };
 
+  # A PreToolUse hook choosing git or jj by the nearest repository
+  # root, so a colocated checkout gets jj and an Orca worktree inside
+  # one gets git. The build runs its tests.
+  claudeVcsGuard = pkgs.runCommand "claude-vcs-guard" { } (
+    substituteFile ./claude-code/vcs-guard-build.sh {
+      python = lib.getExe (
+        pkgs.python3.withPackages (ps: [
+          ps.tree-sitter
+          ps.tree-sitter-bash
+        ])
+      );
+      module = "${./claude-code/vcs_guard.py}";
+      tests = "${./claude-code/test_vcs_guard.py}";
+    }
+  );
+
   # `claude-plugins-official` is built in and needs no
   # extraKnownMarketplaces entry: Claude Code sources it from
   # downloads.claude.ai itself.
@@ -201,6 +217,7 @@ in
         jq = "${pkgs.jq}/bin/jq";
         statusline = lib.escapeShellArg "${claudeStatusline}/bin/claude-statusline";
         mdlint = lib.escapeShellArg "${claudeMdLint}/bin/claude-md-lint";
+        vcsguard = lib.escapeShellArg "${claudeVcsGuard}/bin/claude-vcs-guard";
         plugins = lib.escapeShellArg (builtins.toJSON enabledPluginKeys);
         filter = "${./claude-code/settings.jq}";
       }

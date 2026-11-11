@@ -25,6 +25,19 @@
         command: $statusline,
         padding: 0
     } |
+    .hooks.PreToolUse = ((.hooks.PreToolUse // []) |
+        map(select(any(.hooks[]?; .command? // "" | endswith("/bin/claude-vcs-guard")) | not)) + [
+            {
+                matcher: "Bash",
+                hooks: [
+                    {
+                        type: "command",
+                        command: $vcsguard,
+                        timeout: 5
+                    }
+                ]
+            }
+        ]) |
     .hooks.PostToolUse = ((.hooks.PostToolUse // [
 
     ]) |
