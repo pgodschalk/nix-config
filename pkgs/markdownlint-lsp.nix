@@ -33,7 +33,7 @@ buildNpmPackage {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  npmDepsHash = "sha256-Q6Jawko7ofY5kNjW9tCNSW53n6ZiOXfoCOKbFAtRW3o=";
+  npmDepsHash = "sha256-9GUYqLRmbWR07Md1T5Kr7i7BFgNoVX0pP56Kk3a1CLk=";
 
   # A pure dependency fetch; without this npm looks for a `build` script
   # and fails.
