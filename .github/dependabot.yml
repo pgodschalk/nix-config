@@ -6,6 +6,12 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      # CodeQL fails when its steps run different versions, so they
+      # move in one pull request.
+      codeql-action:
+        patterns:
+          - github/codeql-action*
     labels:
       - ci
       - dependencies
