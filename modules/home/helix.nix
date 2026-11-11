@@ -82,6 +82,13 @@ in
         swiftFormat = if isDarwin then "swift-format-xcode" else "swift-format";
         terraform = pkgs.terraform;
         mbxCargo = (pkgs.callPackage ../../pkgs/mbx.nix { }).cargoShim;
+        golangciLintLangserver = "${pkgs.golangci-lint-langserver}/bin/golangci-lint-langserver";
+        # pkgs/path-server.nix fetches the macOS binary only.
+        pathServer =
+          if isDarwin then
+            "${pkgs.callPackage ../../pkgs/path-server.nix { }}/bin/path-server"
+          else
+            "path-server";
       };
 
       # config.toml itself is a symlink

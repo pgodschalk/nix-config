@@ -3,8 +3,11 @@
 set -euo pipefail
 op=@op@
 
+# Clients read this message from stdout, not stderr: the Docker CLI and
+# docker-py treat it there as "no credentials" and pull anonymously,
+# and anything else as a credential store failure.
 fail() {
-  printf 'credentials not found in native keychain\n' >&2
+  printf 'credentials not found in native keychain\n'
   exit 1
 }
 

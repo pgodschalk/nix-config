@@ -75,9 +75,10 @@ let
     };
 
     # Zed generates commit messages with its own model and never
-    # reaches prepare-commit-msg, so the global rules are restated for
-    # it. A profile's rules cannot be: those are selected by `includeIf
-    # gitdir:`, which Zed does not read.
+    # reaches prepare-commit-msg, so the rules are restated for it. Zed
+    # cannot read the `includeIf gitdir:` profile, so a repository
+    # selects its style through a project rules file (`.rules`,
+    # AGENTS.md, CLAUDE.md), which this text defers to.
     agent.commit_message_instructions = builtins.readFile ./zed/commit-message-instructions.md;
 
     agent.commit_message_model = {
@@ -112,8 +113,10 @@ let
       "**/.classpath"
       "**/.settings"
       "**/.ansible"
+      "**/.pytest_cache"
       "**/.ropeproject"
       "**/.ruff_cache"
+      "**/.swc"
       "**/.terraform"
       "**/.venv"
       "**/__pycache__"
@@ -183,6 +186,17 @@ let
       "**/templates/**/*.html.j2"
       "**/templates/**/*.htm.j2"
     ];
+
+    # Dockerfiles named after their variant, such as
+    # `Dockerfile.mockoon` and `Dockerfile_local`.
+    file_types.Dockerfile = [
+      "Dockerfile.*"
+      "Dockerfile_*"
+    ];
+
+    # Added to Zed's own `.env.*`: env files named with a hyphen, such
+    # as `.env-template` and `.env-tests`.
+    file_types.Env = [ ".env-*" ];
 
     file_types."Git Attributes" = [
       "gitattributes"
@@ -312,6 +326,11 @@ let
       "**/requirements/*.txt"
     ];
 
+    # Husky hooks, which have no extension and often no shebang.
+    # `[!_.]` leaves out husky's generated `_/`, whose `.gitignore`
+    # would otherwise match here as well as under Git Ignore.
+    file_types."Shell Script" = [ "**/.husky/[!_.]*" ];
+
     file_types."SSH Config" = [
       "ssh_config"
       "**/.ssh/config"
@@ -325,6 +344,15 @@ let
       "svg"
     ];
 
+    # Templates and variants of YAML files, such as
+    # `.sops.yaml-template` and `config.yaml-tests`.
+    file_types.YAML = [
+      "yaml-docker"
+      "yaml-template"
+      "yaml-tests"
+      "yml-template"
+    ];
+
     # Zed fetches these itself; this list is the declaration of which.
     auto_install_extensions = {
       "agnix" = true;
@@ -333,6 +361,7 @@ let
       "astro" = true;
       "awk" = true;
       "biome" = true;
+      "caddyfile" = true;
       "codebook" = true;
       "codeowners" = true;
       "comment" = true;
@@ -349,6 +378,7 @@ let
       "git-firefly" = true;
       "github-actions" = true;
       "gitlab-ci-ls" = true;
+      "golangci-lint" = true;
       "gosum" = true;
       "gotmpl" = true;
       "grafana-alloy" = true;
@@ -362,8 +392,11 @@ let
       "java" = true;
       "jq" = true;
       "json5" = true;
+      "jsonl" = true;
+      "jsonl-lsp" = true;
       "k8s-crd-lsp" = true;
       "log" = true;
+      "make" = true;
       "markdownlint" = true;
       "marksman" = true;
       "mermaid" = true;
@@ -379,6 +412,7 @@ let
       "pbxproj" = true;
       "perl" = true;
       "pgfmt-lsp" = true;
+      "pkl" = true;
       "postgres-language-server" = true;
       "powershell" = true;
       "pytest-language-server" = true;
@@ -386,6 +420,7 @@ let
       "rainbow-csv" = true;
       "robots-txt" = true;
       "ruby" = true;
+      "scss" = true;
       "skill-language-server" = true;
       "sql" = true;
       "ssh-config" = true;
@@ -437,6 +472,18 @@ let
       formatter.external = {
         command = "clang-format-xcode";
         arguments = [ "{buffer_path}" ];
+      };
+    };
+
+    # Tabs because `caddy fmt` emits them and has no option not to.
+    languages.Caddyfile = {
+      hard_tabs = true;
+      formatter.external = {
+        command = "caddy";
+        arguments = [
+          "fmt"
+          "-"
+        ];
       };
     };
 
@@ -508,6 +555,14 @@ let
 
     languages.Go.inlay_hints.enabled = true;
 
+    # golangci-lint is per repository and its server panics without a
+    # command, so a repository that pins it turns the server on in its
+    # .zed/settings.json, with the command run through mise.
+    languages.Go.language_servers = [
+      "!golangci-lint"
+      "..."
+    ];
+
     languages."Go Sum".wrap_guides = [ ];
 
     languages."Grafana Alloy" = {
@@ -551,6 +606,19 @@ let
       "!package-version-server"
       "..."
     ];
+
+    # The formatter is named because the jsonl extension adds a second
+    # formatting server from 0.2.0. Records are one line each, so no
+    # guides.
+    languages."JSON Lines" = {
+      language_servers = [
+        "jsonl-lsp"
+        "!jsonl-formatter"
+        "..."
+      ];
+      formatter = [ { language_server.name = "jsonl-lsp"; } ];
+      wrap_guides = [ ];
+    };
 
     languages.JSON5.prettier = {
       allowed = true;
@@ -645,6 +713,7 @@ let
         "path-server-lsp"
         "!basedpyright"
         "!pylsp"
+        "!pyrefly"
         "!pyright"
         "..."
       ];
@@ -694,6 +763,14 @@ let
       ];
     };
 
+    # some-sass follows `@use` across files; vscode-css's SCSS server
+    # duplicates it within one file.
+    languages.SCSS.language_servers = [
+      "some-sass-lsp"
+      "!scss-lsp"
+      "..."
+    ];
+
     languages."Shell Script".formatter.external = {
       command = "shfmt";
       arguments = [
@@ -715,7 +792,16 @@ let
 
     languages.Strings = dataFile;
 
-    languages.Svelte.inlay_hints.enabled = true;
+    # ESLint is opt-in per repository, as for TypeScript, TSX and
+    # JavaScript in tsLanguages.
+    languages.Svelte = {
+      language_servers = [
+        "svelte-language-server"
+        "!eslint"
+        "..."
+      ];
+      inlay_hints.enabled = true;
+    };
 
     languages.Swift = {
       tab_size = 4;
@@ -737,6 +823,10 @@ let
       "tflint"
       "..."
     ];
+
+    # tombi, as in Helix, CI and the format tasks. Unnamed, Zed uses the
+    # first TOML server that formats, which is oxfmt.
+    languages.TOML.formatter = [ { language_server.name = "tombi"; } ];
 
     # Data rather than prose, so no guides and nothing rewritten on
     # save.
@@ -793,6 +883,30 @@ let
 
     lsp.clangd.initialization_options.fallbackFlags = [ "-Wall" ];
 
+    # A set `binary.path` makes Zed skip the extension, which would
+    # otherwise fetch its own copy from GitHub; its arguments and
+    # default globs are therefore restated here.
+    lsp."css-variables".binary = {
+      path = "${config.home.profileDirectory}/bin/css-variable-lsp";
+      arguments = [
+        "--color-only-variables"
+        "--stdio"
+        "--lookup-files"
+        "**/*.less,**/*.scss,**/*.sass,**/*.css,**/*.html,**/*.vue,**/*.svelte,**/*.astro,**/*.ripple"
+        "--ignore-globs"
+        "**/.cache/**,**/.DS_Store,**/.git/**,**/.hg/**,**/.next/**,**/.svn/**,**/bower_components/**,**/CVS/**,**/dist/**,**/node_modules/**,**/tests/**,**/tmp/**"
+        "--undefined-var-fallback"
+        "warning"
+      ];
+    };
+
+    # The extension's npm fallback expects a `bin/*.cjs` that 2.0.0 no
+    # longer ships; Zed honours `binary.path` ahead of asking it.
+    lsp.cucumber.binary = {
+      path = "${config.home.profileDirectory}/bin/cucumber-language-server";
+      arguments = [ "--stdio" ];
+    };
+
     lsp.django-language-server.binary = {
       path = "${config.home.profileDirectory}/bin/djls";
       arguments = [ "serve" ];
@@ -805,10 +919,19 @@ let
       arguments = [ "--stdio" ];
     };
 
+    # Nix's server rather than the copy Zed fetches from GitHub at
+    # start-up.
+    lsp.eslint.binary = {
+      path = "${config.home.profileDirectory}/bin/vscode-eslint-language-server";
+      arguments = [ "--stdio" ];
+    };
+
     lsp.gitlab-ci.initialization_options = {
       cache = "${config.xdg.cacheHome}/gitlab-ci-ls/";
       log_path = "${config.xdg.cacheHome}/gitlab-ci-ls/gitlab-ci-ls.log";
     };
+
+    lsp.golangci-lint.binary.path = "${pkgs.golangci-lint-langserver}/bin/golangci-lint-langserver";
 
     # gopls publishes nothing lint-grade until staticcheck is on.
     lsp.gopls.initialization_options.codelenses.test = true;
@@ -828,6 +951,13 @@ let
       java.settings.url = "${jdtlsSettings}/org.eclipse.jdt.core.prefs";
     };
     lsp.jdtls.settings.java_home = "${config.my.java.jdk}";
+
+    # A set `binary.path` makes Zed skip the extension's npm install of
+    # `@latest` at start-up.
+    lsp.jsonl-lsp.binary = {
+      path = "${config.home.profileDirectory}/bin/jsonl-lsp";
+      arguments = [ "--stdio" ];
+    };
 
     lsp.markdownlint.binary.path = "${config.home.profileDirectory}/bin/markdownlint-lsp";
 
@@ -850,7 +980,13 @@ let
 
     lsp.path-server-lsp.binary.path = "${pathServer}/bin/path-server";
 
+    # The wrapper adds `-jar`; Zed honours `binary.path` ahead of the
+    # extension's own download.
+    lsp.pkl.binary.path = "${config.home.profileDirectory}/bin/pkl-lsp";
+
     lsp.powershell-es.binary.path = "${config.home.profileDirectory}/bin/pwsh-lsp";
+
+    lsp.pylsp.binary.path = "${config.home.profileDirectory}/bin/pylsp";
 
     lsp.ruff.initialization_options.settings.lineLength = 79;
 
@@ -884,6 +1020,11 @@ let
           useParameterNames = true;
         };
       };
+    };
+
+    lsp."some-sass-lsp".binary = {
+      path = "${config.home.profileDirectory}/bin/some-sass-language-server";
+      arguments = [ "--stdio" ];
     };
 
     # Steep is gradual, so it stays silent until a project has
@@ -971,6 +1112,7 @@ let
     "JSON"
     "JSONC"
     "CSS"
+    "SCSS"
     "HTML"
     "YAML"
   ];

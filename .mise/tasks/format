@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+#MISE description="Format files with CI's formatters, or Zed's global ones; --stdin PATH formats stdin as PATH"
+#USAGE arg "<path>..." help="Files to rewrite, or --stdin and the one path stdin stands for"
+# Formats files with the flags CI's .github/scripts pass. A language CI
+# does not check gets the formatter Zed is given globally. A file of no
+# listed language passes through unchanged.
+#
+#   format PATH...        rewrites each PATH that formatting changes
+#   format --stdin PATH   formats stdin as PATH onto stdout (Orca)
+set -euo pipefail
+
+# Orca runs its formatter without the login shell's PATH.
+PATH="/etc/profiles/per-user/${USER:-patrick}/bin:${PATH}"
+
+usage="usage: format PATH... | format --stdin PATH"
+# The repository of the (first) path, wherever this runs from.
+if [[ ${1-} == --stdin ]]; then first=${2-.}; else first=${1-.}; fi
+root=$(git -C "$(dirname "${first}")" rev-parse --show-toplevel 2>/dev/null || git rev-parse --show-toplevel)
+
+# Prints the path of $1 relative to the repository root, without
+# resolving a symlinked file. The directory need not exist yet.
+relative_path() {
+  local directory
+  if [[ $1 == /* ]]; then
+    directory=$(dirname "$1")
+  else
+    directory="$(pwd -P)/$(dirname "$1")"
+  fi
+  directory=$(cd "${directory}" 2>/dev/null && pwd -P || printf '%s\n' "${directory}")
+  if [[ ${directory} == "${root}" ]]; then
+    printf '%s\n' "$(basename "$1")"
+  else
+    printf '%s\n' "${directory#"${root}"/}/$(basename "$1")"
+  fi
+}
+
+# Prints the formatter for a root-relative path, or none.
+formatter_for() {
+  case $1 in
+    *.nix) echo nixfmt ;;
+    *.sh | *.zsh) echo shfmt ;;
+    *.cjs | *.cts | *.js | *.mjs | *.mts | *.ts) echo oxfmt_default ;;
+    *.ini | *.prefs) echo ini ;;
+    *.jq) echo jq ;;
+    *.md) echo prettier_md ;;
+    *.json | *.jsonc | *.yaml | *.yml) echo oxfmt ;;
+    *.toml) echo tombi ;;
+    *.nu) echo nufmt ;;
+    *.py) echo ruff ;;
+    *.svg | *.xml) echo xmllint ;;
+    *) echo none ;;
+  esac
+}
+
+fmt_nixfmt() { nixfmt --filename="$1"; }
+fmt_shfmt() { shfmt --indent 2 --binary-next-line --case-indent --filename "$1"; }
+fmt_oxfmt_default() { oxfmt --stdin-filepath "$1"; }
+fmt_ini() { prettier-ini; }
+fmt_jq() { jqfmt-1nl; }
+fmt_prettier_md() { prettier-md --stdin-filepath "$1"; }
+fmt_oxfmt() { oxfmt -c modules/home/oxc/oxfmtrc.json --stdin-filepath "$1"; }
+fmt_tombi() { tombi format --stdin-filename "$1" -; }
+fmt_nufmt() { nufmt --stdin; }
+fmt_ruff() { ruff format --config ruff.toml --stdin-filename "$1" -; }
+fmt_xmllint() { xmllint --format -; }
+fmt_none() { cat; }
+
+# Formats stdin as the root-relative path $1 onto stdout, from the root,
+# where prettier finds .prettierignore as CI does.
+format_stdin() {
+  "fmt_$(formatter_for "$1")" "$1"
+}
+
+if [[ ${1-} == --stdin ]]; then
+  if [[ $# -ne 2 ]]; then
+    echo "${usage}" >&2
+    exit 2
+  fi
+  path=$(relative_path "$2")
+  cd "${root}"
+  format_stdin "${path}"
+  exit
+fi
+
+if [[ $# -eq 0 ]]; then
+  echo "${usage}" >&2
+  exit 2
+fi
+
+paths=()
+for argument in "$@"; do
+  paths+=("$(relative_path "${argument}")")
+done
+cd "${root}"
+
+formatted=$(mktemp "${TMPDIR:-/tmp}/format.XXXXXX")
+trap 'rm -f "${formatted}"' EXIT
+for path in "${paths[@]}"; do
+  [[ $(formatter_for "${path}") == none ]] && continue
+  # shellcheck disable=SC2094 # The first ${path} only names the file.
+  format_stdin "${path}" <"${path}" >"${formatted}"
+  cmp -s "${formatted}" "${path}" || cat "${formatted}" >"${path}"
+done

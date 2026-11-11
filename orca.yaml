@@ -1,0 +1,7 @@
+# The same Orca scripts as the work repositories (ubiops-nix-config
+# repo-config, fragments/orca/). Orca reads the scripts from the new
+# worktree's own copy, which is tracked here.
+setupAgentStartupPolicy: wait-for-setup
+scripts:
+  setup: sh "$ORCA_ROOT_PATH/.orca/setup.sh"
+  archive: sh "$ORCA_ROOT_PATH/.orca/archive.sh"

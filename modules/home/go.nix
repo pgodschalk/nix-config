@@ -25,7 +25,7 @@
   ];
 
   # gopls publishes no lint-grade diagnostics until `staticcheck` is on,
-  # which both editors set. golangci-lint is not installed: Zed cannot
-  # start a server no extension declares, so it would lint Go in Helix
-  # only.
+  # which both editors set. golangci-lint is per repository: a
+  # repository that pins it through mise turns the editors'
+  # golangci-lint server on in its own settings.
 }

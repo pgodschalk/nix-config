@@ -33,5 +33,6 @@ look and what to run.
 
 ## Formatting
 
-`.orca/format.sh FILE < FILE` prints FILE formatted with CI's flags, for one
-file of any language the checks cover.
+`.mise/tasks/format --stdin FILE < FILE` prints FILE formatted with CI's flags,
+for one file of any language the checks cover; `mise run format FILE...`
+rewrites files in place.

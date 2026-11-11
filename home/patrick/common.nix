@@ -13,6 +13,7 @@
     ../../modules/home/biome.nix
     ../../modules/home/bun.nix
     ../../modules/home/c-cpp.nix
+    ../../modules/home/caddy.nix
     ../../modules/home/claude-code.nix
     ../../modules/home/claude-skills.nix
     ../../modules/home/cmake.nix
@@ -29,6 +30,7 @@
     ../../modules/home/formatters.nix
     ../../modules/home/fzf.nix
     ../../modules/home/gh.nix
+    ../../modules/home/gherkin.nix
     ../../modules/home/git.nix
     ../../modules/home/glab.nix
     ../../modules/home/go.nix
@@ -42,6 +44,7 @@
     ../../modules/home/java.nix
     ../../modules/home/jouet.nix
     ../../modules/home/js-debug.nix
+    ../../modules/home/jsonl.nix
     ../../modules/home/jujutsu.nix
     ../../modules/home/less.nix
     ../../modules/home/local-bin.nix
@@ -63,6 +66,7 @@
     ../../modules/home/oxc.nix
     ../../modules/home/perl.nix
     ../../modules/home/pitchfork.nix
+    ../../modules/home/pkl.nix
     ../../modules/home/powershell.nix
     ../../modules/home/procs.nix
     ../../modules/home/python-lsps.nix

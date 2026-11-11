@@ -1,0 +1,5 @@
+# Ignored files Orca copies from the primary checkout into each new
+# worktree; a listed file that does not exist is skipped.
+.claude/settings.local.json
+CLAUDE.local.md
+mise.local.toml

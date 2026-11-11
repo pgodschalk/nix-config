@@ -28,14 +28,74 @@ formatter = { command = "prettier-awk" }
 # shfmt directly rather than through bash-language-server, which wraps
 # it but exposes no indent setting and falls back to tabs. --filename
 # lets it pick the dialect from the extension when there is no shebang.
+#
+# file-types restates Helix 25.07.1's own list, which a list here
+# replaces, and adds husky hooks, which have no extension and often no
+# shebang. `[!_.]` leaves out husky's generated `_/` directory.
 [[language]]
 name = "bash"
+file-types = [
+  "sh",
+  "bash",
+  "ash",
+  "dash",
+  "ksh",
+  "mksh",
+  "zsh",
+  "zshenv",
+  "zlogin",
+  "zlogout",
+  "zprofile",
+  "zshrc",
+  "eclass",
+  "ebuild",
+  "bazelrc",
+  "Renviron",
+  "zsh-theme",
+  "cshrc",
+  "tcshrc",
+  "bashrc_Apple_Terminal",
+  "zshrc_Apple_Terminal",
+  { glob = "i3/config" },
+  { glob = "sway/config" },
+  { glob = "tmux.conf" },
+  { glob = ".bash_history" },
+  { glob = ".bash_login" },
+  { glob = ".bash_logout" },
+  { glob = ".bash_profile" },
+  { glob = ".bashrc" },
+  { glob = ".profile" },
+  { glob = ".zshenv" },
+  { glob = ".zlogin" },
+  { glob = ".zlogout" },
+  { glob = ".zprofile" },
+  { glob = ".zshrc" },
+  { glob = ".zimrc" },
+  { glob = "APKBUILD" },
+  { glob = ".bash_aliases" },
+  { glob = ".Renviron" },
+  { glob = ".xprofile" },
+  { glob = ".xsession" },
+  { glob = ".xsessionrc" },
+  { glob = ".yashrc" },
+  { glob = ".yash_profile" },
+  { glob = ".hushlogin" },
+  { glob = ".husky/[!_.]*" },
+]
 formatter = { command = "shfmt", args = ["--indent", "2", "--binary-next-line", "--case-indent", "--filename", "%{buffer_name}"] }
 
 [[language]]
 name = "c"
 indent = { tab-width = 4, unit = "    " }
 formatter = { command = "@clangFormat@" }
+
+# file-types restates Helix 25.07.1's own list, which a list here
+# replaces, and adds names such as `proxy.Caddyfile` by extension, as
+# Zed's extension does. Tabs because `caddy fmt` emits them.
+[[language]]
+name = "caddyfile"
+file-types = [{ glob = "Caddyfile" }, "Caddyfile", "caddyfile"]
+indent = { tab-width = 2, unit = "\t" }
 
 # gersemi rather than either server: neocmakelsp only fixes indentation,
 # and cmake-language-server formats only with cmake-format on PATH. Both
@@ -76,9 +136,39 @@ rulers = []
 name = "docker-compose"
 language-servers = ["docker-language-server", "yaml-language-server"]
 
+# file-types restates Helix 25.07.1's own list, which a list here
+# replaces, and adds Dockerfiles named with an underscore
+# (`Dockerfile_local`).
 [[language]]
 name = "dockerfile"
+file-types = [
+  "Dockerfile",
+  { glob = "Dockerfile" },
+  { glob = "Dockerfile.*" },
+  "dockerfile",
+  { glob = "dockerfile" },
+  { glob = "dockerfile.*" },
+  "Containerfile",
+  { glob = "Containerfile" },
+  { glob = "Containerfile.*" },
+  "containerfile",
+  { glob = "containerfile" },
+  { glob = "containerfile.*" },
+  { glob = "Dockerfile_*" },
+]
 formatter = { command = "dockerfmt-1nl", args = ["/dev/stdin"] }
+
+# file-types restates Helix 25.07.1's own list, which a list here
+# replaces, and adds env files named with a hyphen (`.env-tests`).
+[[language]]
+name = "env"
+file-types = [
+  { glob = ".env" },
+  { glob = ".env.*" },
+  { glob = ".envrc" },
+  { glob = ".envrc.*" },
+  { glob = ".env-*" },
+]
 
 [[language]]
 name = "fish"
@@ -98,12 +188,11 @@ formatter = { command = "prettier-gherkin" }
 name = "git-commit"
 language-servers = ["codebook"]
 
-# Only to drop golangci-lint-lsp from the bundled list, so
-# `hx --health go` stops reporting a server decided against as missing.
-# Everything else still comes from Helix.
+# golangci-lint-lsp is off: golangci-lint is per repository, and a
+# repository that pins it turns the server on with its own command.
 [[language]]
 name = "go"
-language-servers = ["gopls"]
+language-servers = ["gopls", "path-server"]
 
 [[language]]
 name = "graphql"
@@ -239,6 +328,19 @@ name = "jsonc"
 language-servers = [{ name = "vscode-json-language-server", except-features = ["format"] }, "oxfmt"]
 rulers = [73, 101]
 
+# The built-in json language claims the `jsonl` extension, and globs
+# are checked before extensions, so this wins. Records are one line
+# each, so no rulers.
+[[language]]
+name = "jsonl"
+scope = "source.jsonl"
+file-types = [{ glob = "*.jsonl" }, { glob = "*.ndjson" }]
+grammar = "json"
+language-servers = ["jsonl-lsp"]
+auto-format = true
+indent = { tab-width = 2, unit = "  " }
+rulers = []
+
 [[language]]
 name = "jsx"
 language-servers = [
@@ -322,7 +424,7 @@ rulers = []
 # last in the block for the reason the javascript block records.
 [[language]]
 name = "python"
-language-servers = ["ty", "ruff", "pytest-language-server"]
+language-servers = ["ty", "ruff", "pytest-language-server", "path-server"]
 rulers = [73, 80]
 
 [language.debugger]
@@ -351,7 +453,7 @@ rulers = [73, 101]
 [[language]]
 name = "scss"
 language-servers = [
-  "vscode-css-language-server",
+  "some-sass-language-server",
   "css-variable-lsp",
   "oxfmt",
   "emmet-language-server",
@@ -435,8 +537,25 @@ name = "xml"
 language-servers = [{ name = "biome", except-features = ["format"] }, "deps-lsp"]
 formatter = { command = "xmllint", args = ["--format", "-"] }
 
+# file-types restates Helix 25.07.1's own list, which a list here
+# replaces, and adds YAML templates and variants such as
+# `.sops.yaml-template` and `config.yaml-tests`.
 [[language]]
 name = "yaml"
+file-types = [
+  "yml",
+  "yaml",
+  { glob = ".prettierrc" },
+  { glob = ".clangd" },
+  { glob = ".clang-format" },
+  { glob = ".clang-tidy" },
+  { glob = ".gem/credentials" },
+  "sublime-syntax",
+  "yaml-docker",
+  "yaml-template",
+  "yaml-tests",
+  "yml-template",
+]
 language-servers = [
   { name = "yaml-language-server", except-features = [
     "format",
@@ -518,6 +637,9 @@ args = ["start", "--stdio"]
 command = "emmet-language-server"
 args = ["--stdio"]
 
+[language-server.golangci-lint-lsp]
+command = "@golangciLintLangserver@"
+
 # gopls publishes nothing lint-grade until this is on. The hints below
 # are the ones gopls produces; whether they are displayed is
 # `display-inlay-hints`, an [editor.lsp] global in config.toml.
@@ -541,6 +663,10 @@ url = "@jdtlsSettings@/formatter.xml"
 
 [language-server.jdtls.config.java.settings]
 url = "@jdtlsSettings@/org.eclipse.jdt.core.prefs"
+
+[language-server.jsonl-lsp]
+command = "jsonl-lsp"
+args = ["--stdio"]
 
 [language-server.markdownlint]
 command = "markdownlint-lsp"
@@ -582,6 +708,10 @@ args = ["--lsp"]
 
 [language-server.package-swift-lsp]
 command = "package-swift-lsp"
+
+# Path completion in strings, as Zed's path-server-lsp extension does.
+[language-server.path-server]
+command = "@pathServer@"
 
 # `lsp-proxy` is the subcommand that speaks LSP; the binary's default is
 # a CLI.
@@ -642,6 +772,14 @@ lifetimeElisionHints = { enable = "skip_trivial", useParameterNames = true }
 [language-server.skill-language-server]
 command = "skill-language-server"
 args = ["--stdio"]
+
+# Under `somesass`: the server asks for that section, and without one
+# Helix answers null, which leaves definition and hover empty.
+[language-server.some-sass-language-server]
+command = "some-sass-language-server"
+args = ["--stdio"]
+
+[language-server.some-sass-language-server.config.somesass]
 
 [language-server.steep]
 command = "steep"

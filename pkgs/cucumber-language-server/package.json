@@ -1,0 +1,10 @@
+{
+  "$schema": "https://www.schemastore.org/package.json",
+  "name": "cucumber-language-server-pinned",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Pin wrapper so buildNpmPackage has a lockfile to work from; see ../cucumber-language-server.nix",
+  "dependencies": {
+    "@cucumber/language-server": "2.0.0"
+  }
+}
