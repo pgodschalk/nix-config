@@ -1,4 +1,8 @@
 { config, pkgs, ... }:
+let
+  # mr-boxington, a build cache for Cargo.
+  mbx = pkgs.callPackage ../../pkgs/mbx.nix { };
+in
 {
   home.sessionVariables = {
     # Both default to a hidden directory in the home directory. rustup
@@ -7,6 +11,12 @@
     CARGO_HOME = "${config.xdg.dataHome}/cargo";
     RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
   };
+
+  # The Cargo shim, ahead of the profile's cargo, so a plain `cargo`
+  # goes through mbx. A project whose mise.toml pins Rust puts mise's
+  # cargo in front of it again, and bypasses mbx unless that pin sets
+  # `mr_boxington = true`.
+  home.sessionPath = [ "${mbx}/libexec/mbx" ];
 
   home.packages = [
     # A wrapper that exports RUST_SRC_PATH, so the standard library
@@ -20,5 +30,7 @@
     pkgs.cargo
     pkgs.rustc
     pkgs.rustfmt
+
+    mbx
   ];
 }

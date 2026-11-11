@@ -294,6 +294,17 @@
       "cargo": {
         "targetDir": true
       },
+      "check": {
+        "overrideCommand": [
+          "@mbxCargo@",
+          "check",
+          "--workspace",
+          "--all-targets",
+          "--target-dir",
+          "target/rust-analyzer",
+          "--message-format=json"
+        ]
+      },
       "files": {
         "watcher": "server"
       },

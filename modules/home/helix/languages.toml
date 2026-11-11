@@ -618,6 +618,20 @@ lineLength = 79
 [language-server.rust-analyzer.config.cargo]
 targetDir = true
 
+# Background checks go through mr-boxington's Cargo shim, with the
+# arguments `mbx setup` writes. `target/rust-analyzer` is the directory
+# `targetDir = true` picks.
+[language-server.rust-analyzer.config.check]
+overrideCommand = [
+  "@mbxCargo@",
+  "check",
+  "--workspace",
+  "--all-targets",
+  "--target-dir",
+  "target/rust-analyzer",
+  "--message-format=json",
+]
+
 [language-server.rust-analyzer.config.files]
 watcher = "server"
 

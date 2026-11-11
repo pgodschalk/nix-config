@@ -36,9 +36,11 @@
     ../../modules/home/hcp.nix
     ../../modules/home/helix.nix
     ../../modules/home/helm.nix
+    ../../modules/home/hk.nix
     ../../modules/home/huggingface.nix
     ../../modules/home/jaq.nix
     ../../modules/home/java.nix
+    ../../modules/home/jouet.nix
     ../../modules/home/js-debug.nix
     ../../modules/home/jujutsu.nix
     ../../modules/home/less.nix
@@ -59,6 +61,7 @@
     ../../modules/home/options.nix
     ../../modules/home/oxc.nix
     ../../modules/home/perl.nix
+    ../../modules/home/pitchfork.nix
     ../../modules/home/powershell.nix
     ../../modules/home/procs.nix
     ../../modules/home/python-lsps-wheels.nix

@@ -880,6 +880,19 @@ let
       # alias of this one.
       cargo.targetDir = true;
 
+      # Background checks go through mr-boxington's Cargo shim, with
+      # the arguments `mbx setup` writes. `target/rust-analyzer` is the
+      # directory `cargo.targetDir = true` picks.
+      check.overrideCommand = [
+        "${mbx}/libexec/mbx/cargo"
+        "check"
+        "--workspace"
+        "--all-targets"
+        "--target-dir"
+        "target/rust-analyzer"
+        "--message-format=json"
+      ];
+
       inlayHints = {
         closureReturnTypeHints.enable = "always";
         lifetimeElisionHints = {
@@ -1034,6 +1047,8 @@ let
   pathServer = pkgs.callPackage ../../../pkgs/path-server.nix { };
 
   agnixLsp = pkgs.callPackage ../../../pkgs/agnix-lsp.nix { };
+
+  mbx = pkgs.callPackage ../../../pkgs/mbx.nix { };
 
   tsgo = pkgs.callPackage ../../../pkgs/tsgo.nix { };
 
