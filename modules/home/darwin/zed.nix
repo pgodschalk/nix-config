@@ -28,6 +28,17 @@ let
   # Empty, so no keymap.json is written at all.
   keymap = [ ];
 
+  # One task for every repository: with no task name, `mise run` opens
+  # its own picker over the project's tasks, so nothing here has to
+  # track them. `task: rerun` then repeats the choice.
+  tasks = [
+    {
+      label = "mise run";
+      command = "${config.home.profileDirectory}/bin/mise run";
+      save = "all";
+    }
+  ];
+
   # Keys follow the order of Zed's own default settings. Within
   # `languages`, `lsp` and `file_types` they are alphabetical, because
   # Zed publishes no order for them -- its `lsp` default is empty and
@@ -1066,6 +1077,7 @@ in
     home.file.".config/zed/keymap.json" = lib.mkIf (keymap != [ ]) {
       source = (pkgs.formats.json { }).generate "zed-keymap.json" keymap;
     };
+    home.file.".config/zed/tasks.json".source = (pkgs.formats.json { }).generate "zed-tasks.json" tasks;
 
     # Out of store, so editing the theme in the checkout applies at
     # Zed's next launch.
