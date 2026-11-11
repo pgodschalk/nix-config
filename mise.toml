@@ -1,0 +1,89 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+
+# No [tools]: every check takes its tool from the flake through
+# .github/scripts/nix-tool.sh, the same build the editors run, so a
+# mise-installed runtime could only disagree with CI.
+#
+# Tasks wrap the scripts CI runs. Every one calls nix, so an agent
+# runs them outside the Bash sandbox.
+
+[tasks.test]
+description = "Evaluate both configurations, macOS first"
+run = ["mise run eval:darwin", "mise run eval:linux"]
+
+[tasks."eval:darwin"]
+description = "Evaluate the macOS system configuration"
+run = ".github/scripts/nix-eval.sh '.#darwinConfigurations.Patricks-MacBook-Pro.system.drvPath'"
+
+# After eval:darwin on this Mac: the Linux eval reads sources only the
+# aarch64-darwin fetch can realise here.
+[tasks."eval:linux"]
+description = "Evaluate the portable half on x86_64-linux"
+run = ".github/scripts/nix-eval.sh '.#homeConfigurations.\"patrick@linux\".activationPackage.drvPath'"
+
+[tasks."check:flake"]
+description = "Run nix flake check against the work stub"
+run = "nix flake check --override-input work path:./stubs/work"
+
+[tasks.lint]
+description = "Run every per-language check CI runs"
+depends = [
+  "lint:json",
+  "lint:markdown",
+  "lint:nix",
+  "lint:nu",
+  "lint:python",
+  "lint:shell",
+  "lint:toml",
+  "lint:xml",
+  "lint:yaml",
+]
+
+[tasks."lint:json"]
+description = "Format check and schema-validate JSON and JSONC"
+run = [
+  ".github/scripts/oxfmt-check.sh '*.json'",
+  ".github/scripts/schema-check.sh '*.json'",
+  ".github/scripts/oxfmt-check.sh '*.jsonc'",
+]
+
+[tasks."lint:markdown"]
+description = "Lint and format check Markdown"
+run = [
+  ".github/scripts/markdown-lint.sh",
+  ".github/scripts/markdown-format.sh",
+]
+
+[tasks."lint:nix"]
+description = "Format check and lint Nix"
+run = [".github/scripts/nix-format.sh", ".github/scripts/nix-lint.sh"]
+
+[tasks."lint:nu"]
+description = "Lint and format check Nushell"
+run = [".github/scripts/nu-lint.sh", ".github/scripts/nu-format.sh"]
+
+[tasks."lint:python"]
+description = "Lint, format check and type check Python"
+run = [".github/scripts/python-check.sh", ".github/scripts/ty-check.sh"]
+
+[tasks."lint:shell"]
+description = "Lint and format check shell scripts"
+run = [".github/scripts/shell-lint.sh", ".github/scripts/shell-format.sh"]
+
+[tasks."lint:toml"]
+description = "Lint, validate and format check TOML"
+run = [
+  ".github/scripts/tombi-check.sh lint",
+  ".github/scripts/tombi-check.sh format --check",
+]
+
+[tasks."lint:xml"]
+description = "Format check XML and SVG"
+run = ".github/scripts/xml-format.sh"
+
+[tasks."lint:yaml"]
+description = "Format check and schema-validate YAML"
+run = [
+  ".github/scripts/oxfmt-check.sh '*.yaml' '*.yml'",
+  ".github/scripts/schema-check.sh '*.yaml' '*.yml'",
+]
