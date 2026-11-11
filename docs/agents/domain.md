@@ -11,7 +11,7 @@ exploring the codebase.
 
 ## Before exploring, read these
 
-- `CONTEXT.md` at the repository root, the glossary.
+- `GLOSSARY.md` at the repository root, the glossary.
 - `docs/adr/`, reading the ADRs that touch the area you are about to work in.
 
 If either does not exist, proceed silently. Do not flag the absence or suggest
@@ -22,12 +22,12 @@ decisions actually get resolved.
 ## Layout
 
 Single-context: one glossary and one ADR directory for the whole repository.
-There is no `CONTEXT-MAP.md`; a multi-context layout only makes sense for a
+There is no `GLOSSARY-MAP.md`; a multi-context layout only makes sense for a
 monorepo, which this is not.
 
 ```text
 /
-├── CONTEXT.md
+├── GLOSSARY.md
 ├── docs/adr/
 │   ├── 0001-<slug>.md
 │   └── 0002-<slug>.md
@@ -37,7 +37,7 @@ monorepo, which this is not.
 ## Use the glossary's vocabulary
 
 When your output names a domain concept (in an issue title, a refactor proposal,
-a hypothesis, a test name), use the term as `CONTEXT.md` defines it. Do not
+a hypothesis, a test name), use the term as `GLOSSARY.md` defines it. Do not
 drift to synonyms the glossary explicitly avoids.
 
 If the concept you need is not in the glossary yet, that is a signal: either you

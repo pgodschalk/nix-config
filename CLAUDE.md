@@ -78,7 +78,7 @@ and the Linux one elsewhere, so they all run here unchanged:
   root-owned files: that is the sandbox, not ownership.
 - `git` prints `fsmonitor_ipc__send_query: unspecified error` inside the
   sandbox. It is noise; exit codes and output are unaffected.
-- An agent hook (PostToolUse) checks this file, the agent docs and `CONTEXT.md`
+- An agent hook (PostToolUse) checks this file, the agent docs and `GLOSSARY.md`
   with `prettier-md` and markdownlint, and all but the glossary with
   `agnix validate`. CI's markdownlint config has no code-block exemption, so
   every line here stays within 80 columns.
@@ -104,5 +104,5 @@ The five canonical roles, each label equal to its role name. See
 
 ### Domain docs
 
-Single-context: `CONTEXT.md` at the root is the glossary and `docs/adr/` holds
+Single-context: `GLOSSARY.md` at the root is the glossary and `docs/adr/` holds
 the decisions. See `docs/agents/domain.md`.

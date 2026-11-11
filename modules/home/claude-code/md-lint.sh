@@ -27,7 +27,7 @@ case "/$file" in
   */CLAUDE.md | */CLAUDE.local.md | */AGENTS.md | */docs/agents/*.md)
     agnix=true
     ;;
-  */CONTEXT.md | */CONTEXT-MAP.md)
+  */GLOSSARY.md | */GLOSSARY-MAP.md | */CONTEXT.md | */CONTEXT-MAP.md)
     agnix=false
     ;;
   *) exit 0 ;;
