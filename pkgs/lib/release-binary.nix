@@ -59,6 +59,8 @@ stdenvNoCC.mkDerivation (
   {
     inherit pname version binaries;
 
+    srcs = map fetch (toList asset);
+
     nativeBuildInputs =
       lib.optional (archive == "zip") unzip
       ++ lib.optional isDarwin darwin.autoSignDarwinBinariesHook
@@ -84,7 +86,6 @@ stdenvNoCC.mkDerivation (
 
     passthru = { inherit archive; };
   }
-  // (if builtins.isList first then { srcs = map fetch asset; } else { src = fetch asset; })
   # A bare `.gz` or a bare file is unpacked to the first name in
   # `binaries`.
   // lib.optionalAttrs (archive == "gzip") {
