@@ -23,6 +23,9 @@
   binaries ? [ pname ],
   # applied on every platform; guard with isLinux in the caller
   buildInputs ? [ ],
+  # added to the builder's own unpack, signing and patching hooks
+  nativeBuildInputs ? [ ],
+  postInstall ? null, # a file, read into the postInstall hook
   meta,
 }:
 
@@ -64,11 +67,12 @@ stdenvNoCC.mkDerivation (
     nativeBuildInputs =
       lib.optional (archive == "zip") unzip
       ++ lib.optional isDarwin darwin.autoSignDarwinBinariesHook
-      ++ lib.optional isLinux autoPatchelfHook;
+      ++ lib.optional isLinux autoPatchelfHook
+      ++ nativeBuildInputs;
 
-    # Linux assets are glibc binaries with the FHS loader, so
-    # autoPatchelf points them at the loader and libraries in the
-    # store.
+    # A glibc Linux asset carries the FHS loader, so autoPatchelf points
+    # it at the loader and libraries in the store; a static musl asset
+    # has no loader and no libraries, and autoPatchelf leaves it as is.
     buildInputs = lib.optional isLinux stdenv.cc.cc.lib ++ buildInputs;
 
     # Every archive holds its binaries at the root, with no leading
@@ -85,6 +89,9 @@ stdenvNoCC.mkDerivation (
     // meta;
 
     passthru = { inherit archive; };
+  }
+  // lib.optionalAttrs (postInstall != null) {
+    postInstall = builtins.readFile postInstall;
   }
   # A bare `.gz` or a bare file is unpacked to the first name in
   # `binaries`.

@@ -10,61 +10,42 @@
 # x86_64-darwin is absent because upstream publishes no such asset.
 {
   lib,
-  stdenvNoCC,
-  fetchurl,
-  darwin,
+  callPackage,
   makeWrapper,
 }:
 
 let
   # @VERSION https://github.com/jdx/mr-boxington/releases
   version = "1.30.0";
+in
+callPackage ./lib/release-binary.nix { } {
+  pname = "mbx";
+  inherit version;
 
   # Hashes from the release's SHA256SUMS.
-  targets = {
+  assets = {
     aarch64-darwin = {
-      triple = "aarch64-apple-darwin";
+      url = "https://github.com/jdx/mr-boxington/releases/download/v${version}/mbx-aarch64-apple-darwin.tar.gz";
       hash = "sha256-1blXIWyLYcLfkcnnqvX+vUXsdCdKYNNxTr4xbtwURUM=";
     };
     aarch64-linux = {
-      triple = "aarch64-unknown-linux-musl";
+      url = "https://github.com/jdx/mr-boxington/releases/download/v${version}/mbx-aarch64-unknown-linux-musl.tar.gz";
       hash = "sha256-kAhEuYD549r3eNOKGQRigcw14HEIqcghvv72EwhG3x8=";
     };
     x86_64-linux = {
-      triple = "x86_64-unknown-linux-musl";
+      url = "https://github.com/jdx/mr-boxington/releases/download/v${version}/mbx-x86_64-unknown-linux-musl.tar.gz";
       hash = "sha256-tSOpMk1Q/UNONV/Hpa9fcVXWKFTdalp0Fz1SZV8WjUU=";
     };
   };
 
-  target =
-    targets.${stdenvNoCC.hostPlatform.system}
-      or (throw "mbx: no upstream release asset for ${stdenvNoCC.hostPlatform.system}");
-in
-stdenvNoCC.mkDerivation {
-  pname = "mbx";
-  inherit version;
+  nativeBuildInputs = [ makeWrapper ];
 
-  src = fetchurl {
-    url = "https://github.com/jdx/mr-boxington/releases/download/v${version}/mbx-${target.triple}.tar.gz";
-    inherit (target) hash;
-  };
-
-  nativeBuildInputs = [
-    makeWrapper
-  ]
-  ++ lib.optional stdenvNoCC.hostPlatform.isDarwin darwin.autoSignDarwinBinariesHook;
-
-  sourceRoot = ".";
-
-  dontBuild = true;
-
-  installPhase = builtins.readFile ./mbx/install.sh;
+  postInstall = ./mbx/post-install.sh;
 
   meta = {
     description = "Build cache for Cargo";
     homepage = "https://mr-boxington.jdx.dev";
     license = lib.licenses.mit;
     mainProgram = "mbx";
-    platforms = lib.attrNames targets;
   };
 }
