@@ -11,8 +11,8 @@
 {
   lib,
   # Defaulted rather than required, so a `callPackage` that does not
-  # know about it -- the work layer has two -- still works. The helper
-  # is pure Nix, so it costs nothing to import here.
+  # know about it still works. The helper is pure Nix, so it costs
+  # nothing to import here.
   substituteFile ? (import ../lib lib).substituteFile,
   writeShellScriptBin,
   github-mcp-server,
