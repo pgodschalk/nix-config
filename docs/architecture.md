@@ -36,7 +36,9 @@ the code yet.
 - `modules/home/options.nix` declares the `my.*` options whose consumers are
   macOS-only, so the Linux eval and the work layer's settings still succeed, and
   those shared across modules (the theme checkouts, the MCP servers). Any other
-  option consumed by a portable module is declared in that module.
+  option consumed by a portable module is declared in that module. A read-only
+  option is declared by the module that sets it, such as `my.java.jdk` in
+  `java.nix`, however many modules read it.
 - `pkgs/` holds derivations nixpkgs lacks. There is no overlay: each consumer
   calls `pkgs.callPackage ../../pkgs/<name>.nix { }`. `pkgs/claude-marketplace/`
   is the local marketplace; `modules/home/claude-code.nix` adds the LSP plugin's

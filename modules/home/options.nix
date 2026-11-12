@@ -10,7 +10,8 @@ in
   #
   # So are options shared across modules, such as the theme checkouts
   # and the MCP servers. Any other option consumed by a portable module
-  # stays in that module.
+  # stays in that module. A read-only option stays in the module that
+  # sets it, such as my.java.jdk in java.nix, however many read it.
   options.my = {
 
     # modules/darwin/launchd-env.nix, so a module that sets a redirect
