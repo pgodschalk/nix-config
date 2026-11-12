@@ -8,12 +8,14 @@
 let
   user = config.system.primaryUser;
 
-  sessionVariables = config.home-manager.users.${user}.home.sessionVariables;
+  home = config.home-manager.users.${user};
+  inherit (home.home) sessionVariables;
 
   # Every variable here redirects state out of $HOME. A GUI-spawned CLI
   # that does not see them recreates the dotfiles they exist to prevent.
-  # Sorted, ASCII order.
-  redirects = lib.getAttrs (builtins.filter (n: sessionVariables ? ${n}) [
+  # Sorted, ASCII order; a module setting a redirect of its own adds it
+  # through my.launchd.extraVariables instead.
+  redirectNames = [
     "ANDROID_AVD_HOME"
     "ANDROID_EMULATOR_HOME"
     "ANDROID_USER_HOME"
@@ -22,7 +24,6 @@ let
     "BUN_INSTALL"
     "CHECKPOINT_DISABLE"
     "CLAUDE_CONFIG_DIR"
-    "CLOUDSDK_CONFIG"
     "GOMODCACHE"
     "GOPATH"
     "GRADLE_USER_HOME"
@@ -32,7 +33,6 @@ let
     "LESSHISTFILE"
     "PITCHFORK_CONFIG_DIR"
     "PITCHFORK_STATE_DIR"
-    "PI_CODING_AGENT_DIR"
     "STARSHIP_CACHE"
     "XDG_CACHE_HOME"
     "XDG_CONFIG_HOME"
@@ -40,7 +40,11 @@ let
     "XDG_STATE_HOME"
     "npm_config_cache"
     "npm_config_userconfig"
-  ]) sessionVariables;
+  ];
+
+  redirects = lib.getAttrs (builtins.filter (n: sessionVariables ? ${n}) (
+    lib.unique (redirectNames ++ home.my.launchd.extraVariables)
+  )) sessionVariables;
 
   # mr-boxington's Cargo shim, first, as modules/home/rust.nix puts it
   # in shells, so a GUI-spawned `cargo` also goes through mbx.

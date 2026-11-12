@@ -13,6 +13,14 @@ in
   # stays in that module.
   options.my = {
 
+    # modules/darwin/launchd-env.nix, so a module that sets a redirect
+    # of its own can export it to GUI-launched processes as well.
+    launchd.extraVariables = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "Further session variables to export to GUI-launched processes, by name.";
+    };
+
     # modules/home/darwin/mas.nix
     masApps = lib.mkOption {
       type = lib.types.attrsOf lib.types.int;
