@@ -187,7 +187,7 @@ in
         {
           astroTsdk = pkgs.callPackage ../../pkgs/astro-tsdk.nix { };
           jdtlsSettings = pkgs.callPackage ../../pkgs/jdtls-settings.nix { };
-          javaHome = pkgs.jdk25;
+          javaHome = config.my.java.jdk;
           inherit (pkgs) terraform;
           mbxCargo = "${pkgs.callPackage ../../pkgs/mbx.nix { }}/libexec/mbx/cargo";
         };

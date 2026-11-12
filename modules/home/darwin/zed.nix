@@ -827,9 +827,7 @@ let
       java.format.settings.url = "${jdtlsSettings}/formatter.xml";
       java.settings.url = "${jdtlsSettings}/org.eclipse.jdt.core.prefs";
     };
-    # modules/home/java.nix carries the same pin; move both together.
-    # @VERSION https://openjdk.org/projects/jdk/
-    lsp.jdtls.settings.java_home = "${pkgs.jdk25}";
+    lsp.jdtls.settings.java_home = "${config.my.java.jdk}";
 
     lsp.markdownlint.binary.path = "${config.home.profileDirectory}/bin/markdownlint-lsp";
 

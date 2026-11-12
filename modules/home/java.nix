@@ -1,20 +1,18 @@
 {
   config,
+  lib,
   pkgs,
   substituteFile,
   ...
 }:
 let
+  inherit (config.my.java) jdk;
+
   # jdtls is an Eclipse application, and Equinox needs a writable
   # configuration area. Ours is in the store and read-only, so without
   # this Equinox falls back to `~/.eclipse/<id>/configuration`. Cache
   # rather than data: it is regenerable bundle state.
   jdtlsConfigArea = "${config.xdg.cacheHome}/jdtls/configuration";
-
-  # modules/home/darwin/zed.nix carries the same pin for jdtls'
-  # `java_home`; move both together.
-  # @VERSION https://openjdk.org/projects/jdk/
-  jdk = pkgs.jdk25;
 
   # nixpkgs patches jdtls.py to run the server on its own JDK 21, so
   # neither JAVA_HOME nor `--java-executable` chooses that JVM. The
@@ -31,7 +29,15 @@ let
   };
 in
 {
-  home.packages = [
+  options.my.java.jdk = lib.mkOption {
+    type = lib.types.package;
+    readOnly = true;
+    # @VERSION https://openjdk.org/projects/jdk/
+    default = pkgs.jdk25;
+    description = "The JDK installed here and given to jdtls as its `java_home` by every editor and agent.";
+  };
+
+  config.home.packages = [
     # A floor, since jdtls cannot run without a JDK; a repo pinning a
     # version through mise still wins.
     jdk
