@@ -1,6 +1,6 @@
 { lib, pkgs, ... }:
 let
-  mkWheelLsp = pkgs.callPackage ../../pkgs/python-lsp-wheel.nix { };
+  mkWheelLsp = pkgs.callPackage ../../pkgs/lib/python-lsp-wheel.nix { };
 in
 {
   # Keyed by `hostPlatform.system`, and a system with no entry silently
