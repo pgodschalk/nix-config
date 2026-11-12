@@ -49,6 +49,7 @@
     ../../modules/home/macchina.nix
     ../../modules/home/markdown.nix
     ../../modules/home/mcp.nix
+    ../../modules/home/merged-settings.nix
     ../../modules/home/mise.nix
     ../../modules/home/moor.nix
     ../../modules/home/nh.nix

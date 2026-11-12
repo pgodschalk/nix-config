@@ -1,0 +1,1 @@
+{ "extensions": ["npm:declared-extension"], "packages": ["npm:app-own", "npm:declared"] }

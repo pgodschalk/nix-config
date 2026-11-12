@@ -7,10 +7,11 @@ the code yet.
 - `flake.nix` outputs `darwinConfigurations.Patricks-MacBook-Pro` (named after
   `scutil --get LocalHostName`), `homeConfigurations."patrick@linux"` (a
   throwaway x86_64-linux configuration that exists only to be evaluated),
-  `checks.aarch64-darwin` (both checks under aarch64-darwin on purpose; see the
-  comment there) and `packages.aarch64-darwin.*`, `nix run` tools that wrap
-  `scripts/` plus nix-darwin's `darwin-rebuild`, re-exported for the first
-  activation.
+  `checks.aarch64-darwin` (the system build and the Linux eval, both under
+  aarch64-darwin on purpose, see the comment there, plus merge-json's fixture
+  tests, which `checks.x86_64-linux` carries for CI) and
+  `packages.aarch64-darwin.*`, `nix run` tools that wrap `scripts/` plus
+  nix-darwin's `darwin-rebuild`, re-exported for the first activation.
 - `hosts/Patricks-MacBook-Pro/default.nix` is the nix-darwin system: it imports
   each `modules/darwin/*.nix` explicitly plus the work layer, declares
   `my.allowUnfree` (the host's only allowlist of unfree packages, by
@@ -67,6 +68,11 @@ the code yet.
   them is `lib.mkIf (extras != null)` with `mkOutOfStoreSymlink`.
 - Apps that rewrite their own settings file (Claude Code, Claude desktop, Zed)
   get no link; their keys are merged or rendered by an activation entry after
-  `writeBoundary`.
+  `writeBoundary`. Claude desktop's JSON is merged through `my.mergedSettings`
+  (`modules/home/merged-settings.nix`), where new app-owned JSON goes too: an
+  entry names the file, its declared value and a strategy for any top-level key
+  that is not deep-merged (`replace` or `union`), and what it stops declaring is
+  taken back at the next switch (ADR-0012). Claude Code's `settings.json` keeps
+  its own entry, `claudePluginSettings`, and Zed's is rendered with its token.
 - `codebook.toml` at the root is this repository's spellcheck word list; jargon
   used in a comment goes there.

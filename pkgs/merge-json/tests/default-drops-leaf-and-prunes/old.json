@@ -1,0 +1,5 @@
+{
+  "mcpServers": { "cronometer": { "command": "/bin/cronometer", "env": { "DATA_DIR": "/data" } } },
+  "nested": { "deep": { "leaf": 1 } },
+  "preferences": { "menuBarEnabled": false }
+}

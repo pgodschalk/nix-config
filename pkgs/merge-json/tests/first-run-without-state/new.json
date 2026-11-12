@@ -1,0 +1,5 @@
+{
+  "mcpServers": { "cronometer": { "command": "/bin/cronometer" } },
+  "packages": ["npm:declared"],
+  "preferences": { "menuBarEnabled": false }
+}

@@ -1,0 +1,5 @@
+{
+  "appKey": "kept",
+  "mcpServers": { "fromApp": { "command": "app-server" } },
+  "preferences": { "menuBarEnabled": false }
+}

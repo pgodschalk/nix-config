@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with
 code in this repository.
 
 One machine's Nix configuration: a nix-darwin system plus a home-manager user
-environment, on Determinate Nix. There is no application code and no test suite;
-"the tests" are that both configurations evaluate and the per-language checks
-pass. `/etc/nix-darwin` symlinks here, so `darwin-rebuild` needs no `--flake`.
-See @docs/architecture.md for the layout, the layering and the conventions new
-code follows.
+environment, on Determinate Nix. There is no application code; "the tests" are
+that both configurations evaluate, merge-json's fixtures pass and the
+per-language checks pass. `/etc/nix-darwin` symlinks here, so `darwin-rebuild`
+needs no `--flake`. See @docs/architecture.md for the layout, the layering and
+the conventions new code follows.
 
 ## Commands
 
@@ -38,6 +38,11 @@ cause. This is a colocated jj repository; with plain git, `git add` it first.
   '.#homeConfigurations."patrick@linux".activationPackage.drvPath'
 
 nix flake check --override-input work path:./stubs/work
+
+# merge-json's fixture tests alone, for this machine's system; CI
+# builds the x86_64-linux one.
+.github/scripts/nix-check.sh merge-json
+
 darwin-rebuild build   # builds, activates nothing
 ```
 

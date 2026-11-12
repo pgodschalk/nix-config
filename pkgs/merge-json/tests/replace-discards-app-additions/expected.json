@@ -1,0 +1,4 @@
+{
+  "mcpServers": { "declared": { "args": ["--stdio"], "command": "new-command" } },
+  "preferences": { "appPreference": true, "menuBarEnabled": false }
+}

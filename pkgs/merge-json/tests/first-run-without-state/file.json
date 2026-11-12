@@ -1,0 +1,5 @@
+{
+  "mcpServers": { "fromApp": { "command": "app-server" } },
+  "packages": ["npm:app-own"],
+  "preferences": { "appPreference": true }
+}

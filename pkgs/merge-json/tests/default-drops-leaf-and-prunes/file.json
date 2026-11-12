@@ -1,0 +1,9 @@
+{
+  "appKey": "kept",
+  "mcpServers": {
+    "cronometer": { "command": "/bin/cronometer", "env": { "DATA_DIR": "/data" } },
+    "fromApp": { "command": "app-server" }
+  },
+  "nested": { "deep": { "leaf": 1 } },
+  "preferences": { "menuBarEnabled": false }
+}

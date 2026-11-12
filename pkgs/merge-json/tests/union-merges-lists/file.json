@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "npm:app-first",
+    "npm:dropped",
+    { "source": "git:app/second", "extensions": [] },
+    "npm:kept"
+  ],
+  "theme": "dark"
+}

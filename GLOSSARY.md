@@ -167,7 +167,8 @@ A macOS assumption that has reached the portable half or a host-only module.
 One script under `.github/scripts/`, what CI runs and what can be run by hand.
 
 **Flake check**:\
-One of the flake's own checks: the system build and the Linux eval.
+One of the flake's own checks: the system build, the Linux eval and merge-json's
+fixture tests.
 
 ### Pins
 
@@ -225,7 +226,9 @@ Writing a real file at activation, because the app rewrites it or a secret is
 spliced in.
 
 **Merge**:\
-Deep-merging declared keys into a file the app owns and keeps rewriting.
+Writing declared settings into a file the app owns and keeps rewriting, keeping
+what the app wrote outside the keys Nix replaces whole and taking back what is
+no longer declared.
 
 **Activation entry**:\
 One home-manager activation script, which is what renders or merges.

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "cronometer": { "command": "/bin/cronometer" },
+    "fromApp": { "command": "app-server" }
+  },
+  "packages": ["npm:app-own", "npm:declared"],
+  "preferences": { "appPreference": true, "menuBarEnabled": false }
+}

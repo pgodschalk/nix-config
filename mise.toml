@@ -25,6 +25,10 @@ run = ".github/scripts/nix-eval.sh '.#homeConfigurations.\"patrick@linux\".activ
 description = "Run nix flake check against the work stub"
 run = "nix flake check --override-input work path:./stubs/work"
 
+[tasks."check:merge-json"]
+description = "Run merge-json's fixture tests"
+run = ".github/scripts/nix-check.sh merge-json"
+
 [tasks.lint]
 description = "Run every per-language check CI runs"
 depends = [

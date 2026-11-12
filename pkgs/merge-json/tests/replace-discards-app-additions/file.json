@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "declared": { "command": "old-command" },
+    "fromApp": { "command": "app-server" }
+  },
+  "preferences": { "appPreference": true }
+}

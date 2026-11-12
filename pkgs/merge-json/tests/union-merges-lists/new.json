@@ -1,0 +1,1 @@
+{ "packages": ["npm:kept", "npm:added", { "extensions": [], "source": "git:app/second" }] }

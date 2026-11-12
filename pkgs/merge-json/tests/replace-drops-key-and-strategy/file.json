@@ -1,0 +1,4 @@
+{
+  "mcpServers": { "declared": { "command": "a-command" }, "fromApp": { "command": "app-server" } },
+  "theme": "dark"
+}
