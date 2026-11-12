@@ -344,7 +344,6 @@ let
       "dockerfile" = true;
       "emmet" = true;
       "env" = true;
-      "fastapi-lsp" = true;
       "fish" = true;
       "ghostty" = true;
       "git-firefly" = true;
@@ -389,7 +388,6 @@ let
       "ruby" = true;
       "skill-language-server" = true;
       "sql" = true;
-      "sqlalchemy-lsp" = true;
       "ssh-config" = true;
       "svelte" = true;
       "swift" = true;
@@ -646,8 +644,6 @@ let
         "pytest-language-server"
         "path-server-lsp"
         "!basedpyright"
-        "!fastapi-lsp"
-        "!sqlalchemy-lsp"
         "!pylsp"
         "!pyright"
         "..."
