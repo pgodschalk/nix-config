@@ -2,9 +2,6 @@
 
 # `$out` and `$TMPDIR` are set by Nix.
 # shellcheck disable=SC2154
-runHook preInstall
-install -Dm755 jouet "$out/bin/jouet"
-install -Dm755 joue "$out/bin/joue"
 
 # The skill `jouet setup` installs, without the hash footer setup adds
 # to recognise its own copy. jouet records each run under its state
@@ -13,4 +10,3 @@ mkdir -p "$out/share/jouet/skills/jouet-init"
 HOME="$TMPDIR" XDG_STATE_HOME="$TMPDIR/state" \
   "$out/bin/jouet" skill --init --format claude \
   >"$out/share/jouet/skills/jouet-init/SKILL.md"
-runHook postInstall
