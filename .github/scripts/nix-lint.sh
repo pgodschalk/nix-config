@@ -9,7 +9,7 @@ tidy=$(.github/scripts/nix-tool.sh nixf nixf-tidy)
 status=0
 
 while read -r file; do
-  # Without --variable-lookup nixf-tidy reports parse errors only, and
+  # Without --variable-lookup nixf-tidy skips its variable analysis, so
   # nixd's undefined and unused names go unchecked.
   diagnostics=$("$tidy" --variable-lookup <"$file")
   [ "$diagnostics" = "[]" ] && continue
