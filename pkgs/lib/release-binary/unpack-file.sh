@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 
-# `$src` and `$binaries` are set by Nix.
+# `$srcs` and `$binaries` are set by Nix; a bare file is one asset.
 # shellcheck disable=SC2154
 runHook preUnpack
-cp "$src" "${binaries%% *}"
+cp "$srcs" "${binaries%% *}"
 runHook postUnpack
