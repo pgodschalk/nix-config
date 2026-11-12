@@ -20,7 +20,7 @@
   # Defaulted rather than required, so a `callPackage` that does not
   # know about the helper still works. It is pure Nix, so importing it
   # here costs nothing.
-  substituteFile ? (import ../lib lib).substituteFile,
+  substituteFile ? (import ../../lib lib).substituteFile,
 }:
 
 # Package arguments come in a second call so `callPackage` cannot fill

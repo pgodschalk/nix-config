@@ -41,9 +41,10 @@ the code yet.
   is the local marketplace; `modules/home/claude-code.nix` adds the LSP plugin's
   `.lsp.json`, filled with the same store paths the editors get. `pkgs/lib/`
   holds the builders packages share, `release-binary.nix` for upstream release
-  binaries and `bun-package.nix` for npm tarballs bun runs; a package file calls
-  one through `callPackage` and passes its own arguments in a second call, so
-  `callPackage` never fills them from `pkgs`.
+  binaries, `bun-package.nix` for npm tarballs bun runs and
+  `python-lsp-wheel.nix` for the Rust language servers PyPI ships as wheels; a
+  caller reaches one through `callPackage` and passes its own arguments in a
+  second call, so `callPackage` never fills them from `pkgs`.
 - `lib/default.nix` provides `substituteFile path { name = value; }`: `@name@`
   substitution at evaluation time, asserting every replacement and every
   placeholder is matched. `builtins.readFile` of a `pkgs.replaceVars` result is
