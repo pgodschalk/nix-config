@@ -1,10 +1,9 @@
-# The engine behind the impeccable skill, pinned so the launcher never
-# reaches its download branch and never creates ~/.impeccable. It must
-# equal the skill's scripts/VERSION, which
-# modules/home/claude-skills.nix asserts.
+# The engine behind the impeccable skill.
 { lib, callPackage }:
 
 let
+  # Bump with impeccableSrc in modules/home/claude-skills.nix, which
+  # asserts the two agree.
   # @VERSION https://github.com/pbakaus/impeccable/releases
   version = "0.1.18";
   base = "https://github.com/pbakaus/impeccable/releases/download/engine-v${version}";

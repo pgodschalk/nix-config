@@ -280,8 +280,8 @@ let
     hash = "sha256-gwI+IhgwmELfQnfXjUuel6u+zdFD0LZZCLhGH5MSIWk=";
   };
 
-  # The engine binary, pinned so the launcher never reaches its download
-  # branch and never creates ~/.impeccable.
+  # The engine comes from pkgs/impeccable-engine.nix, so the launcher
+  # never reaches its download branch and never creates ~/.impeccable.
   #
   # $IMPECCABLE_BIN is tested with a bare `[ -x ]` and exec'd with no
   # chmod, which is what makes a store path usable. Placing the binary
