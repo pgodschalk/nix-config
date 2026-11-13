@@ -15,6 +15,16 @@
 # elsewhere, so the binary runs on the machine asking for it.
 set -euo pipefail
 
+usage() {
+  printf '%s\n' 'usage: nix-tool.sh ATTR [BINARY]' \
+    '       nix-tool.sh --formatter NAME' >&2
+  exit 2
+}
+
+if [ -z "${1-}" ] || { [ "$1" = --formatter ] && [ -z "${2-}" ]; }; then
+  usage
+fi
+
 case "$(uname -s)" in
   Darwin)
     config='darwinConfigurations.Patricks-MacBook-Pro'
