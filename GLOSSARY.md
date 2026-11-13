@@ -77,7 +77,8 @@ halves see it; the MCP server list is one.
 Anything from nixpkgs or `pkgs/` installed into a user profile.
 
 **Release binary**:\
-A prebuilt binary from an upstream release page, packaged rather than built.
+A prebuilt binary an upstream publishes, on its release page or in a registry
+such as PyPI, packaged rather than built.
 
 **Cask**:\
 A Homebrew cask, unpacked into the store, for an app that is on neither the App

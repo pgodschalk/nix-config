@@ -65,7 +65,6 @@
     ../../modules/home/pitchfork.nix
     ../../modules/home/powershell.nix
     ../../modules/home/procs.nix
-    ../../modules/home/python-lsps-wheels.nix
     ../../modules/home/python-lsps.nix
     ../../modules/home/python.nix
     ../../modules/home/resend.nix

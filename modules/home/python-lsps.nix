@@ -1,7 +1,5 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
-  # The Rust servers published as wheels are in
-  # modules/home/python-lsps-wheels.nix.
   home.packages = [
     (pkgs.callPackage ../../pkgs/djlsp.nix { })
 
@@ -10,5 +8,10 @@
     # this instead. It is a CLI, so it cannot reach either editor's
     # gutter and belongs in a pre-commit hook.
     pkgs.djlint
+  ]
+  # A system with no wheel gets no server rather than a broken one.
+  ++ lib.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform) [
+    (pkgs.callPackage ../../pkgs/pytest-language-server.nix { })
+    (pkgs.callPackage ../../pkgs/django-language-server.nix { })
   ];
 }
