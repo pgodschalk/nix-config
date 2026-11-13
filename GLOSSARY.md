@@ -200,8 +200,9 @@ A wrapper that lets the tool's exit code and output reach the caller unchanged.
 
 **Secret**:\
 A value that is never on disk in this tree; it reaches a process at run time
-through fnox or `op` (on a remote, through the secrets broker), or, for three
-MCP wrappers on the Mac, from the login keychain.\
+through fnox or `op` (on a remote, through the secrets broker), or, for four
+wrappers on the Mac (one each for the GitHub, Docker Hub and Cronometer MCP
+servers, and one Orca runs `gh` and `glab` through), from the login keychain.\
 _Avoid_: credential, outside a tool's own name
 
 **Session credential**:\

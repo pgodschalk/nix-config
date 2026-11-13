@@ -82,9 +82,12 @@ flake, so Nix is the only thing to install:
 .github/scripts/shell-lint.sh
 ```
 
-The tools are deliberately the same ones the editor runs, so a file that is
-clean in Zed is clean in CI. Where they differ, that is a bug in the
-configuration rather than something to work around.
+Most checks run the same tool the editor runs, with the same configuration, so a
+file that is clean in Zed passes them in CI; where they differ, that is a bug in
+the configuration rather than something to work around. Two checks run a tool of
+their own: CI lints Markdown with markdownlint-cli2 where the editor runs
+markdownlint-lsp, and validates each declared schema with check-jsonschema where
+the editor relies on its JSON and YAML language servers.
 
 ## Issues and feature requests
 
