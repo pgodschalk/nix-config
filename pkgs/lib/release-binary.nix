@@ -27,6 +27,8 @@
   # added to the builder's own unpack, signing and patching hooks
   nativeBuildInputs ? [ ],
   postInstall ? null, # a file, read into the postInstall hook
+  # merged over the builder's own, which holds `archive`
+  passthru ? { },
   meta,
 }:
 
@@ -90,7 +92,10 @@ stdenvNoCC.mkDerivation (
     }
     // meta;
 
-    passthru = { inherit archive; };
+    passthru = {
+      inherit archive;
+    }
+    // passthru;
   }
   // lib.optionalAttrs (postInstall != null) {
     postInstall = builtins.readFile postInstall;

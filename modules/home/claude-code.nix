@@ -189,7 +189,7 @@ in
           jdtlsSettings = pkgs.callPackage ../../pkgs/jdtls-settings.nix { };
           javaHome = config.my.java.jdk;
           inherit (pkgs) terraform;
-          mbxCargo = "${pkgs.callPackage ../../pkgs/mbx.nix { }}/libexec/mbx/cargo";
+          mbxCargo = (pkgs.callPackage ../../pkgs/mbx.nix { }).cargoShim;
         };
 
     # settings.json is Claude Code's own -- it writes `theme` and `tui`

@@ -21,7 +21,7 @@ in
   # goes through mbx. A project whose mise.toml pins Rust puts mise's
   # cargo in front of it again, and bypasses mbx unless that pin sets
   # `mr_boxington = true`.
-  home.sessionPath = [ "${mbx}/libexec/mbx" ];
+  home.sessionPath = [ (dirOf mbx.cargoShim) ];
 
   home.packages = [
     # A wrapper that exports RUST_SRC_PATH, so the standard library

@@ -879,7 +879,7 @@ let
       # the arguments `mbx setup` writes. `target/rust-analyzer` is the
       # directory `cargo.targetDir = true` picks.
       check.overrideCommand = [
-        "${mbx}/libexec/mbx/cargo"
+        mbx.cargoShim
         "check"
         "--workspace"
         "--all-targets"

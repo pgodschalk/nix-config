@@ -30,7 +30,7 @@ let
   mbx = pkgs.callPackage ../../pkgs/mbx.nix { };
 
   envVariables = {
-    PATH = "${mbx}/libexec/mbx:/etc/profiles/per-user/${user}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+    PATH = "${dirOf mbx.cargoShim}:/etc/profiles/per-user/${user}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
     # nixpkgs' claude-code wrapper hands this bundle to Node as
     # NODE_EXTRA_CA_CERTS; without it a GUI-spawned `claude` cannot
     # verify api.anthropic.com.

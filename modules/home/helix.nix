@@ -68,7 +68,7 @@ in
       clangFormat = if isDarwin then "clang-format-xcode" else "clang-format";
       swiftFormat = if isDarwin then "swift-format-xcode" else "swift-format";
       terraform = pkgs.terraform;
-      mbxCargo = "${pkgs.callPackage ../../pkgs/mbx.nix { }}/libexec/mbx/cargo";
+      mbxCargo = (pkgs.callPackage ../../pkgs/mbx.nix { }).cargoShim;
     };
 
     # config.toml itself is a symlink modules/home/darwin/appearance.nix owns,
