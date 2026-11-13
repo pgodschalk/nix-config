@@ -67,6 +67,17 @@
       releaseBinaryArchive =
         system:
         inputs.nixpkgs.legacyPackages.${system}.callPackage ./pkgs/lib/release-binary/test-archive.nix { };
+
+      # lib/tests.nix's cases, run while evaluating: a failing case
+      # throws with its name, and a passing run builds an empty file.
+      libTests =
+        system:
+        let
+          inherit (inputs.nixpkgs) lib;
+        in
+        builtins.seq (lib.debug.throwTestFailures {
+          failures = lib.runTests (import ./lib/tests.nix { inherit lib; });
+        }) (inputs.nixpkgs.legacyPackages.${system}.writeText "lib-tests" "");
     in
     {
       # `nix run /etc/nix-darwin#sf-mono-terminal-nerd-font`
@@ -194,10 +205,12 @@
 
         merge-json = mergeJsonTests "aarch64-darwin";
         release-binary-archive = releaseBinaryArchive "aarch64-darwin";
+        lib = libTests "aarch64-darwin";
       };
 
       # The same tests on Linux, which is where CI builds them.
       checks.x86_64-linux.merge-json = mergeJsonTests "x86_64-linux";
       checks.x86_64-linux.release-binary-archive = releaseBinaryArchive "x86_64-linux";
+      checks.x86_64-linux.lib = libTests "x86_64-linux";
     };
 }

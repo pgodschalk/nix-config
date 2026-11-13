@@ -33,6 +33,10 @@ run = ".github/scripts/nix-check.sh merge-json"
 description = "Run release-binary's archive-kind check"
 run = ".github/scripts/nix-check.sh release-binary-archive"
 
+[tasks."check:lib"]
+description = "Run lib/tests.nix's cases"
+run = ".github/scripts/nix-check.sh lib"
+
 [tasks.lint]
 description = "Run every per-language check CI runs"
 depends = [

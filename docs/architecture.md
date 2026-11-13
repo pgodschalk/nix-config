@@ -9,10 +9,10 @@ the code yet.
   throwaway x86_64-linux configuration that exists only to be evaluated),
   `checks.aarch64-darwin` (the system build and the Linux eval, both under
   aarch64-darwin on purpose, see the comment there, plus merge-json's fixture
-  tests and release-binary's archive-kind check, which `checks.x86_64-linux`
-  carries for CI) and `packages.aarch64-darwin.*`, `nix run` tools that wrap
-  `scripts/` plus nix-darwin's `darwin-rebuild`, re-exported for the first
-  activation.
+  tests, release-binary's archive-kind check and `lib/tests.nix` as `lib`, which
+  `checks.x86_64-linux` carries for CI) and `packages.aarch64-darwin.*`,
+  `nix run` tools that wrap `scripts/` plus nix-darwin's `darwin-rebuild`,
+  re-exported for the first activation.
 - `hosts/Patricks-MacBook-Pro/default.nix` is the nix-darwin system: it imports
   each `modules/darwin/*.nix` explicitly plus the work layer, declares
   `my.allowUnfree` (the host's only allowlist of unfree packages, by
@@ -51,7 +51,10 @@ the code yet.
   second call, so `callPackage` never fills them from `pkgs`.
 - `lib/default.nix` provides `substituteFile path { name = value; }`: `@name@`
   substitution at evaluation time, asserting every replacement and every
-  placeholder is matched. `builtins.readFile` of a `pkgs.replaceVars` result is
+  placeholder is matched. `substituteValue value { name = value; }` does the
+  same into every string and attribute name of a parsed value, keeping
+  store-path context; `lib/tests.nix` holds its cases, built as
+  `checks.<system>.lib`. `builtins.readFile` of a `pkgs.replaceVars` result is
   import-from-derivation and breaks the Linux eval; use `substituteFile` for a
   string and `replaceVars` for a store file.
 - `inputs`, `apps` and `substituteFile` reach every module as special arguments;

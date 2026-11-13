@@ -173,7 +173,7 @@ One script under `.github/scripts/`, what CI runs and what can be run by hand.
 
 **Flake check**:\
 One of the flake's own checks: the system build, the Linux eval, merge-json's
-fixture tests and release-binary's archive-kind check.
+fixture tests, release-binary's archive-kind check and `lib/tests.nix`'s cases.
 
 ### Pins
 
