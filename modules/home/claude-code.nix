@@ -194,8 +194,8 @@ let
   nixd = config.my.nixd.settings;
   systemKind = if pkgs.stdenv.hostPlatform.isDarwin then "nix-darwin" else "nixos";
 
-  # Filled as helix.nix fills the template, but without TOML's
-  # escaping: these strings go into JSON.
+  # Filled as helix.nix fills the template, but without the escaping
+  # TOML needs: these strings go into JSON.
   helixPayloads =
     assert lib.assertMsg (unconfigured == [ ]) (
       "claude-code: helix/languages.toml gives no config to " + lib.concatStringsSep ", " unconfigured
