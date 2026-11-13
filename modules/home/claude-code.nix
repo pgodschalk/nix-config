@@ -72,7 +72,7 @@ let
       pkgs.jq
       pkgs.markdownlint-cli2
       (pkgs.callPackage ../../pkgs/agnix-lsp.nix { })
-      (pkgs.callPackage ../../pkgs/prettier-with-plugins.nix { })
+      config.my.formatters.prettier-md
     ];
     runtimeEnv = {
       MARKDOWNLINT_CONFIG = ./claude-code/markdownlint.jsonc;
