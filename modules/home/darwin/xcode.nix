@@ -6,6 +6,22 @@
   ...
 }:
 let
+  # Xcode takes one plugin rather than loose files: subagents, hooks
+  # and MCP servers are plugin relative, and it refuses anything that
+  # "resolves outside the plugin directory". So everything goes into
+  # `nix-agents` in the local marketplace
+  # modules/home/claude-code.nix materialises, and one "Add from file"
+  # carries all three.
+  pluginDir = "${config.xdg.configHome}/claude-marketplace/plugins/nix-agents";
+
+  # `xcode` is dropped from the set Xcode's own agent receives: that
+  # entry is the bridge into Xcode, whose tools it already injects, so
+  # registering it would point the agent back at the Xcode it runs
+  # inside.
+  mcpJson = (pkgs.formats.json { }).generate "xcode-mcp-servers.json" {
+    mcpServers = lib.removeAttrs config.my.mcp.servers [ "xcode" ];
+  };
+
   extras = config.my.theme.dracula.extras;
   themeDir = "${config.home.homeDirectory}/Library/Developer/Xcode/UserData/FontAndColorThemes";
   themes = [
@@ -76,6 +92,20 @@ let
 
 in
 {
+  my.agentSkills.recursiveDirs = [ "${pluginDir}/skills" ];
+  my.agentSkills.subagentDirs = [ "${pluginDir}/agents" ];
+
+  # Xcode's own mcp-servers.json cannot be declared: Xcode unlinks and
+  # rewrites it from its UI state, clobbering the store symlink. A
+  # loose ~/.claude/.mcp.json does not work either -- Xcode refuses a
+  # path that "resolves outside the plugin directory" -- so the servers
+  # go into the plugin too.
+  #
+  # The import is a button, so it is imperative, but the contents stay
+  # live: Xcode copies the plugin and the files inside are store
+  # symlinks.
+  home.file."${pluginDir}/.mcp.json".source = mcpJson;
+
   # Compared before writing, so an unchanged switch is quiet -- and a
   # font chosen in Xcode's UI is reverted by the next switch, which is
   # the point of declaring it. Its own entry, so a font change does not

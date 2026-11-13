@@ -159,15 +159,6 @@ let
   recursiveDirs = config.my.agentSkills.recursiveDirs;
   destinations = flatDirs ++ recursiveDirs;
 
-  # Xcode takes one plug-in rather than loose files: subagents, hooks
-  # and MCP servers are plug-in relative, and it refuses anything that
-  # "resolves outside the plugin directory". So everything goes into
-  # `nix-agents` in the local marketplace
-  # modules/home/claude-code.nix materialises, and one "Add from file"
-  # carries all three.
-  xcodePluginDir = "${config.xdg.configHome}/claude-marketplace/plugins/nix-agents";
-  xcodeSkillsDir = "${xcodePluginDir}/skills";
-
   claudeSkillFiles =
     lib.foldl' (acc: dir: acc // skillFilesIn dir) { } flatDirs
     // lib.foldl' (acc: dir: acc // skillFilesRecursiveIn dir) { } recursiveDirs
@@ -196,14 +187,8 @@ let
         lib.filter (f: lib.hasSuffix ".md" f && f != "README.md") (
           builtins.attrNames (builtins.readDir "${voltagent}/categories/${c}")
         );
-      # Claude Code's own user scope, and the `agents/` directory of the
-      # nix-agents plug-in, where Xcode's importer looks. These are
-      # individual .md files, so no `recursive` is needed -- the
-      # importer reads a symlinked file happily.
-      destinations = [
-        agentsDir
-        "${xcodePluginDir}/agents"
-      ];
+      # Individual .md files, so no `recursive` is needed.
+      destinations = [ agentsDir ] ++ config.my.agentSkills.subagentDirs;
     in
     lib.listToAttrs (
       lib.concatMap (
@@ -327,6 +312,12 @@ in
     description = "Extra absolute directories to link every skill into as real directories of file links, for a reader that does not descend into a linked directory.";
   };
 
+  options.my.agentSkills.subagentDirs = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = [ ];
+    description = "Extra absolute directories to link every subagent into.";
+  };
+
   options.my.agentSkills.destinations = lib.mkOption {
     type = lib.types.listOf lib.types.str;
     readOnly = true;
@@ -390,8 +381,6 @@ in
         IMPECCABLE_BIN = "${impeccableEngine}/bin/impeccable";
       })
     ];
-
-    my.agentSkills.recursiveDirs = [ xcodeSkillsDir ];
 
     my.launchd.extraVariables = [
       "IMPECCABLE_BIN"
