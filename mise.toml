@@ -29,6 +29,10 @@ run = "nix flake check --override-input work path:./stubs/work"
 description = "Run merge-json's fixture tests"
 run = ".github/scripts/nix-check.sh merge-json"
 
+[tasks."check:release-binary-archive"]
+description = "Run release-binary's archive-kind check"
+run = ".github/scripts/nix-check.sh release-binary-archive"
+
 [tasks.lint]
 description = "Run every per-language check CI runs"
 depends = [

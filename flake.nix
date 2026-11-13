@@ -63,6 +63,10 @@
         (inputs.nixpkgs.legacyPackages.${system}.callPackage ./pkgs/merge-json.nix {
           inherit substituteFile;
         }).tests.fixtures;
+
+      releaseBinaryArchive =
+        system:
+        inputs.nixpkgs.legacyPackages.${system}.callPackage ./pkgs/lib/release-binary/test-archive.nix { };
     in
     {
       # `nix run /etc/nix-darwin#sf-mono-terminal-nerd-font`
@@ -189,9 +193,11 @@
           pkgs.writeText "home-linux-evaluates" (builtins.unsafeDiscardStringContext drvPath);
 
         merge-json = mergeJsonTests "aarch64-darwin";
+        release-binary-archive = releaseBinaryArchive "aarch64-darwin";
       };
 
       # The same tests on Linux, which is where CI builds them.
       checks.x86_64-linux.merge-json = mergeJsonTests "x86_64-linux";
+      checks.x86_64-linux.release-binary-archive = releaseBinaryArchive "x86_64-linux";
     };
 }

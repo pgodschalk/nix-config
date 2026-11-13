@@ -5,10 +5,10 @@ code in this repository.
 
 One machine's Nix configuration: a nix-darwin system plus a home-manager user
 environment, on Determinate Nix. There is no application code; "the tests" are
-that both configurations evaluate, merge-json's fixtures pass and the
-per-language checks pass. `/etc/nix-darwin` symlinks here, so `darwin-rebuild`
-needs no `--flake`. See @docs/architecture.md for the layout, the layering and
-the conventions new code follows.
+that both configurations evaluate, merge-json's fixtures and release-binary's
+archive-kind check pass, and the per-language checks pass. `/etc/nix-darwin`
+symlinks here, so `darwin-rebuild` needs no `--flake`. See @docs/architecture.md
+for the layout, the layering and the conventions new code follows.
 
 ## Commands
 
@@ -39,9 +39,10 @@ cause. This is a colocated jj repository; with plain git, `git add` it first.
 
 nix flake check --override-input work path:./stubs/work
 
-# merge-json's fixture tests alone, for this machine's system; CI
-# builds the x86_64-linux one.
+# merge-json's fixture tests and release-binary's archive-kind check
+# alone, for this machine's system; CI builds the x86_64-linux ones.
 .github/scripts/nix-check.sh merge-json
+.github/scripts/nix-check.sh release-binary-archive
 
 darwin-rebuild build   # builds, activates nothing
 ```

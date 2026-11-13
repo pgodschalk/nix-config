@@ -167,8 +167,8 @@ A macOS assumption that has reached the portable half or a host-only module.
 One script under `.github/scripts/`, what CI runs and what can be run by hand.
 
 **Flake check**:\
-One of the flake's own checks: the system build, the Linux eval and merge-json's
-fixture tests.
+One of the flake's own checks: the system build, the Linux eval, merge-json's
+fixture tests and release-binary's archive-kind check.
 
 ### Pins
 

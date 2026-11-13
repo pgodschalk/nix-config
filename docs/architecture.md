@@ -9,9 +9,10 @@ the code yet.
   throwaway x86_64-linux configuration that exists only to be evaluated),
   `checks.aarch64-darwin` (the system build and the Linux eval, both under
   aarch64-darwin on purpose, see the comment there, plus merge-json's fixture
-  tests, which `checks.x86_64-linux` carries for CI) and
-  `packages.aarch64-darwin.*`, `nix run` tools that wrap `scripts/` plus
-  nix-darwin's `darwin-rebuild`, re-exported for the first activation.
+  tests and release-binary's archive-kind check, which `checks.x86_64-linux`
+  carries for CI) and `packages.aarch64-darwin.*`, `nix run` tools that wrap
+  `scripts/` plus nix-darwin's `darwin-rebuild`, re-exported for the first
+  activation.
 - `hosts/Patricks-MacBook-Pro/default.nix` is the nix-darwin system: it imports
   each `modules/darwin/*.nix` explicitly plus the work layer, declares
   `my.allowUnfree` (the host's only allowlist of unfree packages, by
