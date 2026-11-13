@@ -39,3 +39,11 @@ The costs:
   merge, and taken back with it once Nix stops declaring it.
 - Claude Code's hook events are listed in `claude-code.nix`, so an event added
   upstream fails evaluation until the list has it.
+- A rollback to a generation older than Claude Code's entry runs that
+  generation's writers again, and they reinstall their agent-hook groups without
+  touching the state, so at the next switch forward those groups stay as if the
+  app had written them. Deleting
+  `~/Library/Application Support/nix-config/claude-code.json` and
+  `claude-code.strategies.json` before switching forward takes them back: with
+  no state, the migration ahead of the first merge runs again and removes every
+  group that runs one of this repository's hook commands.
