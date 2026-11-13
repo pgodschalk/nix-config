@@ -6,10 +6,6 @@
 #
 # The tag is the only real version -- `package.json` stays at a static
 # 1.0.0 -- so `version` below follows it rather than the manifest.
-#
-# A package rather than a `let` binding, because modules/home/mcp.nix
-# and modules/home/darwin/zed.nix must run the same wrapper or only one
-# of the two authenticates.
 {
   lib,
   buildNpmPackage,

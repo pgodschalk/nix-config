@@ -14,7 +14,7 @@ let
   # rather than data: it is regenerable bundle state.
   jdtlsConfigArea = "${config.xdg.cacheHome}/jdtls/configuration";
 
-  # nixpkgs patches jdtls.py to run the server on its own JDK 21, so
+  # nixpkgs patches jdtls.py to run the server on a JDK of its own, so
   # neither JAVA_HOME nor `--java-executable` chooses that JVM. The
   # JAVA_HOME set here reaches only the server's environment, and
   # `--set-default` lets a project that exports its own still win.

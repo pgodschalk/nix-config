@@ -693,12 +693,6 @@ args = ["language-server"]
 
 # yaml-language-server reports `documentFormattingProvider: false` until
 # this is set, so a formatter naming it silently does nothing.
-#
-# vscode-json-language-server deliberately gets no config at all: it
-# stops publishing diagnostics entirely once it receives a
-# `didChangeConfiguration`, and does not recover. Helix sends that
-# message whenever a `config` block exists. Nothing is lost, since
-# schema download is on by default for a document that names one.
 [language-server.yaml-language-server.config.yaml.format]
 enable = true
 

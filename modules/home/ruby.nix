@@ -14,12 +14,11 @@ let
   # gem, as prism is next to the one rubocop ships with.
   rubyGemDir = ruby: "${ruby}/${ruby.gemPath}";
 
-  # rubocop reads $XDG_CONFIG_HOME/rubocop/config.yml, and an editor
-  # launched from the Dock has no XDG_CONFIG_HOME between a login and
-  # the next switch -- it would then silently use its 120-column
-  # default. `--set-default` still lets a shell that sets the variable
-  # win. GEM_HOME names Ruby's own read-only gem tree, which keeps the
-  # user gem directory off rubocop's load path.
+  # rubocop reads $XDG_CONFIG_HOME/rubocop/config.yml and, without the
+  # variable, silently uses its 120-column default, so the wrapper
+  # supplies it; `--set-default` lets an environment that sets it win.
+  # GEM_HOME names Ruby's own read-only gem tree, which keeps the user
+  # gem directory off rubocop's load path.
   rubocop = pkgs.symlinkJoin {
     name = "rubocop-xdg-${pkgs.rubocop.version}";
     paths = [ pkgs.rubocop ];

@@ -11,10 +11,11 @@ let
   home = config.home-manager.users.${user};
   inherit (home.home) sessionVariables;
 
-  # Every variable here redirects state out of $HOME. A GUI-spawned CLI
-  # that does not see them recreates the dotfiles they exist to prevent.
-  # Sorted, ASCII order; a module setting a redirect of its own adds it
-  # through my.launchd.extraVariables instead.
+  # What a CLI an app spawns needs to behave as in a shell: state
+  # redirects out of $HOME, tool locators and telemetry opt-outs. A
+  # GUI-spawned CLI that misses a redirect recreates the dotfile it
+  # exists to prevent. Sorted, ASCII order; a module setting one of
+  # its own adds it through my.launchd.extraVariables instead.
   redirectNames = [
     "ANDROID_AVD_HOME"
     "ANDROID_EMULATOR_HOME"
