@@ -31,7 +31,15 @@
     RESEND_TELEMETRY_DISABLED = "1";
   };
 
-  my.launchd.extraVariables = [ "CHECKPOINT_DISABLE" ];
+  my.launchd.extraVariables = [
+    "CHECKPOINT_DISABLE"
+    "CLOUDSDK_CORE_DISABLE_USAGE_REPORTING"
+    "DISABLE_AUTOUPDATER"
+    "DISABLE_ERROR_REPORTING"
+    "HF_HUB_DISABLE_TELEMETRY"
+    "HF_HUB_DISABLE_UPDATE_CHECK"
+    "RESEND_TELEMETRY_DISABLED"
+  ];
 
   # Not here because the setting is a config key rather than a variable:
   # gh and glab (each writes it in its own module, since the config

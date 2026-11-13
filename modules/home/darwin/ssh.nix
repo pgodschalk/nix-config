@@ -96,4 +96,6 @@ in
   home.sessionVariables = {
     SSH_AUTH_SOCK = secretiveSocket;
   };
+
+  my.launchd.extraVariables = [ "SSH_AUTH_SOCK" ];
 }

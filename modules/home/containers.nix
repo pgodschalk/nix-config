@@ -134,6 +134,11 @@ in
       REGISTRY_AUTH_FILE = "${config.home.homeDirectory}/.docker/config.json";
     };
 
+    my.launchd.extraVariables = [
+      "HELM_REGISTRY_CONFIG"
+      "REGISTRY_AUTH_FILE"
+    ];
+
     # The config stays in the dotdir docker hardcodes: it looks for its
     # contexts and cli-plugins beside the config, and OrbStack registers
     # both in ~/.docker, so DOCKER_CONFIG elsewhere breaks every command

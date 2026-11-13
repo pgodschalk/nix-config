@@ -19,6 +19,11 @@ in
     RESEND_CREDENTIAL_STORE = "secure_storage";
   };
 
+  my.launchd.extraVariables = [
+    "RESEND_CREDENTIAL_STORE"
+    "RESEND_NO_UPDATE_NOTIFIER"
+  ];
+
   xdg.configFile."fnox/config.toml".text = lib.mkAfter fnoxFragment;
 
   programs.nushell.extraConfig = lib.mkAfter (builtins.readFile ./resend/resend.nu);

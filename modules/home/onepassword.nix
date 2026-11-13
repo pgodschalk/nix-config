@@ -6,4 +6,6 @@
   # last, which makes the default depend on history. Other accounts are
   # selected per directory by a mise.local.toml.
   home.sessionVariables.OP_ACCOUNT = "my.1password.eu";
+
+  my.launchd.extraVariables = [ "OP_ACCOUNT" ];
 }

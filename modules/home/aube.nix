@@ -24,4 +24,6 @@ in
     # that mise knows nothing about.
     AUBE_RUNTIME_INSTALLER = "mise";
   };
+
+  my.launchd.extraVariables = [ "AUBE_RUNTIME_INSTALLER" ];
 }
