@@ -1,4 +1,7 @@
-{ config, ... }:
+{ config, lib, ... }:
+let
+  extras = config.my.theme.dracula.extras;
+in
 {
   home.sessionVariables.STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
 
@@ -12,9 +15,14 @@
     enableZshIntegration = false;
 
     # Empty on purpose, which is starship's own default prompt. The
-    # themes live in dracula-pro-extras and modules/home/nushell.nix
+    # themes live in dracula-pro-extras and the Variant variable below
     # repoints STARSHIP_CONFIG at the variant; the value exported here
     # is the fallback for a starship invoked outside a themed nushell,
     # and is what keeps starship from hardcoding ~/.config.
+  };
+
+  my.theme.variantVariables.STARSHIP_CONFIG = lib.mkIf (extras != null) {
+    pro = "${extras}/src/starship/pro.toml";
+    alucard = "${extras}/src/starship/alucard.toml";
   };
 }

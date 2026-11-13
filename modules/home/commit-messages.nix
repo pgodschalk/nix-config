@@ -290,6 +290,14 @@ in
       commitlintBun
     ];
 
+    # lumen takes one of its built-in theme names and no theme file, so
+    # this is upstream's plain dracula and, on the light side, the
+    # nearest of its light built-ins.
+    my.theme.variantVariables.LUMEN_THEME = {
+      pro = "dracula";
+      alucard = "catppuccin-latte";
+    };
+
     programs.jujutsu.settings.ui.editor = "${jjEditor}";
 
     programs.git = {
