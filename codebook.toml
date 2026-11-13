@@ -98,6 +98,7 @@ words = [
   "langserver",
   "launchd",
   "libicucore",
+  "lifecycle",
   "liga",
   "linters",
   "llm",

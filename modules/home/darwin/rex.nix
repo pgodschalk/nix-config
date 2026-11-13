@@ -51,9 +51,9 @@ in
   # `rex __internal skill`, so the guide follows the installed Rex.
   my.agentSkills.storeSkills.rex = ./rex/skill;
 
-  # The other half of `rex skill setup`, merged after the main settings
-  # merge because both rewrite the same file.
-  home.activation.rexClaudeHook = lib.hm.dag.entryAfter [ "claudePluginSettings" ] (
+  # The other half of `rex skill setup`, merged after mergedSettings
+  # because both rewrite the same file.
+  home.activation.rexClaudeHook = lib.hm.dag.entryAfter [ "writeBoundary" "mergedSettings" ] (
     substituteFile ./rex/claude-hook.sh {
       settings = lib.escapeShellArg "${config.xdg.configHome}/claude-code/settings.json";
       jq = lib.getExe pkgs.jq;

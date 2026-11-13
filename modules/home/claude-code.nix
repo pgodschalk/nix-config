@@ -107,9 +107,9 @@ let
   # cloned from GitHub -- so it updates when the marketplace refreshes
   # rather than when flake.lock moves.
   #
-  # The whole of the official marketplace is managed here: settings.jq
-  # disables any of its plugins not listed, so one enabled by hand is
-  # gone after the next switch.
+  # These plugins reach Claude Code's enabledPlugins through
+  # my.claudeCode.enabledPlugins: one dropped from this list is taken
+  # back out at the next switch, and one enabled by hand stays.
   officialPlugins = [
     "frontend-design"
     "code-review"
@@ -135,6 +135,44 @@ let
       value = true;
     }) officialPlugins
   );
+
+  # The events Claude Code runs agent hooks on, in the order of the
+  # lifecycle table in https://code.claude.com/docs/en/hooks
+  hookEvents = [
+    "SessionStart"
+    "Setup"
+    "UserPromptSubmit"
+    "UserPromptExpansion"
+    "PreToolUse"
+    "PermissionRequest"
+    "PermissionDenied"
+    "PostToolUse"
+    "PostToolUseFailure"
+    "PostToolBatch"
+    "Notification"
+    "MessageDisplay"
+    "SubagentStart"
+    "SubagentStop"
+    "TaskCreated"
+    "TaskCompleted"
+    "Stop"
+    "StopFailure"
+    "TeammateIdle"
+    "InstructionsLoaded"
+    "ConfigChange"
+    "CwdChanged"
+    "DirectoryAdded"
+    "FileChanged"
+    "WorktreeCreate"
+    "WorktreeRemove"
+    "PreCompact"
+    "PostCompact"
+    "PreModelSwitch"
+    "PostModelSwitch"
+    "Elicitation"
+    "ElicitationResult"
+    "SessionEnd"
+  ];
 
   # Helix's `config` for these servers is what the LSP plugin sends.
   # Claude Code passes initializationOptions to a server as they are
@@ -249,11 +287,9 @@ in
     xdg.configFile."claude-marketplace/plugins/nix-lsp/.lsp.json".source =
       json.generate "nix-lsp.json" lspServers;
 
-    # settings.json is Claude Code's own -- it writes `theme` and `tui`
-    # -- so the keys are merged in with jq rather than the file written.
-    # ./claude-code/settings.jq is a real file, passed with
-    # `--from-file`, so jq's own tooling can read it and it can be run
-    # by hand.
+    # Claude Code rewrites settings.json itself -- `theme`, `tui`,
+    # Orca's agent hooks -- so the declared keys are merged in, and
+    # every hook event takes `union` to keep the groups Orca adds.
     #
     # Two of the keys only stick at user scope. `permissions.defaultMode
     # = "auto"` is source-restricted, so a project or local scope
@@ -265,20 +301,92 @@ in
     # error, it simply does not apply. `voiceEnabled` is read as
     # `voice?.enabled ?? voiceEnabled`, so the nested object Claude Code
     # writes itself wins and only the flag is declared.
-    # `.sandbox.enabled` is set as a path, so other sandbox keys survive
-    # the merge.
-    home.activation.claudePluginSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-      substituteFile ./claude-code/merge-settings.sh {
-        settings = lib.escapeShellArg "${config.xdg.configHome}/claude-code/settings.json";
-        marketplace = lib.escapeShellArg "${config.xdg.configHome}/claude-marketplace";
-        jq = "${pkgs.jq}/bin/jq";
-        statusline = lib.escapeShellArg "${claudeStatusline}/bin/claude-statusline";
-        mdlint = lib.escapeShellArg "${claudeMdLint}/bin/claude-md-lint";
-        vcsguard = lib.escapeShellArg "${claudeVcsGuard}/bin/claude-vcs-guard";
-        plugins = lib.escapeShellArg (builtins.toJSON enabledPluginKeys);
-        filter = "${./claude-code/settings.jq}";
-      }
-    );
+    #
+    # Claude Code's settings reference lists its keys alphabetically;
+    # formats.json sorts them either way.
+    my.mergedSettings.claude-code = {
+      file = "${config.xdg.configHome}/claude-code/settings.json";
+      value = {
+        enabledPlugins = config.my.claudeCode.enabledPlugins;
+        extraKnownMarketplaces.nix-config.source = {
+          source = "directory";
+          path = "${config.xdg.configHome}/claude-marketplace";
+        };
+        hooks = {
+          PreToolUse = [
+            {
+              matcher = "Bash";
+              hooks = [
+                {
+                  type = "command";
+                  command = "${claudeVcsGuard}/bin/claude-vcs-guard";
+                  timeout = 5;
+                }
+              ];
+            }
+          ];
+          PostToolUse = [
+            {
+              matcher = "Write|Edit";
+              hooks = [
+                {
+                  type = "command";
+                  command = "${claudeMdLint}/bin/claude-md-lint";
+                }
+              ];
+            }
+          ];
+        };
+        outputStyle = "Concise";
+        permissions = {
+          defaultMode = "auto";
+          deny = [
+            "Bash(security find-generic-password:*)"
+            "Bash(security find-internet-password:*)"
+            "Bash(security dump-keychain:*)"
+            "Bash(/usr/bin/security find-generic-password:*)"
+            "Bash(/usr/bin/security find-internet-password:*)"
+            "Bash(/usr/bin/security dump-keychain:*)"
+          ];
+        };
+        remoteControlAtStartup = true;
+        sandbox.enabled = true;
+        statusLine = {
+          type = "command";
+          command = "${claudeStatusline}/bin/claude-statusline";
+          padding = 0;
+        };
+        syncClaudeAiPlugins = false;
+        voiceEnabled = true;
+      };
+      strategies = {
+        hooks = lib.genAttrs hookEvents (_: "union");
+        permissions.deny = "union";
+      };
+    };
+
+    assertions = map (event: {
+      assertion = lib.elem event hookEvents;
+      message = "my.mergedSettings.claude-code.value.hooks.${event} is not a Claude Code hook event";
+    }) (builtins.attrNames config.my.mergedSettings.claude-code.value.hooks);
+
+    # With no state yet the merge cannot tell this repository's
+    # agent-hook groups from Orca's, so before the first merge every
+    # group running one of this repository's hook commands is removed
+    # rather than kept as a stale copy beside the declared one.
+    home.activation.claudeCodeHookMigration =
+      let
+        settingsFile = config.my.mergedSettings.claude-code.file;
+        stateFile = "${config.xdg.stateHome}/nix-config/claude-code.json";
+      in
+      lib.hm.dag.entryBetween [ "mergedSettings" ] [ "writeBoundary" ] (
+        substituteFile ./claude-code/migrate-hooks.sh {
+          settings = lib.escapeShellArg settingsFile;
+          state = lib.escapeShellArg stateFile;
+          jq = lib.getExe pkgs.jq;
+          filter = "${./claude-code/migrate-hooks.jq}";
+        }
+      );
 
     home.activation.hideClaudeCodeUrlHandler = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
       lib.hm.dag.entryAfter [ "writeBoundary" ] (builtins.readFile ./claude-code/hide-url-handler.sh)

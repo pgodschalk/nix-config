@@ -17,12 +17,12 @@ in
   # changes nothing.
   my.agentSkills.storeSkills.jouet-init = "${jouet}/share/jouet/skills/jouet-init";
 
-  # After claudePluginSettings, which rewrites the same file.
+  # After mergedSettings, which rewrites the same file.
   home.activation.jouetClaudeHooks =
     lib.hm.dag.entryAfter
       [
         "writeBoundary"
-        "claudePluginSettings"
+        "mergedSettings"
       ]
       (
         substituteFile ./jouet/merge-claude-hooks.sh {

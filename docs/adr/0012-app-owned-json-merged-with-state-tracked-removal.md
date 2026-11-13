@@ -17,6 +17,13 @@ that is not valid JSON, or that the app has reshaped so the merge fails, is left
 as it is, state included, with a warning naming the entry: one broken file must
 not stop the activation. The work layer's apps belong on the same option.
 
+Claude Code's `settings.json` is one entry. Orca adds its own agent-hook groups
+to the same per-event lists at run time and removes only those, so every
+`hooks.<Event>` takes `union`. Claude Code's schema allows no key a group could
+name its owner in, so the state is what tells Nix's groups from Orca's. An event
+name Claude Code does not know fails evaluation, because Claude Code only warns
+about one and never runs its hooks.
+
 The costs:
 
 - An entry removed from the option is no longer merged at all, so what it
@@ -26,3 +33,7 @@ The costs:
   empty list stays in the file.
 - A skipped file is retried, and warned about, at every switch until it is
   repaired.
+- A group an app writes identical to a declared one is adopted at the first
+  merge, and taken back with it once Nix stops declaring it.
+- Claude Code's hook events are listed in `claude-code.nix`, so an event added
+  upstream fails evaluation until the list has it.

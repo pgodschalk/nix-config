@@ -76,12 +76,11 @@ the code yet.
   them is `lib.mkIf (extras != null)` with `mkOutOfStoreSymlink`.
 - Apps that rewrite their own settings file (Claude Code, Claude desktop, Zed)
   get no link; their keys are merged or rendered by an activation entry after
-  `writeBoundary`. Claude desktop's JSON is merged through `my.mergedSettings`
-  (`modules/home/merged-settings.nix`), where new app-owned JSON goes too: an
-  entry names the file, its declared value and a strategy for any key, at any
-  depth, that is not deep-merged (`replace` or `union`), and what it stops
-  declaring is taken back at the next switch (ADR-0012). Claude Code's
-  `settings.json` keeps its own entry, `claudePluginSettings`, and Zed's is
+  `writeBoundary`. Claude Code's and Claude desktop's JSON is merged through
+  `my.mergedSettings` (`modules/home/merged-settings.nix`), where new app-owned
+  JSON goes too: an entry names the file, its declared value and a strategy for
+  any key, at any depth, that is not deep-merged (`replace` or `union`), and
+  what it stops declaring is taken back at the next switch (ADR-0012). Zed's is
   rendered with its token.
 - A skill reaches every directory in `my.agentSkills.destinations`, which
   `modules/home/claude-skills.nix` sets. A module adds a destination through
