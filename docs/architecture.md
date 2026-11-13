@@ -80,8 +80,9 @@ the code yet.
   `my.mergedSettings` (`modules/home/merged-settings.nix`), where new app-owned
   JSON goes too: an entry names the file, its declared value and a strategy for
   any key, at any depth, that is not deep-merged (`replace` or `union`), and
-  what it stops declaring is taken back at the next switch (ADR-0012). Zed's is
-  rendered with its token.
+  what it stops declaring is taken back at the next switch (ADR-0012). A module
+  writing into another's file, as jouet and rex do into Claude Code's, adds to
+  that entry's `value`. Zed's is rendered with its token.
 - A skill reaches every directory in `my.agentSkills.destinations`, which
   `modules/home/claude-skills.nix` sets. A module adds a destination through
   `my.agentSkills.extraDirs`, or through `recursiveDirs` for a reader that does

@@ -17,12 +17,14 @@ that is not valid JSON, or that the app has reshaped so the merge fails, is left
 as it is, state included, with a warning naming the entry: one broken file must
 not stop the activation. The work layer's apps belong on the same option.
 
-Claude Code's `settings.json` is one entry. Orca adds its own agent-hook groups
-to the same per-event lists at run time and removes only those, so every
-`hooks.<Event>` takes `union`. Claude Code's schema allows no key a group could
-name its owner in, so the state is what tells Nix's groups from Orca's. An event
-name Claude Code does not know fails evaluation, because Claude Code only warns
-about one and never runs its hooks.
+Claude Code's `settings.json` is one entry, and every module that writes into
+it, jouet and rex included, adds to that entry's value rather than running a
+writer of its own. Orca adds its own agent-hook groups to the same per-event
+lists at run time and removes only those, so every `hooks.<Event>` takes
+`union`. Claude Code's schema allows no key a group could name its owner in, so
+the state is what tells Nix's groups from Orca's. An event name Claude Code does
+not know fails evaluation, because Claude Code only warns about one and never
+runs its hooks.
 
 The costs:
 
