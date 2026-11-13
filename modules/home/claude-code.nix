@@ -370,24 +370,6 @@ in
       message = "my.mergedSettings.claude-code.value.hooks.${event} is not a Claude Code hook event";
     }) (builtins.attrNames config.my.mergedSettings.claude-code.value.hooks);
 
-    # With no state yet the merge cannot tell this repository's
-    # agent-hook groups from Orca's, so before the first merge every
-    # group running one of this repository's hook commands is removed
-    # rather than kept as a stale copy beside the declared one.
-    home.activation.claudeCodeHookMigration =
-      let
-        settingsFile = config.my.mergedSettings.claude-code.file;
-        stateFile = "${config.xdg.stateHome}/nix-config/claude-code.json";
-      in
-      lib.hm.dag.entryBetween [ "mergedSettings" ] [ "writeBoundary" ] (
-        substituteFile ./claude-code/migrate-hooks.sh {
-          settings = lib.escapeShellArg settingsFile;
-          state = lib.escapeShellArg stateFile;
-          jq = lib.getExe pkgs.jq;
-          filter = "${./claude-code/migrate-hooks.jq}";
-        }
-      );
-
     home.activation.hideClaudeCodeUrlHandler = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
       lib.hm.dag.entryAfter [ "writeBoundary" ] (builtins.readFile ./claude-code/hide-url-handler.sh)
     );
