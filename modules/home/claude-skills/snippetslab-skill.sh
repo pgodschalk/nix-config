@@ -1,23 +1,27 @@
 # shellcheck shell=bash
 
 # Generated rather than linked, because the text lives inside the app
-# and changes with it. Copied rather than symlinked, since the
+# and changes with it. Copied rather than symlinked, since every
 # destination is outside the store.
 lab=/Applications/SnippetsLab.app/Contents/Helpers/lab
 
 if [ -x "$lab" ]; then
-  agentSkill=@agentSkill@
-  claudeSkill=@claudeSkill@
-  run mkdir -p "$(dirname "$agentSkill")" "$(dirname "$claudeSkill")"
+  skillFiles=(@skillFiles@)
+  for skill in "${skillFiles[@]}"; do
+    run mkdir -p "$(dirname "$skill")"
+  done
 
   # Guarded rather than wrapped in `run`, which under a dry run would
   # echo the command into the redirect's target.
   if [[ ! -v DRY_RUN ]]; then
-    if "$lab" skill show >"$agentSkill.tmp"; then
-      mv -f "$agentSkill.tmp" "$agentSkill"
-      cp -f "$agentSkill" "$claudeSkill"
+    first=${skillFiles[0]}
+    if "$lab" skill show >"$first.tmp"; then
+      mv -f "$first.tmp" "$first"
+      for skill in "${skillFiles[@]:1}"; do
+        cp -f "$first" "$skill"
+      done
     else
-      rm -f "$agentSkill.tmp"
+      rm -f "$first.tmp"
     fi
   fi
 else

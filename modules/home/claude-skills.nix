@@ -102,6 +102,13 @@ let
   # shows without a switch.
   localSkillLinks = lib.mapAttrs (_: config.lib.file.mkOutOfStoreSymlink) localSkills;
 
+  # Skills that reach the skill directories outside the sets above:
+  # commitlint as a bare file, snippetslab by activation on macOS.
+  generatedSkills = [
+    "committing-with-commitlint"
+  ]
+  ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin "snippetslab";
+
   # listToAttrs keeps the first of a repeated name and `//` the last, so
   # a collision would drop a skill without a word.
   duplicateSkills = lib.attrNames (
@@ -111,6 +118,7 @@ let
         ++ lib.mapAttrsToList lib.nameValuePair skillSingles
         ++ lib.mapAttrsToList lib.nameValuePair localSkills
         ++ lib.mapAttrsToList lib.nameValuePair storeSkills
+        ++ map (n: lib.nameValuePair n null) generatedSkills
       )
     )
   );
@@ -154,6 +162,15 @@ let
   # carries all three.
   xcodePluginDir = "${config.xdg.configHome}/claude-marketplace/plugins/nix-agents";
   xcodeSkillsDir = "${xcodePluginDir}/skills";
+
+  # Absolute, for the activation entry below; `agentSkills` is
+  # home-relative because home.file takes it that way.
+  skillDirs = [
+    skillsDir
+    agentSkillsHome
+  ]
+  ++ extraSkillDirs
+  ++ [ xcodeSkillsDir ];
 
   claudeSkillFiles =
     skillFilesIn skillsDir
@@ -345,8 +362,7 @@ in
     home.activation.snippetslabSkill = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
       lib.hm.dag.entryAfter [ "writeBoundary" ] (
         substituteFile ./claude-skills/snippetslab-skill.sh {
-          agentSkill = lib.escapeShellArg "${agentSkillsHome}/snippetslab/SKILL.md";
-          claudeSkill = lib.escapeShellArg "${skillsDir}/snippetslab/SKILL.md";
+          skillFiles = lib.escapeShellArgs (map (dir: "${dir}/snippetslab/SKILL.md") skillDirs);
         }
       )
     );
