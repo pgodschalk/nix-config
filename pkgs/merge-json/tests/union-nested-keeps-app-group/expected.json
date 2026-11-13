@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [{ "type": "command", "command": "app-hook" }]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": "guard" }]
+      }
+    ],
+    "Stop": [{ "hooks": [{ "type": "command", "command": "app-stop" }] }]
+  },
+  "theme": "dark"
+}

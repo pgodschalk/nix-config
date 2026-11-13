@@ -1,0 +1,8 @@
+{
+  "hooks": {
+    "Stop": [
+      { "hooks": [{ "type": "command", "command": "app-stop" }] },
+      { "hooks": [{ "type": "command", "command": "tool hook stop" }] }
+    ]
+  }
+}

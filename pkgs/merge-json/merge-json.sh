@@ -5,10 +5,10 @@
 # Merges the DECLARED JSON into an app's own settings FILE, keeping the
 # keys the app writes itself. STATE records the declaration, so what is
 # dropped from it is taken back out of FILE on the next run.
-# STRATEGIES maps a top-level key to "replace" or "union"; every other
-# key is deep-merged. They are recorded beside STATE, its .json suffix
-# replaced by .strategies.json, so a key no longer declared is taken
-# back by the strategy it had.
+# STRATEGIES names "replace" or "union" for a key at any depth, in
+# DECLARED's shape; every other key is deep-merged. They are recorded
+# beside STATE, its .json suffix replaced by .strategies.json, so a
+# key no longer declared is taken back by the strategy it had.
 #
 # A FILE that cannot be merged is left as it is, both states with it,
 # and NAME is named in a warning: one app's broken file must not stop

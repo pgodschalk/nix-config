@@ -1,10 +1,11 @@
 # `.` is the array of JSON values in the app's file; $old[0] is what
 # was declared last time, $new[0] what is declared now, and
-# $oldStrategies[0] and $strategies[0] map a top-level key to "replace"
-# or "union", last time and now. Every other key is merged by default:
-# a leaf declared before and not now is removed, along with any object
-# that removal leaves empty, then the declaration is merged over what
-# is left.
+# $oldStrategies[0] and $strategies[0] are the strategies last time
+# and now, in the declared value's shape: a string names "replace" or
+# "union" for the key at its path. Every other key is merged by
+# default: a leaf declared before and not now is removed, along with
+# any object that removal leaves empty, then the declaration is merged
+# over what is left.
 
 # An array is a leaf: a declared one replaces whatever the file holds
 # at its path.
@@ -22,6 +23,25 @@ def prune($path):
     .
   end;
 
+# Whether `.` holds a value at $path, reached through objects alone.
+def has_path($path):
+  if $path == [] then
+    true
+  else
+    type == "object" and has($path[0]) and (.[$path[0]] | has_path($path[1:]))
+  end;
+
+def strategy_paths:
+  [paths(type == "string") as $path | [$path, getpath($path)]];
+
+# Deletes each of $paths that `.` holds, with any object that leaves
+# empty.
+def without_paths($paths):
+  reduce $paths[] as $path (
+    .;
+    if has_path($path) then delpaths([$path]) | prune($path) else . end
+  );
+
 def merge_default($old; $new):
   ($new | leaves) as $keep
   | reduce ($old | leaves[]) as $path (
@@ -30,11 +50,11 @@ def merge_default($old; $new):
     )
   | . * $new;
 
-def merge_replace($key; $old; $new):
-  if $new | has($key) then
-    .[$key] = $new[$key]
-  elif $old | has($key) then
-    del(.[$key])
+def merge_replace($path; $old; $new):
+  if $new | has_path($path) then
+    setpath($path; $new | getpath($path))
+  elif ($old | has_path($path)) and has_path($path) then
+    delpaths([$path])
   else
     .
   end;
@@ -42,25 +62,25 @@ def merge_replace($key; $old; $new):
 def without($elements):
   map(select(. as $element | any($elements[]; . == $element) | not));
 
-# Keeps the file's elements under $key in their order, minus those
+# Keeps the file's elements at $path in their order, minus those
 # declared last time and not now, then appends each declared element
 # the file lacks, comparing by value. A key no longer declared is left
 # alone once the file has dropped it, rather than written back empty.
-def merge_union($key; $old; $new):
+def merge_union($path; $old; $new):
   def declared($from):
-    $from[$key] // []
-    | if type == "array" then . else error("\($key) is declared as \(type), not an array") end;
+    if $from | has_path($path) then $from | getpath($path) // [] else [] end
+    | if type == "array" then . else error("\($path | join(".")) is declared as \(type), not an array") end;
 
-  if ($new | has($key)) or (($old | has($key)) and has($key)) then
-    (.[$key] // []) as $current
+  if ($new | has_path($path)) or (($old | has_path($path)) and has_path($path)) then
+    (getpath($path) // []) as $current
     | if $current | type != "array" then
-        error("\($key) is \($current | type) in the file, not an array")
+        error("\($path | join(".")) is \($current | type) in the file, not an array")
       else
         (declared($old) | without(declared($new))) as $dropped
-        | .[$key] = reduce declared($new)[] as $element (
+        | setpath($path; reduce declared($new)[] as $element (
             $current | without($dropped);
             if any(.[]; . == $element) then . else . + [$element] end
-          )
+          ))
       end
   else
     .
@@ -77,22 +97,24 @@ end
 | ($old[0] // {}) as $old
 | $new[0] as $new
 # A key no longer declared is taken back by the strategy it had, unless
-# one is declared for it now.
+# one is declared for its path now.
+| (($strategies[0] // {}) | strategy_paths) as $current
 | (
-    (($oldStrategies[0] // {}) | with_entries(select(.key as $key | $new | has($key) | not)))
-    + ($strategies[0] // {})
+    (($oldStrategies[0] // {}) | strategy_paths
+      | map(select(.[0] as $path
+          | ($new | has_path($path) | not)
+            and all($current[]; .[0] != $path))))
+    + $current
   ) as $strategies
-| merge_default(
-    $old | with_entries(select($strategies[.key] == null));
-    $new | with_entries(select($strategies[.key] == null))
-  )
-| reduce ($strategies | to_entries[]) as {key: $key, value: $strategy} (
+| ($strategies | map(.[0])) as $paths
+| merge_default($old | without_paths($paths); $new | without_paths($paths))
+| reduce $strategies[] as [$path, $strategy] (
     .;
     if $strategy == "replace" then
-      merge_replace($key; $old; $new)
+      merge_replace($path; $old; $new)
     elif $strategy == "union" then
-      merge_union($key; $old; $new)
+      merge_union($path; $old; $new)
     else
-      error("\($key) has no strategy \($strategy)")
+      error("\($path | join(".")) has no strategy \($strategy)")
     end
   )

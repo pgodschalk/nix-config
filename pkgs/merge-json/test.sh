@@ -11,7 +11,7 @@
 #   old.json             the state the last run left, if there was one
 #   old-strategies.json  the strategies the last run left, if any
 #   new.json             what is declared now
-#   strategies.json      the strategy per top-level key, if any
+#   strategies.json      the strategies, in new.json's shape, if any
 #   expected.json        the app's file after the merge
 #
 # A case with expected.json also expects the state to be new.json and

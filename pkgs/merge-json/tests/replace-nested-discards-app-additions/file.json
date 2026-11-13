@@ -1,0 +1,9 @@
+{
+  "extraKnownMarketplaces": {
+    "app-own": { "source": { "source": "github", "repo": "app/marketplace" } },
+    "declared": {
+      "autoUpdate": true,
+      "source": { "source": "directory", "path": "/old" }
+    }
+  }
+}

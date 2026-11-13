@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "timeout": 10,
+            "command": "tool hook session-start",
+            "type": "command"
+          }
+        ]
+      },
+      { "hooks": [{ "type": "command", "command": "app-start" }] }
+    ]
+  }
+}
