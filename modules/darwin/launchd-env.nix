@@ -11,8 +11,8 @@ let
   home = config.home-manager.users.${user};
   inherit (home.home) sessionVariables;
 
-  # The GUI variables home-manager sets itself; every module here
-  # declares its own beside its setter, in my.launchd.extraVariables.
+  # The GUI variables home-manager sets itself; every module that sets
+  # one declares it beside its setter, in my.launchd.extraVariables.
   upstreamGuiNames = [
     "XDG_BIN_HOME"
     "XDG_CACHE_HOME"

@@ -54,9 +54,9 @@ in
     # set-environment and picked up by /etc/zshenv, and home-manager's
     # session variables are read afterwards.
     #
-    # The absolute store path rather than a bare `hx`, because $EDITOR is
-    # consumed by processes that may not have the user profile on PATH.
-    # VISUAL is left unset so tools fall through to this.
+    # The absolute store path rather than a bare `hx`, because $EDITOR
+    # is consumed by processes that may not have the user profile on
+    # PATH. VISUAL is left unset so tools fall through to this.
     home.sessionVariables.EDITOR = lib.getExe pkgs.helix;
 
     xdg.configFile = {
@@ -82,9 +82,10 @@ in
         mbxCargo = (pkgs.callPackage ../../pkgs/mbx.nix { }).cargoShim;
       };
 
-      # config.toml itself is a symlink modules/home/darwin/appearance.nix owns,
-      # so it is not declared here -- home-manager and the watcher must
-      # not both claim one path.
+      # config.toml itself is a symlink
+      # modules/home/darwin/appearance.nix owns, so it is not
+      # declared here -- home-manager and the watcher must not both
+      # claim one path.
       "helix/config-dark.toml".text = mkConfig "dracula-pro";
       "helix/config-light.toml".text = mkConfig "alucard";
     }

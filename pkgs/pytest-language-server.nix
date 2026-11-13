@@ -13,7 +13,7 @@ callPackage ./lib/release-binary.nix { } {
 
   # PyPI's name-based path, which redirects to the file itself, so a
   # bump changes only `version` and the hashes. x86_64-darwin is left
-  # out because nixpkgs no longer supports it, and the musl wheels
+  # out because nixpkgs does not support it, and the musl wheels
   # because NixOS is glibc.
   assets = {
     aarch64-darwin = {
