@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   substituteFile,
@@ -18,4 +19,13 @@ let
 in
 {
   home.packages = [ lab ];
+
+  my.agentSkills.generatedSkills = [ "snippetslab" ];
+
+  home.activation.snippetslabSkill = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+    substituteFile ./snippetslab/skill.sh {
+      lab = lib.escapeShellArg labPath;
+      destinations = lib.escapeShellArgs config.my.agentSkills.destinations;
+    }
+  );
 }

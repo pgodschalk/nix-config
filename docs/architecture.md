@@ -82,5 +82,13 @@ the code yet.
   that is not deep-merged (`replace` or `union`), and what it stops declaring is
   taken back at the next switch (ADR-0012). Claude Code's `settings.json` keeps
   its own entry, `claudePluginSettings`, and Zed's is rendered with its token.
+- A skill reaches every directory in `my.agentSkills.destinations`, which
+  `modules/home/claude-skills.nix` sets. A module adds a destination through
+  `my.agentSkills.extraDirs`, or through `recursiveDirs` for a reader that does
+  not descend into a linked directory, as `darwin/xcode.nix` does for the
+  `nix-agents` plugin (with `subagentDirs` for its subagents). A skill an
+  activation entry writes instead, such as SnippetsLab's, copies itself into
+  each destination and names itself in `my.agentSkills.generatedSkills`, so the
+  duplicate-name check covers it.
 - `codebook.toml` at the root is this repository's spellcheck word list; jargon
   used in a comment goes there.

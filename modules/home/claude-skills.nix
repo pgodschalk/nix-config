@@ -101,25 +101,19 @@ let
   # shows without a switch.
   localSkillLinks = lib.mapAttrs (_: config.lib.file.mkOutOfStoreSymlink) localSkills;
 
-  # Skills that reach the skill directories outside the sets above:
-  # commitlint as a bare file, snippetslab by activation on macOS.
-  generatedSkills = [
-    "committing-with-commitlint"
-  ]
-  ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin "snippetslab";
+  skillEntries =
+    groupedSkills
+    ++ lib.mapAttrsToList lib.nameValuePair skillSingles
+    ++ lib.mapAttrsToList lib.nameValuePair localSkills
+    ++ lib.mapAttrsToList lib.nameValuePair storeSkills
+    ++ map (n: lib.nameValuePair n null) (
+      [ "committing-with-commitlint" ] ++ config.my.agentSkills.generatedSkills
+    );
 
   # listToAttrs keeps the first of a repeated name and `//` the last, so
   # a collision would drop a skill without a word.
   duplicateSkills = lib.attrNames (
-    lib.filterAttrs (_: v: builtins.length v > 1) (
-      lib.groupBy (x: x.name) (
-        groupedSkills
-        ++ lib.mapAttrsToList lib.nameValuePair skillSingles
-        ++ lib.mapAttrsToList lib.nameValuePair localSkills
-        ++ lib.mapAttrsToList lib.nameValuePair storeSkills
-        ++ map (n: lib.nameValuePair n null) generatedSkills
-      )
-    )
+    lib.filterAttrs (_: v: builtins.length v > 1) (lib.groupBy (x: x.name) skillEntries)
   );
 
   flatSkillSources =
@@ -318,6 +312,12 @@ in
     description = "Extra absolute directories to link every subagent into.";
   };
 
+  options.my.agentSkills.generatedSkills = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = [ ];
+    description = "Names of skills an activation entry writes into every destination, so the duplicate-name check covers them.";
+  };
+
   options.my.agentSkills.destinations = lib.mkOption {
     type = lib.types.listOf lib.types.str;
     readOnly = true;
@@ -353,14 +353,6 @@ in
     # One attrset, because `home.file` cannot be defined twice in a
     # module.
     home.file = voltagentFiles // claudeSkillFiles;
-
-    home.activation.snippetslabSkill = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
-      lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        substituteFile ./claude-skills/snippetslab-skill.sh {
-          skillFiles = lib.escapeShellArgs (map (dir: "${dir}/snippetslab/SKILL.md") destinations);
-        }
-      )
-    );
 
     home.activation.localSkillsRecursive = lib.mkIf (localSkills != { } && recursiveDirs != [ ]) (
       lib.hm.dag.entryAfter [ "writeBoundary" ] (
