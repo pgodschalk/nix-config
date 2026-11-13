@@ -3,6 +3,7 @@
   lib,
   pkgs,
   substituteFile,
+  substituteValue,
   ...
 }:
 let
@@ -134,6 +135,57 @@ let
       value = true;
     }) officialPlugins
   );
+
+  # Helix's `config` for these servers is what the LSP plugin sends.
+  # Claude Code passes initializationOptions to a server as they are
+  # and answers workspace/configuration by walking `settings`, so each
+  # table goes into both.
+  helixPayloadServers = [
+    "astro-ls"
+    "clangd"
+    "gopls"
+    "jdtls"
+    "nixd"
+    "rust-analyzer"
+    "terraform-ls"
+    "yaml-language-server"
+  ];
+  helixServers = (fromTOML (builtins.readFile ./helix/languages.toml)).language-server;
+  unconfigured = builtins.filter (name: !(helixServers.${name} or { } ? config)) helixPayloadServers;
+
+  nixd = config.my.nixd.settings;
+  systemKind = if pkgs.stdenv.hostPlatform.isDarwin then "nix-darwin" else "nixos";
+
+  # Filled as helix.nix fills the template, but without TOML's
+  # escaping: these strings go into JSON.
+  helixPayloads =
+    assert lib.assertMsg (unconfigured == [ ]) (
+      "claude-code: helix/languages.toml gives no config to " + lib.concatStringsSep ", " unconfigured
+    );
+    substituteValue (lib.genAttrs helixPayloadServers (name: helixServers.${name}.config)) {
+      astroTsdk = "${pkgs.callPackage ../../pkgs/astro-tsdk.nix { }}";
+      jdtlsSettings = "${pkgs.callPackage ../../pkgs/jdtls-settings.nix { }}";
+      nixpkgsExpr = nixd.nixpkgs.expr;
+      inherit systemKind;
+      systemOptions = nixd.options.${systemKind}.expr;
+      homeManagerOptions = nixd.options.home-manager.expr;
+      mbxCargo = (pkgs.callPackage ../../pkgs/mbx.nix { }).cargoShim;
+      terraform = "${pkgs.terraform}";
+    };
+
+  lspServers =
+    let
+      commands = lib.importJSON ./claude-code/nix-lsp.json;
+    in
+    commands
+    // lib.mapAttrs (
+      name: payload:
+      commands.${name}
+      // {
+        initializationOptions = payload;
+        settings = payload;
+      }
+    ) helixPayloads;
 in
 {
   options.my.mdLint.lineLengths = lib.mkOption {
@@ -183,14 +235,7 @@ in
     # The same store paths the editors are given, so the LSP plugin
     # cannot fall behind a flake.lock update.
     xdg.configFile."claude-marketplace/plugins/nix-lsp/.lsp.json".source =
-      pkgs.replaceVars ./claude-code/nix-lsp.json
-        {
-          astroTsdk = pkgs.callPackage ../../pkgs/astro-tsdk.nix { };
-          jdtlsSettings = pkgs.callPackage ../../pkgs/jdtls-settings.nix { };
-          javaHome = config.my.java.jdk;
-          inherit (pkgs) terraform;
-          mbxCargo = (pkgs.callPackage ../../pkgs/mbx.nix { }).cargoShim;
-        };
+      json.generate "nix-lsp.json" lspServers;
 
     # settings.json is Claude Code's own -- it writes `theme` and `tui`
     # -- so the keys are merged in with jq rather than the file written.

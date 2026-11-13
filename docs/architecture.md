@@ -42,10 +42,11 @@ the code yet.
   `java.nix`, however many modules read it.
 - `pkgs/` holds derivations nixpkgs lacks. There is no overlay: each consumer
   calls `pkgs.callPackage ../../pkgs/<name>.nix { }`. `pkgs/claude-marketplace/`
-  is the local marketplace; `modules/home/claude-code.nix` adds the LSP plugin's
-  `.lsp.json`, filled with the same store paths the editors get. `pkgs/lib/`
-  holds the builders packages share, `release-binary.nix` for upstream release
-  binaries, `bun-package.nix` for npm tarballs bun runs and
+  is the local marketplace; `modules/home/claude-code.nix` renders the LSP
+  plugin's `.lsp.json` from `claude-code/nix-lsp.json`'s commands and the
+  `config` Helix's `languages.toml` gives eight of the servers (ADR-0014).
+  `pkgs/lib/` holds the builders packages share, `release-binary.nix` for
+  upstream release binaries, `bun-package.nix` for npm tarballs bun runs and
   `python-lsp-wheel.nix` for the Rust language servers PyPI ships as wheels; a
   caller reaches one through `callPackage` and passes its own arguments in a
   second call, so `callPackage` never fills them from `pkgs`.
@@ -57,10 +58,11 @@ the code yet.
   `checks.<system>.lib`. `builtins.readFile` of a `pkgs.replaceVars` result is
   import-from-derivation and breaks the Linux eval; use `substituteFile` for a
   string and `replaceVars` for a store file.
-- `inputs`, `apps` and `substituteFile` reach every module as special arguments;
-  home modules also get `isDarwin`, which `home/patrick/default.nix` needs
-  inside `imports`, where anything derived from `pkgs` recurses infinitely.
-  Inside `config`, `pkgs.stdenv.hostPlatform.isDarwin` is fine.
+- `inputs`, `apps`, `substituteFile` and `substituteValue` reach every module as
+  special arguments; home modules also get `isDarwin`, which
+  `home/patrick/default.nix` needs inside `imports`, where anything derived from
+  `pkgs` recurses infinitely. Inside `config`,
+  `pkgs.stdenv.hostPlatform.isDarwin` is fine.
 
 ## Conventions
 

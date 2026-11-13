@@ -42,8 +42,8 @@
       apps = import ./apps.nix;
 
       # `pkgs.replaceVars` without the derivation, so reading a
-      # substituted file stays a pure evaluation.
-      inherit (import ./lib inputs.nixpkgs.lib) substituteFile;
+      # substituted file or value stays a pure evaluation.
+      inherit (import ./lib inputs.nixpkgs.lib) substituteFile substituteValue;
 
       # A Python script under scripts/ with pyobjc, as a `nix run` tool.
       pythonTool =
@@ -151,7 +151,12 @@
           config.allowUnfree = true;
         };
         extraSpecialArgs = {
-          inherit inputs apps substituteFile;
+          inherit
+            inputs
+            apps
+            substituteFile
+            substituteValue
+            ;
           isDarwin = false;
         };
         modules = [
@@ -171,7 +176,14 @@
       # The attribute name must equal `scutil --get LocalHostName`, or
       # `darwin-rebuild switch` needs `--flake .#name`.
       darwinConfigurations.Patricks-MacBook-Pro = inputs.nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit inputs apps substituteFile; };
+        specialArgs = {
+          inherit
+            inputs
+            apps
+            substituteFile
+            substituteValue
+            ;
+        };
         modules = [
           inputs.determinate.darwinModules.default
           inputs.brew-nix.darwinModules.default

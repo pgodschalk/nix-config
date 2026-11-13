@@ -34,7 +34,7 @@ in
     readOnly = true;
     # @VERSION https://openjdk.org/projects/jdk/
     default = pkgs.jdk25;
-    description = "The JDK installed here and given to jdtls as its `java_home` by every editor and agent.";
+    description = "The JDK installed here and given to jdtls as its `java_home` by Zed.";
   };
 
   config.home.packages = [

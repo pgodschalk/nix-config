@@ -4,11 +4,6 @@
     "args": ["--stdio"],
     "extensionToLanguage": {
       ".astro": "astro"
-    },
-    "initializationOptions": {
-      "typescript": {
-        "tsdk": "@astroTsdk@"
-      }
     }
   },
   "awk-language-server": {
@@ -68,9 +63,6 @@
       ".ixx": "cpp",
       ".tpp": "cpp",
       ".txx": "cpp"
-    },
-    "initializationOptions": {
-      "fallbackFlags": ["-Wall"]
     }
   },
   "docker-langserver": {
@@ -93,21 +85,6 @@
     "extensionToLanguage": {
       ".go": "go",
       ".gotmpl": "gotmpl"
-    },
-    "initializationOptions": {
-      "staticcheck": true,
-      "hints": {
-        "assignVariableTypes": true,
-        "compositeLiteralFields": true,
-        "compositeLiteralTypes": true,
-        "constantValues": true,
-        "functionTypeParameters": true,
-        "parameterNames": true,
-        "rangeVariableTypes": true
-      },
-      "codelenses": {
-        "test": true
-      }
     }
   },
   "graphql-language-service": {
@@ -125,31 +102,6 @@
       ".jav": "java",
       ".java": "java",
       ".pde": "java"
-    },
-    "initializationOptions": {
-      "java": {
-        "format": {
-          "settings": {
-            "url": "@jdtlsSettings@/formatter.xml"
-          }
-        },
-        "settings": {
-          "url": "@jdtlsSettings@/org.eclipse.jdt.core.prefs"
-        }
-      }
-    },
-    "settings": {
-      "java": {
-        "format": {
-          "settings": {
-            "url": "@jdtlsSettings@/formatter.xml"
-          }
-        },
-        "settings": {
-          "url": "@jdtlsSettings@/org.eclipse.jdt.core.prefs"
-        }
-      },
-      "java_home": "@javaHome@"
     }
   },
   "jq-lsp": {
@@ -193,36 +145,6 @@
     "command": "nixd",
     "extensionToLanguage": {
       ".nix": "nix"
-    },
-    "initializationOptions": {
-      "nixd": {
-        "nixpkgs": {
-          "expr": "import (builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
-        },
-        "options": {
-          "nix-darwin": {
-            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options"
-          },
-          "home-manager": {
-            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options.home-manager.users.type.getSubOptions [ ]"
-          }
-        }
-      }
-    },
-    "settings": {
-      "nixd": {
-        "nixpkgs": {
-          "expr": "import (builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
-        },
-        "options": {
-          "nix-darwin": {
-            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options"
-          },
-          "home-manager": {
-            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options.home-manager.users.type.getSubOptions [ ]"
-          }
-        }
-      }
     }
   },
   "nu-lsp": {
@@ -291,40 +213,6 @@
     "command": "rust-analyzer",
     "extensionToLanguage": {
       ".rs": "rust"
-    },
-    "initializationOptions": {
-      "cargo": {
-        "targetDir": true
-      },
-      "check": {
-        "overrideCommand": [
-          "@mbxCargo@",
-          "check",
-          "--workspace",
-          "--all-targets",
-          "--target-dir",
-          "target/rust-analyzer",
-          "--message-format=json"
-        ]
-      },
-      "files": {
-        "watcher": "server"
-      },
-      "inlayHints": {
-        "closingBraceHints": {
-          "minLines": 10
-        },
-        "closureReturnTypeHints": {
-          "enable": "always"
-        },
-        "discriminantHints": {
-          "enable": "fieldless"
-        },
-        "lifetimeElisionHints": {
-          "enable": "skip_trivial",
-          "useParameterNames": true
-        }
-      }
     }
   },
   "sourcekit-lsp": {
@@ -364,13 +252,8 @@
     "extensionToLanguage": {
       ".hcl": "hcl",
       ".nomad": "hcl",
-      ".tf": "hcl",
-      ".tfvars": "tfvars"
-    },
-    "initializationOptions": {
-      "terraform": {
-        "path": "@terraform@/bin/terraform"
-      }
+      ".tf": "terraform",
+      ".tfvars": "terraform-vars"
     }
   },
   "tombi": {
@@ -419,31 +302,6 @@
     "extensionToLanguage": {
       ".gjs": "gjs",
       ".gts": "gts"
-    },
-    "initializationOptions": {
-      "hostInfo": "helix",
-      "typescript": {
-        "inlayHints": {
-          "includeInlayEnumMemberValueHints": true,
-          "includeInlayFunctionLikeReturnTypeHints": true,
-          "includeInlayFunctionParameterTypeHints": true,
-          "includeInlayParameterNameHints": "all",
-          "includeInlayParameterNameHintsWhenArgumentMatchesName": true,
-          "includeInlayPropertyDeclarationTypeHints": true,
-          "includeInlayVariableTypeHints": true
-        }
-      },
-      "javascript": {
-        "inlayHints": {
-          "includeInlayEnumMemberValueHints": true,
-          "includeInlayFunctionLikeReturnTypeHints": true,
-          "includeInlayFunctionParameterTypeHints": true,
-          "includeInlayParameterNameHints": "all",
-          "includeInlayParameterNameHintsWhenArgumentMatchesName": true,
-          "includeInlayPropertyDeclarationTypeHints": true,
-          "includeInlayVariableTypeHints": true
-        }
-      }
     }
   },
   "vscode-css-language-server": {
@@ -452,14 +310,6 @@
     "extensionToLanguage": {
       ".css": "css",
       ".scss": "scss"
-    },
-    "initializationOptions": {
-      "provideFormatter": true,
-      "css": {
-        "validate": {
-          "enable": true
-        }
-      }
     }
   },
   "vscode-html-language-server": {
@@ -478,9 +328,6 @@
       ".volt": "html",
       ".xht": "html",
       ".xhtml": "html"
-    },
-    "initializationOptions": {
-      "provideFormatter": true
     }
   },
   "vscode-json-language-server": {
@@ -511,14 +358,6 @@
       ".sublime-theme": "json",
       ".sublime-workspace": "json",
       ".webmanifest": "json"
-    },
-    "initializationOptions": {
-      "provideFormatter": true,
-      "json": {
-        "validate": {
-          "enable": true
-        }
-      }
     }
   },
   "yaml-language-server": {
@@ -528,32 +367,6 @@
       ".sublime-syntax": "yaml",
       ".yaml": "yaml",
       ".yml": "yaml"
-    },
-    "initializationOptions": {
-      "yaml": {
-        "format": {
-          "enable": true
-        },
-        "schemas": {
-          "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/inventory.json": [
-            "./inventory/*.yaml",
-            "hosts.yml"
-          ]
-        }
-      }
-    },
-    "settings": {
-      "yaml": {
-        "format": {
-          "enable": true
-        },
-        "schemas": {
-          "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/inventory.json": [
-            "./inventory/*.yaml",
-            "hosts.yml"
-          ]
-        }
-      }
     }
   }
 }

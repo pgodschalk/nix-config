@@ -2,6 +2,7 @@
   inputs,
   apps,
   substituteFile,
+  substituteValue,
   config,
   lib,
   ...
@@ -112,7 +113,12 @@
       # home/patrick/default.nix needs it in `imports`, where a module
       # argument taken from `pkgs` cannot be used.
       extraSpecialArgs = {
-        inherit inputs apps substituteFile;
+        inherit
+          inputs
+          apps
+          substituteFile
+          substituteValue
+          ;
         isDarwin = true;
       };
       users.patrick = import ../../home/patrick;
