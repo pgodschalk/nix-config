@@ -12,8 +12,7 @@ let
   #
   # Claude Code is not one of them -- its own user scope is
   # <CLAUDE_CONFIG_DIR>/skills.
-  agentSkills = ".agents/skills";
-  agentSkillsHome = "${config.home.homeDirectory}/${agentSkills}";
+  agentSkillsHome = "${config.home.homeDirectory}/.agents/skills";
 
   # These are subagents rather than skills: the files carry `tools:` and
   # `model:`, and the body is a system prompt for a dispatched agent.
@@ -138,8 +137,8 @@ let
       flatSkillSources // localSkillLinks
     );
 
-  # The same set as real directories of symlinked files, because Xcode's
-  # plug-in importer does not descend into a symlinked directory.
+  # The same set as real directories of symlinked files, for a reader
+  # that does not descend into a symlinked directory.
   # `recursive = true` walks the source and links each file, creating
   # real directories on the way.
   skillFilesRecursiveIn =
@@ -152,7 +151,13 @@ let
       }
     ) flatSkillSources;
 
-  extraSkillDirs = config.my.agentSkills.extraDirs;
+  flatDirs = [
+    skillsDir
+    agentSkillsHome
+  ]
+  ++ config.my.agentSkills.extraDirs;
+  recursiveDirs = config.my.agentSkills.recursiveDirs;
+  destinations = flatDirs ++ recursiveDirs;
 
   # Xcode takes one plug-in rather than loose files: subagents, hooks
   # and MCP servers are plug-in relative, and it refuses anything that
@@ -163,31 +168,17 @@ let
   xcodePluginDir = "${config.xdg.configHome}/claude-marketplace/plugins/nix-agents";
   xcodeSkillsDir = "${xcodePluginDir}/skills";
 
-  # Absolute, for the activation entry below; `agentSkills` is
-  # home-relative because home.file takes it that way.
-  skillDirs = [
-    skillsDir
-    agentSkillsHome
-  ]
-  ++ extraSkillDirs
-  ++ [ xcodeSkillsDir ];
-
   claudeSkillFiles =
-    skillFilesIn skillsDir
-    // skillFilesIn agentSkills
-    // lib.foldl' (acc: dir: acc // skillFilesIn dir) { } extraSkillDirs
-    // skillFilesRecursiveIn xcodeSkillsDir
+    lib.foldl' (acc: dir: acc // skillFilesIn dir) { } flatDirs
+    // lib.foldl' (acc: dir: acc // skillFilesRecursiveIn dir) { } recursiveDirs
     # commitlint arrives as a bare SKILL.md rather than a directory, so
     # it is named a level deeper instead of linked as one.
-    // {
-      "${skillsDir}/committing-with-commitlint/SKILL.md".source = commitlintSkill;
-      "${agentSkills}/committing-with-commitlint/SKILL.md".source = commitlintSkill;
-      "${xcodeSkillsDir}/committing-with-commitlint/SKILL.md".source = commitlintSkill;
-      "${subagentCatalogDir}".source = subagentCatalog;
-    }
-    // lib.genAttrs (map (dir: "${dir}/committing-with-commitlint/SKILL.md") extraSkillDirs) (_: {
+    // lib.genAttrs (map (dir: "${dir}/committing-with-commitlint/SKILL.md") destinations) (_: {
       source = commitlintSkill;
-    });
+    })
+    // {
+      "${subagentCatalogDir}".source = subagentCatalog;
+    };
 
   # Flattened, as upstream's own install-agents.sh does. Enumerated
   # rather than linked as one directory, so the agents directory stays
@@ -330,6 +321,19 @@ in
     description = "Extra absolute directories to link every skill into.";
   };
 
+  options.my.agentSkills.recursiveDirs = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = [ ];
+    description = "Extra absolute directories to link every skill into as real directories of file links, for a reader that does not descend into a linked directory.";
+  };
+
+  options.my.agentSkills.destinations = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    readOnly = true;
+    default = destinations;
+    description = "Every absolute directory each skill reaches: Claude Code's, the cross-agent one, `extraDirs`, then `recursiveDirs`.";
+  };
+
   options.my.agentSkills.storeSkills = lib.mkOption {
     type = lib.types.attrsOf lib.types.path;
     default = { };
@@ -362,15 +366,15 @@ in
     home.activation.snippetslabSkill = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
       lib.hm.dag.entryAfter [ "writeBoundary" ] (
         substituteFile ./claude-skills/snippetslab-skill.sh {
-          skillFiles = lib.escapeShellArgs (map (dir: "${dir}/snippetslab/SKILL.md") skillDirs);
+          skillFiles = lib.escapeShellArgs (map (dir: "${dir}/snippetslab/SKILL.md") destinations);
         }
       )
     );
 
-    home.activation.localSkillsXcode = lib.mkIf (localSkills != { }) (
+    home.activation.localSkillsRecursive = lib.mkIf (localSkills != { } && recursiveDirs != [ ]) (
       lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        substituteFile ./claude-skills/local-skills-xcode.sh {
-          xcodeSkillsDir = lib.escapeShellArg xcodeSkillsDir;
+        substituteFile ./claude-skills/local-skills-recursive.sh {
+          recursiveDirs = lib.escapeShellArgs recursiveDirs;
           localSkills = lib.escapeShellArgs (lib.mapAttrsToList (n: path: "${n}=${path}") localSkills);
         }
       )
@@ -386,6 +390,8 @@ in
         IMPECCABLE_BIN = "${impeccableEngine}/bin/impeccable";
       })
     ];
+
+    my.agentSkills.recursiveDirs = [ xcodeSkillsDir ];
 
     my.launchd.extraVariables = [
       "IMPECCABLE_BIN"
