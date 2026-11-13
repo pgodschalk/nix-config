@@ -41,9 +41,9 @@ The costs:
   upstream fails evaluation until the list has it.
 - A rollback to a generation older than Claude Code's entry runs that
   generation's writers again, and they reinstall their agent-hook groups without
-  touching the state, so at the next switch forward those groups stay as if the
-  app had written them. Deleting
-  `~/Library/Application Support/nix-config/claude-code.json` and
-  `claude-code.strategies.json` before switching forward takes them back: with
-  no state, the migration ahead of the first merge runs again and removes every
-  group that runs one of this repository's hook commands.
+  touching the state, so at the next switch forward the merge keeps those groups
+  as the app's own. Removing them is manual: delete from
+  `~/Library/Application Support/claude-code/settings.json`, before or after
+  switching forward, the groups whose command ends in `/bin/claude-vcs-guard` or
+  `/bin/claude-md-lint`, or contains `jouet hook claude` (followed by a space)
+  or `rex __internal session-start`.
