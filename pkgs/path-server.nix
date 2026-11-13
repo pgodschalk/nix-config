@@ -21,6 +21,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Language server providing filesystem path completion";
     homepage = "https://github.com/kunlinglio/path-server";
     license = lib.licenses.asl20;
-    mainProgram = "path-server";
   };
 }

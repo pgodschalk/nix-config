@@ -67,6 +67,5 @@ callPackage ./lib/release-binary.nix { } {
       mit
       asl20
     ];
-    mainProgram = "agnix-lsp";
   };
 }

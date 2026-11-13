@@ -46,6 +46,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Build cache for Cargo";
     homepage = "https://mr-boxington.jdx.dev";
     license = lib.licenses.mit;
-    mainProgram = "mbx";
   };
 }

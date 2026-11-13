@@ -19,7 +19,8 @@
   pname,
   version,
   assets,
-  # installed to $out/bin; a bare .gz or bare file lands under the first
+  # installed to $out/bin; the first is the default meta.mainProgram,
+  # and a bare .gz or bare file lands under it
   binaries ? [ pname ],
   # applied on every platform; guard with isLinux in the caller
   buildInputs ? [ ],
@@ -85,6 +86,7 @@ stdenvNoCC.mkDerivation (
 
     meta = {
       platforms = lib.attrNames assets;
+      mainProgram = lib.head binaries;
     }
     // meta;
 

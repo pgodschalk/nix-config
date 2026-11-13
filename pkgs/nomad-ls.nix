@@ -27,6 +27,5 @@ callPackage ./lib/release-binary.nix { } {
     homepage = "https://github.com/loczek/nomad-ls";
     # Upstream publishes no license, so all rights are reserved.
     license = lib.licenses.unfree;
-    mainProgram = "nomad-ls";
   };
 }

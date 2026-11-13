@@ -34,6 +34,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Language server for project-wide CSS custom property intelligence";
     homepage = "https://github.com/lmn451/css-lsp-rust";
     license = lib.licenses.gpl3Only;
-    mainProgram = "css-variable-lsp";
   };
 }

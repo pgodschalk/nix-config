@@ -39,6 +39,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Language server for dependency manifests across 14 package ecosystems";
     homepage = "https://github.com/bug-ops/deps-lsp";
     license = lib.licenses.mit;
-    mainProgram = "deps-lsp";
   };
 }

@@ -28,6 +28,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Language server for Apple's Metal Shading Language";
     homepage = "https://github.com/computer-graphics-tools/metal-analyzer";
     license = lib.licenses.mit;
-    mainProgram = "metal-analyzer";
   };
 }

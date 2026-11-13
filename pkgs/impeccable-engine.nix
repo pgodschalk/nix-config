@@ -33,6 +33,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Engine behind the impeccable design skill";
     homepage = "https://github.com/pbakaus/impeccable";
     license = lib.licenses.asl20;
-    mainProgram = "impeccable";
   };
 }

@@ -54,6 +54,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Language server for Swift Package Manager Package.swift manifests";
     homepage = "https://github.com/kattouf/package-swift-lsp";
     license = lib.licenses.mit;
-    mainProgram = "package-swift-lsp";
   };
 }

@@ -41,6 +41,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Wind-up tools for coding agents";
     homepage = "https://jouet.jdx.dev";
     license = lib.licenses.mit;
-    mainProgram = "jouet";
   };
 }

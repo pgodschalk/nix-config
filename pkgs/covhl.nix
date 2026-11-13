@@ -36,6 +36,5 @@ callPackage ./lib/release-binary.nix { } {
     description = "Language server that surfaces test coverage from lcov, JaCoCo, Cobertura and Clover reports";
     homepage = "https://github.com/hyyan/zed-test-coverage-highlight";
     license = lib.licenses.mit;
-    mainProgram = "covhl";
   };
 }
