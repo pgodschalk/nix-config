@@ -25,8 +25,8 @@ let
     }
   );
 
-  # AWK, INI and Jinja, each through a Prettier plugin. See
-  # pkgs/prettier-with-plugins.nix: the parser names are not the
+  # One Prettier wrapper per language, five of them through a plugin.
+  # See pkgs/prettier-with-plugins.nix: the parser names are not the
   # language names, and the plugins must live in a node_modules tree
   # beside prettier.
   prettierWithPlugins = pkgs.callPackage ../../pkgs/prettier-with-plugins.nix { };
