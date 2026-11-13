@@ -22,3 +22,7 @@ The module that sets a GUI variable exports it through
 what is set and the work layer exports its own without this repository naming
 them. `launchd-env.nix` names only the `XDG_*_HOME` variables home-manager sets
 itself.
+
+Evaluation fails for an exported value holding `'`, `$` or a newline: nix-darwin
+writes each value single-quoted into a `launchctl setenv` line, the login agent
+reads one variable per line, and launchd never expands what a shell would.

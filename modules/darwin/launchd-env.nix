@@ -38,6 +38,17 @@ let
   }
   // guiVariables;
 
+  notLiteral = builtins.attrNames (
+    lib.filterAttrs (
+      _: value:
+      lib.any (c: lib.hasInfix c (toString value)) [
+        "'"
+        "$"
+        "\n"
+      ]
+    ) envVariables
+  );
+
   setEnv = pkgs.writeShellApplication {
     name = "launchd-session-env";
     text = substituteFile ./launchd-env/set-env.sh {
@@ -48,6 +59,14 @@ let
   };
 in
 {
+  assertions = [
+    {
+      assertion = notLiteral == [ ];
+      message =
+        "GUI variables must be literal, with no ', $ or newline: " + lib.concatStringsSep ", " notLiteral;
+    }
+  ];
+
   launchd.user.envVariables = envVariables;
 
   # `launchd.user.envVariables` is applied once during activation and is
