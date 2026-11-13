@@ -8,7 +8,8 @@
 # `language-servers` replaces the list rather than extending it.
 # `except-features = ["format"]` routes formatting to oxfmt while
 # leaving the original server everything else, and `rulers` is restated
-# at [73, 101] because oxfmt wraps at 100 rather than Biome's 80.
+# at [73, 101] for a language oxfmt formats, because oxfmt wraps at 100
+# rather than Biome's 80.
 
 [[language]]
 name = "alloy"
@@ -269,7 +270,6 @@ language-servers = [
   "oxfmt",
 ]
 formatter = { command = "prettier-md" }
-rulers = [73, 101]
 
 [[language]]
 name = "mermaid"
