@@ -40,14 +40,15 @@ the code yet.
   option consumed by a portable module is declared in that module. A read-only
   option is declared by the module that sets it, such as `my.java.jdk` in
   `java.nix`, however many modules read it.
-- `pkgs/` holds derivations nixpkgs lacks. There is no overlay: each consumer
-  calls `pkgs.callPackage ../../pkgs/<name>.nix { }`. `pkgs/claude-marketplace/`
-  is the local marketplace; `modules/home/claude-code.nix` renders the LSP
-  plugin's `.lsp.json` from `claude-code/nix-lsp.json`'s commands and the
-  `config` Helix's `languages.toml` gives eight of the servers (ADR-0014).
-  `pkgs/lib/` holds the builders packages share, `release-binary.nix` for
-  upstream release binaries and the Rust language servers PyPI ships as wheels,
-  and `bun-package.nix` for npm tarballs bun runs; a caller reaches one through
+- `pkgs/` holds derivations nixpkgs lacks. There is no overlay and no package
+  scope (ADR-0015): each consumer calls
+  `pkgs.callPackage ../../pkgs/<name>.nix { }`. `pkgs/claude-marketplace/` is
+  the local marketplace; `modules/home/claude-code.nix` renders the LSP plugin's
+  `.lsp.json` from `claude-code/nix-lsp.json`'s commands and the `config`
+  Helix's `languages.toml` gives eight of the servers (ADR-0014). `pkgs/lib/`
+  holds the builders packages share, `release-binary.nix` for upstream release
+  binaries and the Rust language servers PyPI ships as wheels, and
+  `bun-package.nix` for npm tarballs bun runs; a caller reaches one through
   `callPackage` and passes its own arguments in a second call, so `callPackage`
   never fills them from `pkgs`.
 - `lib/default.nix` provides `substituteFile path { name = value; }`: `@name@`
