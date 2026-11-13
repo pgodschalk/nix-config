@@ -52,12 +52,40 @@ let
   # Rotating the key means editing this string and nothing else --
   # allowed_signers below is generated from it.
   signingPublicKey = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHcdZdHJb/yrDtBpVxG9z1tqu4JmAb+TRm3s2jQXj96cB2sOUjpMLiFaa15fh0EG8j3CZZxejTkMWyEfD0nRb9Q=";
+
+  # GIT_CONFIG_GLOBAL replaces the global config rather than adding to
+  # it, so each shim includes the real one first: pointing the variable
+  # straight at a theme would discard the identity and the rest.
+  gitconfigShim =
+    variant:
+    pkgs.writeText "${variant}.gitconfig" (
+      lib.generators.toGitINI {
+        include.path = [
+          "${config.home.homeDirectory}/.gitconfig"
+          "${extras}/src/git/${variant}.gitconfig"
+        ];
+      }
+    );
 in
 {
   home.packages = with pkgs; [
     delta
     difftastic
   ];
+
+  my.theme.variantVariables = {
+    GIT_CONFIG_GLOBAL = lib.mkIf (extras != null) {
+      pro = "${gitconfigShim "pro"}";
+      alucard = "${gitconfigShim "alucard"}";
+    };
+
+    # difftastic has no theme, only a hint choosing between its built-in
+    # bright and dim colours.
+    DFT_BACKGROUND = {
+      pro = "dark";
+      alucard = "light";
+    };
+  };
 
   programs.git = {
     enable = true;
