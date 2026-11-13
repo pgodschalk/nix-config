@@ -269,7 +269,7 @@ let
   # Teaches an agent to read the enforced commit convention and to
   # self-correct from a rejection rather than reach for --no-verify.
   commitlintSkill = pkgs.fetchurl {
-    # @VERSION https://github.com/conventional-changelog/commitlint/releases
+    # @VERSION https://github.com/conventional-changelog/commitlint/commits/master/skills/committing-with-commitlint
     url =
       "https://raw.githubusercontent.com/conventional-changelog/commitlint/"
       + "d8e36560a485c5e5a0a74ebbb48591b3e2e08ca7/skills/committing-with-commitlint/SKILL.md";
