@@ -28,7 +28,7 @@ let
   directoryCases = lib.concatStrings (
     lib.concatLists (
       lib.mapAttrsToList (
-        name: p: map (dir: "  ${dir}/*) profile=${name} ;;\n") p.directories
+        name: p: map (dir: "  ${lib.escapeShellArg dir}/*) profile=${name} ;;\n") p.directories
       ) cfg.profiles
     )
   );
