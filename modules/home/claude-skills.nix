@@ -182,7 +182,7 @@ let
   ]
   ++ config.my.agentSkills.extraDirs;
   recursiveDirs = config.my.agentSkills.recursiveDirs;
-  destinations = flatDirs ++ recursiveDirs;
+  destinations = lib.unique (flatDirs ++ recursiveDirs);
 
   claudeSkillFiles =
     lib.foldl' (acc: dir: acc // skillFilesIn dir) { } flatDirs
@@ -208,7 +208,7 @@ let
           builtins.attrNames (builtins.readDir "${voltagent}/categories/${c}")
         );
       # Individual .md files, so no `recursive` is needed.
-      destinations = [ agentsDir ] ++ config.my.agentSkills.subagentDirs;
+      subagentDestinations = [ agentsDir ] ++ config.my.agentSkills.subagentDirs;
     in
     lib.listToAttrs (
       lib.concatMap (
@@ -218,7 +218,7 @@ let
           map (dir: {
             name = "${dir}/${f}";
             value.source = "${voltagent}/categories/${c}/${f}";
-          }) destinations
+          }) subagentDestinations
         ) (agentsIn c)
       ) categories
     );
