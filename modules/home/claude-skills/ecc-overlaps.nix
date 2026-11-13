@@ -42,7 +42,6 @@
   frontend-design-direction = "impeccable";
   frontend-patterns = "react-expert";
   frontend-slides = "anthropic-skills:pptx";
-  git-workflow = "resolving-merge-conflicts";
   golang-patterns = "golang-pro";
   golang-testing = "golang-pro";
   hexagonal-architecture = "architecture-designer";
