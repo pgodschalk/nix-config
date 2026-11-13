@@ -14,9 +14,7 @@ let
   # editors' "ensure final newline".
   oneNewline =
     name: cmd:
-    pkgs.writeShellScriptBin name (
-      substituteFile ./formatters/one-newline.sh { inherit cmd; }
-    );
+    pkgs.writeShellScriptBin name (substituteFile ./formatters/one-newline.sh { inherit cmd; });
 
   # helmfmt takes file paths, not stdin, while both editors hand a
   # formatter the buffer on stdin.
@@ -31,24 +29,21 @@ let
   # pkgs/prettier-with-plugins.nix: the parser names are not the
   # language names, and the plugins must live in a node_modules tree
   # beside prettier.
-  prettierWithPlugins =
-    pkgs.callPackage ../../pkgs/prettier-with-plugins.nix { };
+  prettierWithPlugins = pkgs.callPackage ../../pkgs/prettier-with-plugins.nix { };
 in
 {
   options.my.formatters = lib.mkOption {
     type = lib.types.attrsOf lib.types.package;
     readOnly = true;
     default = {
-      dockerfmt-1nl =
-        oneNewline "dockerfmt-1nl" "${lib.getExe pkgs.dockerfmt}";
+      dockerfmt-1nl = oneNewline "dockerfmt-1nl" "${lib.getExe pkgs.dockerfmt}";
       helmfmt-stdin = helmfmtStdin;
       # The three flags are what make it a formatter: with none at
       # all it emits a single line. `-op` takes jqfmt's own operator
       # names rather than the symbols, which its error message lists.
       # It leaves a trailing space on every line it breaks, which
       # Zed's remove_trailing_whitespace_on_save takes off.
-      jqfmt-1nl =
-        oneNewline "jqfmt-1nl" "${lib.getExe pkgs.jqfmt} -ar -ob -op pipe";
+      jqfmt-1nl = oneNewline "jqfmt-1nl" "${lib.getExe pkgs.jqfmt} -ar -ob -op pipe";
       pgfmt-1nl = oneNewline "pgfmt-1nl" "${lib.getExe pgfmt}";
     }
     // lib.genAttrs [
