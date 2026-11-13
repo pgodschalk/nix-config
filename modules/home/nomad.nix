@@ -1,8 +1,6 @@
 { lib, pkgs, ... }:
 {
-  # pkgs/nomad-ls.nix fetches the darwin release asset only; a Linux
-  # host needs the matching URLs added there.
-  home.packages = lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+  home.packages = lib.filter (lib.meta.availableOn pkgs.stdenv.hostPlatform) [
     (pkgs.callPackage ../../pkgs/nomad-ls.nix { })
   ];
 
