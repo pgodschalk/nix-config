@@ -551,10 +551,8 @@ command = "metal-analyzer"
 [language-server.nixd]
 command = "nixd"
 
-# `builtins.getFlake` will not take /etc/nix-darwin, which is a symlink,
-# so the real checkout is named.
 [language-server.nixd.config.nixd.nixpkgs]
-expr = "import (builtins.getFlake \"@homeDirectory@/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
+expr = "@nixpkgsExpr@"
 
 [language-server.nixd.config.nixd.options."@systemKind@"]
 expr = "@systemOptions@"

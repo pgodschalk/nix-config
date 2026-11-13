@@ -831,18 +831,7 @@ let
 
     lsp.markdownlint.binary.path = "${config.home.profileDirectory}/bin/markdownlint-lsp";
 
-    lsp.nixd.settings =
-      let
-        flake = "builtins.getFlake \"${config.home.homeDirectory}/Developer/github.com/pgodschalk/nix-config\"";
-        host = "(${flake}).darwinConfigurations.Patricks-MacBook-Pro";
-      in
-      {
-        nixpkgs.expr = "import (${flake}).inputs.nixpkgs { }";
-        options = {
-          nix-darwin.expr = "${host}.options";
-          home-manager.expr = "${host}.options.home-manager.users.type.getSubOptions [ ]";
-        };
-      };
+    lsp.nixd.settings = config.my.nixd.settings;
 
     lsp.oxfmt.binary = {
       path = "${config.home.profileDirectory}/bin/oxfmt";
