@@ -16,6 +16,11 @@ in
     PAGER = "moor";
   };
 
+  my.launchd.shellOnlyVariables = [
+    "MOOR"
+    "PAGER"
+  ];
+
   # moor takes a Chroma style name from its built-in registry and no
   # palette file, so this is Chroma's plain dracula and, on the light
   # side, the nearest of its light styles.

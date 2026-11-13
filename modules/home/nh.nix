@@ -8,6 +8,8 @@
     NH_DARWIN_FLAKE = "/etc/nix-darwin";
   };
 
+  my.launchd.shellOnlyVariables = [ "NH_DARWIN_FLAKE" ];
+
   # Do not use `nh clean`: garbage collection belongs to Determinate
   # Nixd, and two collectors with different retention policies fight.
 }

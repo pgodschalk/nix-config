@@ -59,6 +59,8 @@ in
     # PATH. VISUAL is left unset so tools fall through to this.
     home.sessionVariables.EDITOR = lib.getExe pkgs.helix;
 
+    my.launchd.shellOnlyVariables = [ "EDITOR" ];
+
     xdg.configFile = {
       # Out-of-store symlinks, so editing a theme in the working copy
       # takes effect in the next `hx` without a rebuild.

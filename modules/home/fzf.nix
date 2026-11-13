@@ -35,4 +35,14 @@ in
     # is listed instead, since bat refuses one.
     FZF_CTRL_T_OPTS = "--preview '[ -d {} ] && fd --max-depth 1 --color=always . {} || bat --color=always --style=numbers --line-range=:200 {}'";
   };
+
+  my.launchd.shellOnlyVariables = [
+    "FZF_ALT_C_COMMAND"
+    "FZF_ALT_C_OPTS"
+    "FZF_CTRL_R_OPTS"
+    "FZF_CTRL_T_COMMAND"
+    "FZF_CTRL_T_OPTS"
+    "FZF_DEFAULT_COMMAND"
+    "FZF_DEFAULT_OPTS_FILE"
+  ];
 }

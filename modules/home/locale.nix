@@ -15,4 +15,10 @@
     # the first non-ASCII byte it prints.
     PYTHONIOENCODING = "UTF-8";
   };
+
+  my.launchd.shellOnlyVariables = [
+    "LC_ALL"
+    "LC_CTYPE"
+    "PYTHONIOENCODING"
+  ];
 }

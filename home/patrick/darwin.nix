@@ -70,6 +70,15 @@
     XDG_VIDEOS_DIR = "${config.home.homeDirectory}/Movies";
   };
 
+  my.launchd.shellOnlyVariables = [
+    "XDG_DESKTOP_DIR"
+    "XDG_DOWNLOAD_DIR"
+    "XDG_MUSIC_DIR"
+    "XDG_PICTURES_DIR"
+    "XDG_PUBLICSHARE_DIR"
+    "XDG_VIDEOS_DIR"
+  ];
+
   # Suppresses login(1)'s "Last login: …" banner. A dotfile in $HOME on
   # the same grounds as ~/.ssh: login(1) hardcodes the name and looks
   # for it in the home directory only.

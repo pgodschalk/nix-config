@@ -22,6 +22,15 @@ in
       description = "Further session variables to export to GUI-launched processes, by name.";
     };
 
+    # modules/darwin/launchd-env.nix, which fails evaluation for a
+    # session variable under the home directory that is in neither
+    # this list nor launchd.extraVariables.
+    launchd.shellOnlyVariables = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "Session variables kept out of GUI-launched processes on purpose, by name.";
+    };
+
     # modules/home/darwin/mas.nix
     masApps = lib.mkOption {
       type = lib.types.attrsOf lib.types.int;

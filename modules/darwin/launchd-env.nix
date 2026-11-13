@@ -9,10 +9,11 @@ let
   user = config.system.primaryUser;
 
   home = config.home-manager.users.${user};
-  inherit (home.home) sessionVariables;
+  inherit (home.home) sessionVariables homeDirectory;
 
-  # The GUI variables home-manager sets itself; every module that sets
-  # one declares it beside its setter, in my.launchd.extraVariables.
+  # The names home-manager sets itself. Every module here declares its
+  # own beside its setter, in my.launchd.extraVariables or
+  # my.launchd.shellOnlyVariables.
   upstreamGuiNames = [
     "XDG_BIN_HOME"
     "XDG_CACHE_HOME"
@@ -20,6 +21,7 @@ let
     "XDG_DATA_HOME"
     "XDG_STATE_HOME"
   ];
+  upstreamShellOnlyNames = [ "TERMINFO_DIRS" ];
 
   guiVariables = lib.getAttrs (builtins.filter (n: sessionVariables ? ${n}) (
     lib.unique (upstreamGuiNames ++ home.my.launchd.extraVariables)
@@ -49,6 +51,15 @@ let
     ) envVariables
   );
 
+  shellOnlyNames = upstreamShellOnlyNames ++ home.my.launchd.shellOnlyVariables;
+
+  unclassified = builtins.filter (
+    name:
+    lib.hasPrefix "${homeDirectory}/" (toString sessionVariables.${name})
+    && !(envVariables ? ${name})
+    && !(builtins.elem name shellOnlyNames)
+  ) (builtins.attrNames sessionVariables);
+
   setEnv = pkgs.writeShellApplication {
     name = "launchd-session-env";
     text = substituteFile ./launchd-env/set-env.sh {
@@ -64,6 +75,13 @@ in
       assertion = notLiteral == [ ];
       message =
         "GUI variables must be literal, with no ', $ or newline: " + lib.concatStringsSep ", " notLiteral;
+    }
+    {
+      assertion = unclassified == [ ];
+      message =
+        "Session variables under the home directory must be in "
+        + "my.launchd.extraVariables or my.launchd.shellOnlyVariables: "
+        + lib.concatStringsSep ", " unclassified;
     }
   ];
 

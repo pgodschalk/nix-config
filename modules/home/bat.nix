@@ -73,4 +73,11 @@ in
     # Without this groff emits its own colours alongside bat's.
     MANROFFOPT = "-c";
   };
+
+  my.launchd.shellOnlyVariables = [
+    "BAT_THEME_DARK"
+    "BAT_THEME_LIGHT"
+    "MANPAGER"
+    "MANROFFOPT"
+  ];
 }

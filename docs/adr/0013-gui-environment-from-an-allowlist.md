@@ -20,9 +20,13 @@ intact.
 The module that sets a GUI variable exports it through
 `my.launchd.extraVariables`, beside its setter, so the export cannot drift from
 what is set and the work layer exports its own without this repository naming
-them. `launchd-env.nix` names only the `XDG_*_HOME` variables home-manager sets
-itself.
+them. `launchd-env.nix` names only what home-manager sets itself: the
+`XDG_*_HOME` variables it exports and `TERMINFO_DIRS`, which stays shell-only.
 
 Evaluation fails for an exported value holding `'`, `$` or a newline: nix-darwin
 writes each value single-quoted into a `launchctl setenv` line, the login agent
-reads one variable per line, and launchd never expands what a shell would.
+reads one variable per line, and launchd never expands what a shell would. It
+fails as well for a session variable whose value lies under the home directory
+and that is neither exported nor declared shell-only, beside its setter, through
+`my.launchd.shellOnlyVariables`, so a new state redirect cannot be left out of
+the export unnoticed.

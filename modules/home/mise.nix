@@ -37,4 +37,6 @@ in
     # follows the appearance.
     MISE_COLOR_THEME = "base16";
   };
+
+  my.launchd.shellOnlyVariables = [ "MISE_COLOR_THEME" ];
 }

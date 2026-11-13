@@ -21,6 +21,8 @@ in
     # and is what keeps starship from hardcoding ~/.config.
   };
 
+  my.launchd.shellOnlyVariables = [ "STARSHIP_CONFIG" ];
+
   my.theme.variantVariables.STARSHIP_CONFIG = lib.mkIf (extras != null) {
     pro = "${extras}/src/starship/pro.toml";
     alucard = "${extras}/src/starship/alucard.toml";

@@ -97,5 +97,10 @@ the code yet.
   activation entry writes instead, such as SnippetsLab's, copies itself into
   each destination and names itself in `my.agentSkills.generatedSkills`, so the
   duplicate-name check covers it.
+- A module that sets a session variable lists it beside the setter: in
+  `my.launchd.extraVariables` when it is a GUI variable, in
+  `my.launchd.shellOnlyVariables` when it is meant for a shell alone. The macOS
+  eval fails for one whose value lies under the home directory and that is in
+  neither (ADR-0013).
 - `codebook.toml` at the root is this repository's spellcheck word list; jargon
   used in a comment goes there.
