@@ -15,6 +15,7 @@ let
     ".tbz" = "tar";
     ".zip" = "zip";
     ".gz" = "gzip";
+    ".whl" = "wheel";
     "-darwin-arm64" = "file";
   };
 

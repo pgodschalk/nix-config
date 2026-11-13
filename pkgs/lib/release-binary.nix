@@ -58,6 +58,8 @@ let
       "zip"
     else if lib.hasSuffix ".gz" firstUrl then
       "gzip"
+    else if lib.hasSuffix ".whl" firstUrl then
+      "wheel"
     else
       "file";
 in
@@ -68,7 +70,7 @@ stdenvNoCC.mkDerivation (
     srcs = map fetch (toList asset);
 
     nativeBuildInputs =
-      lib.optional (archive == "zip") unzip
+      lib.optional (archive == "zip" || archive == "wheel") unzip
       ++ lib.optional isDarwin darwin.autoSignDarwinBinariesHook
       ++ lib.optional isLinux autoPatchelfHook
       ++ nativeBuildInputs;
@@ -78,8 +80,8 @@ stdenvNoCC.mkDerivation (
     # has no loader and no libraries, and autoPatchelf leaves it as is.
     buildInputs = lib.optional isLinux stdenv.cc.cc.lib ++ buildInputs;
 
-    # Every archive holds its binaries at the root, with no leading
-    # directory.
+    # Every archive but a wheel holds its binaries at the root, with no
+    # leading directory.
     sourceRoot = ".";
 
     dontBuild = true;
@@ -104,6 +106,11 @@ stdenvNoCC.mkDerivation (
   # `binaries`.
   // lib.optionalAttrs (archive == "gzip") {
     unpackPhase = builtins.readFile ./release-binary/unpack-gzip.sh;
+  }
+  # A wheel is one asset; its binaries are copied out of its
+  # `*.data/scripts/` to the root.
+  // lib.optionalAttrs (archive == "wheel") {
+    unpackPhase = builtins.readFile ./release-binary/unpack-wheel.sh;
   }
   // lib.optionalAttrs (archive == "file") {
     unpackPhase = builtins.readFile ./release-binary/unpack-file.sh;
