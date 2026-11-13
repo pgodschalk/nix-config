@@ -254,9 +254,10 @@ plan travels with it.
 - C5.4 turns `committing-with-commitlint` from a real directory into a link in
   every flat destination, the work layer's included; skipping its pre-switch
   command leaves an `hm-backup` copy that later dangles.
-- The first Linux builds happen in CI: prettier-with-plugins for x86_64-linux
-  (C8.2) and the wheels' unzip and autoPatchelf (C6.1). A red Markdown check
-  after a push may be a build failure, not a formatting one.
+- CI's Markdown format check makes the first Linux build of
+  prettier-with-plugins (C8.2), so a red Markdown check after a push may be a
+  build failure, not a formatting one. The wheels' unzip and autoPatchelf (C6.1)
+  first run on a real Linux host: CI only evaluates the Linux configuration.
 - Card 1's GUI variables reach apps only after the switch, a new login and each
   app's relaunch. `SSH_AUTH_SOCK` then sends ssh and git from apps through
   Secretive, so Touch ID prompts appear there and fail when Secretive is not
