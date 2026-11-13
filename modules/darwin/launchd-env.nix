@@ -11,43 +11,18 @@ let
   home = config.home-manager.users.${user};
   inherit (home.home) sessionVariables;
 
-  # What a CLI an app spawns needs to behave as in a shell: state
-  # redirects out of $HOME, tool locators and telemetry opt-outs. A
-  # GUI-spawned CLI that misses a redirect recreates the dotfile it
-  # exists to prevent. Sorted, ASCII order; a module setting one of
-  # its own adds it through my.launchd.extraVariables instead.
-  redirectNames = [
-    "ANDROID_AVD_HOME"
-    "ANDROID_EMULATOR_HOME"
-    "ANDROID_USER_HOME"
-    "ANSIBLE_HOME"
-    "BUNDLE_USER_HOME"
-    "BUN_INSTALL"
-    "CARGO_HOME"
-    "CHECKPOINT_DISABLE"
-    "CLAUDE_CONFIG_DIR"
-    "GOMODCACHE"
-    "GOPATH"
-    "GRADLE_USER_HOME"
-    "HK_STATE_DIR"
-    "IMPECCABLE_BIN"
-    "IMPECCABLE_HOME"
-    "LESSHISTFILE"
-    "PITCHFORK_CONFIG_DIR"
-    "PITCHFORK_STATE_DIR"
-    "RUSTUP_HOME"
-    "STARSHIP_CACHE"
+  # The GUI variables home-manager sets itself; every module here
+  # declares its own beside its setter, in my.launchd.extraVariables.
+  upstreamGuiNames = [
     "XDG_BIN_HOME"
     "XDG_CACHE_HOME"
     "XDG_CONFIG_HOME"
     "XDG_DATA_HOME"
     "XDG_STATE_HOME"
-    "npm_config_cache"
-    "npm_config_userconfig"
   ];
 
-  redirects = lib.getAttrs (builtins.filter (n: sessionVariables ? ${n}) (
-    lib.unique (redirectNames ++ home.my.launchd.extraVariables)
+  guiVariables = lib.getAttrs (builtins.filter (n: sessionVariables ? ${n}) (
+    lib.unique (upstreamGuiNames ++ home.my.launchd.extraVariables)
   )) sessionVariables;
 
   # mr-boxington's Cargo shim, first, as modules/home/rust.nix puts it
@@ -61,7 +36,7 @@ let
     # verify api.anthropic.com.
     inherit (config.environment.variables) NIX_SSL_CERT_FILE;
   }
-  // redirects;
+  // guiVariables;
 
   setEnv = pkgs.writeShellApplication {
     name = "launchd-session-env";

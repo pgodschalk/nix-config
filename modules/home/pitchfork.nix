@@ -8,4 +8,9 @@
     PITCHFORK_CONFIG_DIR = "${config.xdg.configHome}/pitchfork";
     PITCHFORK_STATE_DIR = "${config.xdg.stateHome}/pitchfork";
   };
+
+  my.launchd.extraVariables = [
+    "PITCHFORK_CONFIG_DIR"
+    "PITCHFORK_STATE_DIR"
+  ];
 }

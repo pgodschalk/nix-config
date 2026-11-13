@@ -152,9 +152,9 @@ in
   config = {
     home.packages = [ (pkgs.callPackage ../../pkgs/claude-code.nix { }) ];
 
-    # modules/darwin/launchd-env.nix re-exports it to GUI-launched
-    # processes.
     home.sessionVariables.CLAUDE_CONFIG_DIR = "${config.xdg.configHome}/claude-code";
+
+    my.launchd.extraVariables = [ "CLAUDE_CONFIG_DIR" ];
 
     # Claude Code watches this directory, so a regenerated theme applies
     # live; modules/home/darwin/appearance.nix switches between the two.

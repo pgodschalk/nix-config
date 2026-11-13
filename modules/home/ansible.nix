@@ -2,6 +2,8 @@
 {
   home.sessionVariables.ANSIBLE_HOME = "${config.xdg.dataHome}/ansible";
 
+  my.launchd.extraVariables = [ "ANSIBLE_HOME" ];
+
   home.packages = [
     pkgs.ansible
 

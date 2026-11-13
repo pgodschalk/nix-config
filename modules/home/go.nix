@@ -8,6 +8,11 @@
     GOPATH = "${config.xdg.dataHome}/go";
   };
 
+  my.launchd.extraVariables = [
+    "GOMODCACHE"
+    "GOPATH"
+  ];
+
   home.packages = [
     pkgs.gopls
 

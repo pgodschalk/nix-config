@@ -91,6 +91,11 @@ _Avoid_: mas app
 A GUI application, whatever its source.\
 _Avoid_: application, except in "Application Support"
 
+**GUI variable**:\
+A session variable launchd also exports to processes started from the Dock or by
+an app, so a CLI an app spawns behaves as in a shell.\
+_Avoid_: redirect, which is only the kind that moves state
+
 ### Profiles
 
 **User profile**:\

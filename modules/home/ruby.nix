@@ -52,6 +52,8 @@ in
   # global config lives here too.
   home.sessionVariables.BUNDLE_USER_HOME = "${config.xdg.dataHome}/bundle";
 
+  my.launchd.extraVariables = [ "BUNDLE_USER_HOME" ];
+
   home.packages = [
     # A bootstrapper as much as a server: with no BUNDLE_GEMFILE it
     # composes a bundle of its own in `.ruby-lsp/` inside the project

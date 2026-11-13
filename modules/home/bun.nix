@@ -11,4 +11,6 @@
     # otherwise puts in ~/.bun.
     BUN_INSTALL = "${config.xdg.dataHome}/bun";
   };
+
+  my.launchd.extraVariables = [ "BUN_INSTALL" ];
 }

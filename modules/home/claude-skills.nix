@@ -386,5 +386,10 @@ in
         IMPECCABLE_BIN = "${impeccableEngine}/bin/impeccable";
       })
     ];
+
+    my.launchd.extraVariables = [
+      "IMPECCABLE_BIN"
+      "IMPECCABLE_HOME"
+    ];
   };
 }

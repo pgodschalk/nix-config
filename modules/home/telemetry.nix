@@ -31,6 +31,8 @@
     RESEND_TELEMETRY_DISABLED = "1";
   };
 
+  my.launchd.extraVariables = [ "CHECKPOINT_DISABLE" ];
+
   # Not here because the setting is a config key rather than a variable:
   # gh and glab (each writes it in its own module, since the config
   # default is on and a nixpkgs wrapper is not a contract), and Zed's

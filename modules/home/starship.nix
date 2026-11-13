@@ -2,6 +2,8 @@
 {
   home.sessionVariables.STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
 
+  my.launchd.extraVariables = [ "STARSHIP_CACHE" ];
+
   programs.starship = {
     enable = true;
 

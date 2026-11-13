@@ -25,4 +25,11 @@ in
     # state here, and fall back to ~/.gradle without it.
     GRADLE_USER_HOME = "${config.xdg.dataHome}/gradle";
   };
+
+  my.launchd.extraVariables = [
+    "ANDROID_AVD_HOME"
+    "ANDROID_EMULATOR_HOME"
+    "ANDROID_USER_HOME"
+    "GRADLE_USER_HOME"
+  ];
 }

@@ -14,8 +14,8 @@ in
   # sets it, such as my.java.jdk in java.nix, however many read it.
   options.my = {
 
-    # modules/darwin/launchd-env.nix, so a module that sets a redirect
-    # of its own can export it to GUI-launched processes as well.
+    # modules/darwin/launchd-env.nix, so the module that sets a GUI
+    # variable exports it to GUI-launched processes as well.
     launchd.extraVariables = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];

@@ -13,4 +13,9 @@
     npm_config_cache = "${config.xdg.cacheHome}/npm";
     npm_config_userconfig = "${config.xdg.configHome}/npm/npmrc";
   };
+
+  my.launchd.extraVariables = [
+    "npm_config_cache"
+    "npm_config_userconfig"
+  ];
 }
