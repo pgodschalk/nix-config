@@ -9,11 +9,13 @@ app wrote outside a `replace` key survives. One deep merge does not fit every
 key. Some are Nix's whole, such as an MCP server set where a server added in the
 app must not stay; they take `replace`. Some are lists both sides add to, such
 as an agent's packages; they take `union`, compared by value. Every other key is
-deep-merged. The strategies are kept as state too, so a key dropped together
-with its strategy is still taken back the way it was merged. A file that is not
-valid JSON, or that the app has reshaped so the merge fails, is left as it is,
-state included, with a warning naming the entry: one broken file must not stop
-the activation. The work layer's apps belong on the same option.
+deep-merged. A strategy sits at any depth, spelled in the value's own shape, so
+one list inside an object both sides write is merged on its own while its
+siblings are deep-merged. The strategies are kept as state too, so a key dropped
+together with its strategy is still taken back the way it was merged. A file
+that is not valid JSON, or that the app has reshaped so the merge fails, is left
+as it is, state included, with a warning naming the entry: one broken file must
+not stop the activation. The work layer's apps belong on the same option.
 
 The costs:
 
