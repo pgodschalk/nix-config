@@ -1,7 +1,9 @@
-# The skills in Everything Claude Code left out because another one
-# already covers them, each mapped to that skill: one linked by
-# claude-skills.nix, from a plugin, or built into Claude Code. Sorted
-# alphabetically, as no reference order applies.
+# The skills in Everything Claude Code left out because something else
+# covers them, each mapped to that cover: a skill claude-skills.nix
+# links, a `plugin:skill` of a plugin claude-code.nix enables, or
+# `<name>.external = "...";` for one provided outside this repository.
+# Evaluation fails on anything else. Sorted alphabetically, as no
+# reference order applies.
 {
   accessibility = "impeccable";
   agent-self-evaluation = "verification-before-completion";
@@ -33,7 +35,7 @@
   django-tdd = "django-expert";
   django-verification = "django-expert";
   docker-patterns = "devops-engineer";
-  documentation-lookup = "the context7 MCP server";
+  documentation-lookup.external = "the context7 MCP server";
   dotnet-patterns = "dotnet-core-expert";
   e2e-testing = "playwright-expert";
   fastapi-patterns = "fastapi-expert";
@@ -41,7 +43,7 @@
   frontend-a11y = "impeccable";
   frontend-design-direction = "impeccable";
   frontend-patterns = "react-expert";
-  frontend-slides = "anthropic-skills:pptx";
+  frontend-slides.external = "anthropic-skills:pptx";
   golang-patterns = "golang-pro";
   golang-testing = "golang-pro";
   hexagonal-architecture = "architecture-designer";

@@ -201,6 +201,18 @@ in
     '';
   };
 
+  options.my.claudeCode.enabledPlugins = lib.mkOption {
+    type = lib.types.attrsOf lib.types.bool;
+    default = enabledPluginKeys // {
+      "nix-lsp@nix-config" = true;
+    };
+    readOnly = true;
+    description = ''
+      The plugins Nix enables in Claude Code, keyed as settings.json's
+      `enabledPlugins`.
+    '';
+  };
+
   config = {
     home.packages = [ (pkgs.callPackage ../../pkgs/claude-code.nix { }) ];
 

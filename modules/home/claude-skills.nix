@@ -83,7 +83,8 @@ let
 
   # An upstream rename would let a left-out skill back in under its new
   # name in silence, so every name listed has to exist upstream.
-  eccOverlaps = lib.attrNames (import ./claude-skills/ecc-overlaps.nix);
+  eccOverlapTargets = import ./claude-skills/ecc-overlaps.nix;
+  eccOverlaps = lib.attrNames eccOverlapTargets;
   eccAll = skillsInGroup "${eccSkills}/skills";
   eccMissing = lib.subtractLists eccAll eccOverlaps;
   eccKept =
@@ -117,9 +118,38 @@ let
     lib.filterAttrs (_: v: builtins.length v > 1) (lib.groupBy (x: x.name) skillEntries)
   );
 
+  enabledPluginNames = lib.mapAttrsToList (key: _: lib.head (lib.splitString "@" key)) (
+    lib.filterAttrs (_: enabled: enabled == true) config.my.claudeCode.enabledPlugins
+  );
+
+  # A skill linked here, a skill of an enabled plugin, or an explicit
+  # `{ external = "..."; }` marker.
+  coversOverlap =
+    target:
+    if builtins.isString target then
+      builtins.elem target (map (e: e.name) skillEntries)
+      || (
+        let
+          parts = lib.splitString ":" target;
+        in
+        builtins.length parts == 2 && builtins.elem (lib.head parts) enabledPluginNames
+      )
+    else
+      builtins.isAttrs target
+      && builtins.attrNames target == [ "external" ]
+      && builtins.isString target.external
+      && target.external != "";
+
+  uncoveredOverlaps = lib.attrNames (lib.filterAttrs (_: t: !coversOverlap t) eccOverlapTargets);
+
   flatSkillSources =
     assert lib.assertMsg (duplicateSkills == [ ]) (
       "claude-skills: more than one collection provides " + lib.concatStringsSep ", " duplicateSkills
+    );
+    assert lib.assertMsg (uncoveredOverlaps == [ ]) (
+      "claude-skills: ecc-overlaps.nix names no linked skill, enabled plugin"
+      + " or { external = \"...\"; } marker for: "
+      + lib.concatStringsSep ", " uncoveredOverlaps
     );
     lib.listToAttrs groupedSkills // skillSingles // storeSkills;
 
