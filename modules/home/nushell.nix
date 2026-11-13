@@ -12,45 +12,6 @@ let
   extras = config.my.theme.dracula.extras;
   variantVariables = config.my.theme.variantVariables;
 
-  # Per-variant variables generated here rather than kept in the
-  # extras checkout: themes whose variable holds a path, because only
-  # nix-config knows where the real git config was written and where
-  # the store paths land, and the difftastic, lumen and moor settings,
-  # which are no themes but pick among each tool's built-ins.
-  gitconfigTemplate = pkgs.writeText "variant.gitconfig" (
-    substituteFile ./nushell/path-themes/variant.gitconfig {
-      extras = "${extras}";
-      homeGitconfig = "${config.home.homeDirectory}/.gitconfig";
-      # Filled per variant by path-themes.sh.
-      variant = null;
-    }
-  );
-
-  envTemplate = pkgs.writeText "variant.env" (
-    substituteFile ./nushell/path-themes/variant.env {
-      extras = "${extras}";
-      # Filled per variant by path-themes.sh.
-      variant = null;
-      background = null;
-      lumenTheme = null;
-      moorStyle = null;
-      out = null;
-    }
-  );
-
-  pathThemes = pkgs.runCommand "dracula-path-themes" { } (
-    substituteFile ./nushell/path-themes.sh {
-      gitconfigTemplate = "${gitconfigTemplate}";
-      envTemplate = "${envTemplate}";
-      # The placeholders this script fills in the templates.
-      variant = null;
-      background = null;
-      lumenTheme = null;
-      moorStyle = null;
-      out = null;
-    }
-  );
-
   variants = [
     "pro"
     "alucard"
@@ -104,7 +65,6 @@ let
   themeDirs = pkgs.writeText "theme-dirs.nuon" (
     substituteFile ./nushell/theme-dirs.nuon {
       extras = "${extras}";
-      pathThemes = "${pathThemes}";
       variantVariables = "${variantEnvDir}";
     }
   );

@@ -19,6 +19,5 @@
     # DELTA_FEATURES. delta reads config through libgit2, which ignores
     # GIT_CONFIG_GLOBAL, so it cannot be switched with the rest of git.
     "@extras@/src/delta"
-    "@pathThemes@"
     "@variantVariables@" # my.theme.variantVariables
 ]
