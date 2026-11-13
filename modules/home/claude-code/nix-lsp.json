@@ -210,15 +210,17 @@
       }
     },
     "settings": {
-      "nixpkgs": {
-        "expr": "import (builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
-      },
-      "options": {
-        "home-manager": {
-          "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options.home-manager.users.type.getSubOptions [ ]"
+      "nixd": {
+        "nixpkgs": {
+          "expr": "import (builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").inputs.nixpkgs { }"
         },
-        "nix-darwin": {
-          "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options"
+        "options": {
+          "nix-darwin": {
+            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options"
+          },
+          "home-manager": {
+            "expr": "(builtins.getFlake \"/Users/patrick/Developer/github.com/pgodschalk/nix-config\").darwinConfigurations.Patricks-MacBook-Pro.options.home-manager.users.type.getSubOptions [ ]"
+          }
         }
       }
     }
