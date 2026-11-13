@@ -14,8 +14,9 @@ A registry declaring each server once for Zed, Helix and the plugin was
 rejected: about half the servers need a per-editor override, such as oxfmt's
 option given twice for Helix, so the registry would carry every editor's shape
 anyway. Helix's built-in `languages.toml` is not read either: it sits in a
-fetched source, and reading it is import-from-derivation, which ADR-0004 rules
-out.
+fetched source, so reading it at evaluation time is import-from-derivation, and
+on this Mac the Linux eval then fails with "platform mismatch" whenever the
+macOS eval has not fetched that source first.
 
 The costs:
 
