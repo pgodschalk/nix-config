@@ -74,6 +74,9 @@ let
   ];
 
   skillSingles = {
+    committing-with-commitlint = pkgs.linkFarm "committing-with-commitlint" {
+      "SKILL.md" = commitlintSkill;
+    };
     impeccable = "${impeccableSrc}/.agents/skills/impeccable";
     logging-best-practices = "${boristaneSkills}/skills/logging-best-practices";
   };
@@ -106,9 +109,7 @@ let
     ++ lib.mapAttrsToList lib.nameValuePair skillSingles
     ++ lib.mapAttrsToList lib.nameValuePair localSkills
     ++ lib.mapAttrsToList lib.nameValuePair storeSkills
-    ++ map (n: lib.nameValuePair n null) (
-      [ "committing-with-commitlint" ] ++ config.my.agentSkills.generatedSkills
-    );
+    ++ map (n: lib.nameValuePair n null) config.my.agentSkills.generatedSkills;
 
   # listToAttrs keeps the first of a repeated name and `//` the last, so
   # a collision would drop a skill without a word.
@@ -156,11 +157,6 @@ let
   claudeSkillFiles =
     lib.foldl' (acc: dir: acc // skillFilesIn dir) { } flatDirs
     // lib.foldl' (acc: dir: acc // skillFilesRecursiveIn dir) { } recursiveDirs
-    # commitlint arrives as a bare SKILL.md rather than a directory, so
-    # it is named a level deeper instead of linked as one.
-    // lib.genAttrs (map (dir: "${dir}/committing-with-commitlint/SKILL.md") destinations) (_: {
-      source = commitlintSkill;
-    })
     // {
       "${subagentCatalogDir}".source = subagentCatalog;
     };
