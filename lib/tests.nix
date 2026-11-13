@@ -34,6 +34,14 @@ in
     };
   };
 
+  testSubstitutesInsideList = {
+    expr = substituteValue [ "@a@" "x" ] { a = "1"; };
+    expected = [
+      "1"
+      "x"
+    ];
+  };
+
   testNullKeepsPlaceholder = {
     expr = substituteValue { a = "@x@ @y@"; } {
       x = "1";
