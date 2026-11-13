@@ -74,6 +74,11 @@ the code yet.
   (`Number("@x@")`).
 - Theme checkouts (`my.theme.dracula.*`) are nullable: anything linking into
   them is `lib.mkIf (extras != null)` with `mkOutOfStoreSymlink`.
+- A variable whose value differs per Variant is declared by its tool's module in
+  `my.theme.variantVariables.<NAME> = { pro; alucard; }`, an option of
+  `options.nix`; `nushell.nix` renders the env files the themed shell loads at
+  each Appearance switch, and a value pointing into a theme checkout is behind
+  `lib.mkIf (extras != null)` too.
 - Apps that rewrite their own settings file (Claude Code, Claude desktop, Zed)
   get no link; their keys are merged or rendered by an activation entry after
   `writeBoundary`. Claude Code's and Claude desktop's JSON is merged through

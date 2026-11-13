@@ -131,6 +131,11 @@ One of the theme's two faces: Dracula Pro, the dark one, and Alucard, the light
 one.\
 _Avoid_: Dark and Light as names, outside the file names an app forces
 
+**Variant variable**:\
+An environment variable whose value differs per Variant, set by the themed shell
+at each Appearance switch.\
+_Avoid_: path theme
+
 **Theme checkout**:\
 One of the Mac's two working copies, dracula-pro and dracula-pro-extras, that
 themes are linked from. A remote links from a read-only copy of each instead,

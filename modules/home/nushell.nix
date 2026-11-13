@@ -10,6 +10,7 @@ let
   opener = if isDarwin then "/usr/bin/open" else "xdg-open";
 
   extras = config.my.theme.dracula.extras;
+  variantVariables = config.my.theme.variantVariables;
 
   # Per-variant variables generated here rather than kept in the
   # extras checkout: themes whose variable holds a path, because only
@@ -50,6 +51,53 @@ let
     }
   );
 
+  variants = [
+    "pro"
+    "alucard"
+  ];
+
+  # Single-quoted, because the theme module's env_for strips one outer
+  # pair of single quotes and nothing else, so every one-line value
+  # comes back verbatim.
+  variantEnvFile =
+    variant:
+    let
+      isSet = _: values: values.${variant} != null;
+      line = name: values: "${name}='${values.${variant}}'";
+      lines = lib.mapAttrsToList line (lib.filterAttrs isSet variantVariables);
+    in
+    pkgs.writeText "${variant}.env" (lib.concatLines lines);
+
+  variantEnvDir = pkgs.linkFarm "variant-variables" {
+    "pro.env" = variantEnvFile "pro";
+    "alucard.env" = variantEnvFile "alucard";
+  };
+
+  oneLine = value: !(lib.hasInfix "\n" value || lib.hasInfix "\r" value);
+
+  assertionsFor =
+    name: values:
+    [
+      {
+        assertion = builtins.match "[A-Za-z_][A-Za-z0-9_]*" name != null;
+        message =
+          "my.theme.variantVariables.${name} is not a plain variable name: "
+          + "letters, digits and underscores, not starting with a digit";
+      }
+      {
+        assertion = (values.pro == null) == (values.alucard == null);
+        message =
+          "my.theme.variantVariables.${name} has a value for one Variant "
+          + "only; set both pro and alucard, or neither";
+      }
+    ]
+    ++ map (variant: {
+      assertion = values.${variant} == null || oneLine values.${variant};
+      message =
+        "my.theme.variantVariables.${name}.${variant} holds a line break; "
+        + "an env file takes one line per variable";
+    }) variants;
+
   # A data file the setup scripts open, rather than a list spliced into
   # them: a bare `@themeDirs@` parses as an attribute, so every editor
   # reported the template as broken Nushell.
@@ -57,6 +105,7 @@ let
     substituteFile ./nushell/theme-dirs.nuon {
       extras = "${extras}";
       pathThemes = "${pathThemes}";
+      variantVariables = "${variantEnvDir}";
     }
   );
 
@@ -81,6 +130,8 @@ let
 
 in
 {
+  assertions = lib.flatten (lib.mapAttrsToList assertionsFor variantVariables);
+
   # Launched from the terminal emulators through a login zsh, so it
   # inherits the environment zsh established and env.nu duplicates no
   # PATH. reedline uses Alt bindings, so the emulator has to send Option

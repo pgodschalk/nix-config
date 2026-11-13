@@ -55,6 +55,43 @@ in
       };
     };
 
+    # modules/home/nushell.nix, which renders them into the env files
+    # the themed shell loads at each Appearance switch.
+    theme.variantVariables = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options = {
+            pro = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "The value under Dracula Pro, the dark Variant.";
+            };
+            alucard = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "The value under Alucard, the light Variant.";
+            };
+          };
+        }
+      );
+      default = { };
+      example = lib.literalExpression ''
+        {
+          DFT_BACKGROUND = {
+            pro = "dark";
+            alucard = "light";
+          };
+        }
+      '';
+      description = ''
+        Variant variables by name: environment variables whose value
+        differs per Variant, loaded by the themed shell at each
+        Appearance switch. Both Variants set the same names, every value
+        is one line, and a value pointing into a theme checkout is
+        declared under `lib.mkIf (extras != null)`.
+      '';
+    };
+
     # modules/home/darwin/zed.nix
     zed.extraSettings = lib.mkOption {
       type = json;
