@@ -79,6 +79,7 @@ let
     };
     impeccable = "${impeccableSrc}/.agents/skills/impeccable";
     logging-best-practices = "${boristaneSkills}/skills/logging-best-practices";
+    modern-web-guidance = "${modernWebGuidance}/lib/modern-web-guidance/skills/modern-web-guidance";
   };
 
   # An upstream rename would let a left-out skill back in under its new
@@ -282,6 +283,11 @@ let
     hash = "sha256-i3pwbHmYm1ezgvSUn5QnnUOZG/T12O8v6GJQ3P448ns=";
   };
 
+  # The skill calls this package's CLI by name, so the package also goes
+  # on PATH. Only the tarball's `modern-web-guidance` skill is linked;
+  # its `chrome-extensions` skill is one upstream installs on request.
+  modernWebGuidance = pkgs.callPackage ../../pkgs/modern-web-guidance.nix { };
+
   # The repository already carries `.agents/skills/impeccable/`, so it
   # is linked like the others rather than installed as a plugin, which
   # also gives it to pi and vibe.
@@ -379,6 +385,15 @@ in
     # One attrset, because `home.file` cannot be defined twice in a
     # module.
     home.file = voltagentFiles // claudeSkillFiles;
+
+    home.packages = [ modernWebGuidance ];
+
+    # The skill runs the CLI on every web task; it reads only its bundled
+    # guides and writes only to the temporary directory.
+    my.mergedSettings.claude-code = {
+      value.permissions.allow = [ "Bash(modern-web-guidance:*)" ];
+      strategies.permissions.allow = "union";
+    };
 
     home.activation.localSkillsRecursive = lib.mkIf (localSkills != { } && recursiveDirs != [ ]) (
       lib.hm.dag.entryAfter [ "writeBoundary" ] (

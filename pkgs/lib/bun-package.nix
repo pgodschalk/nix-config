@@ -32,6 +32,7 @@
     "dist"
     "package.json"
   ], # paths copied to $out/lib/<pname>
+  patches ? [ ], # applied to the unpacked tarball before the copy
   postInstall ? null, # a file, read into the postInstall hook
   meta,
 }:
@@ -48,6 +49,8 @@ stdenvNoCC.mkDerivation {
     url = "https://registry.npmjs.org/${pname}/-/${pname}-${version}.tgz";
     inherit hash;
   };
+
+  inherit patches;
 
   nativeBuildInputs = [ makeWrapper ];
 

@@ -127,6 +127,7 @@ words = [
   "nixfmt",
   "noglob",
   "nohup",
+  "npx",
   "nufmt",
   "nushell",
   "objc",

@@ -45,4 +45,9 @@
   # gh and glab (each writes it in its own module, since the config
   # default is on and a nixpkgs wrapper is not a contract), and Zed's
   # telemetry.diagnostics and telemetry.metrics.
+  #
+  # Not here because the variable is set for one program alone:
+  # modern-web-guidance's DISABLE_TELEMETRY, in its wrapper
+  # (pkgs/modern-web-guidance/post-install.sh), since Claude Code reads
+  # the same name.
 }
