@@ -9,6 +9,8 @@ mkdir -p "$out/lib/$pname"
 cp -R $copy "$out/lib/$pname/"
 makeWrapper "$bun" "$out/bin/$binary" \
   --add-flags --no-install \
+  --add-flags --no-env-file \
+  --add-flags --config=/dev/null \
   --add-flags "$out/lib/$pname/$entry"
 
 runHook postInstall

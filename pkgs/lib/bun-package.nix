@@ -7,6 +7,11 @@
 # module that is missing at run time from npm. A bundle may `require` a
 # module it never needs, inside a try/catch that falls through without
 # it.
+#
+# It also passes `--no-env-file` and `--config=/dev/null`. Without them
+# bun loads the working directory's `.env` files and `bunfig.toml`,
+# whose `preload` runs that directory's code inside the tool; node,
+# which these bundles are written for, loads neither.
 {
   lib,
   stdenvNoCC,
