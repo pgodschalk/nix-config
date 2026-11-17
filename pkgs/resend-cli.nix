@@ -7,12 +7,12 @@
 
 let
   # @VERSION https://www.npmjs.com/package/resend-cli
-  version = "2.28.0";
+  version = "2.28.2";
 in
 callPackage ./lib/bun-package.nix { } {
   pname = "resend-cli";
   inherit version;
-  hash = "sha256-tesIvVU60edoxzebccZGSX3+2i2zzRiv9HZsAaszpSc=";
+  hash = "sha256-g8nVrdM5fnAE/CnqiRxCS6+1KK51bIrT6ASirS1QUII=";
   entry = "dist/cli.cjs";
   binary = "resend";
   copy = [

@@ -20,11 +20,11 @@
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "tipctl";
   # @VERSION https://github.com/transip/tipctl/releases
-  version = "6.34.10";
+  version = "6.35.0";
 
   src = fetchurl {
-    url = "https://github.com/transip/tipctl/releases/download/v${finalAttrs.version}/tipctl.phar";
-    hash = "sha256-PY1fkbY/qTJ/iNh5ez7E5M1EblGOhllzel3llI0JV2Q=";
+    url = "https://github.com/transip/tipctl/releases/download/${finalAttrs.version}/tipctl.phar";
+    hash = "sha256-mijmgEXmHNq+UmJSRuz+46OgfULICSOM0PO6PrcrMiM=";
   };
   nativeBuildInputs = [ makeWrapper ];
 

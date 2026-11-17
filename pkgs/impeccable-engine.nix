@@ -5,7 +5,7 @@ let
   # Bump with impeccableSrc in modules/home/claude-skills.nix, which
   # asserts the two agree.
   # @VERSION https://github.com/pbakaus/impeccable/releases
-  version = "0.1.18";
+  version = "0.1.24";
   base = "https://github.com/pbakaus/impeccable/releases/download/engine-v${version}";
 in
 callPackage ./lib/release-binary.nix { } {
@@ -15,15 +15,15 @@ callPackage ./lib/release-binary.nix { } {
   assets = {
     aarch64-darwin = {
       url = "${base}/impeccable-darwin-arm64";
-      hash = "sha256-VD7i9yA2rRhdyZkaw7qGt02R+Yjz1Jd3agiLi2XIqeE=";
+      hash = "sha256-9cw5I6yT/p7AoBRJ6zuPA4WdrgioGVnkQVMzwEK8L4A=";
     };
     aarch64-linux = {
       url = "${base}/impeccable-linux-arm64";
-      hash = "sha256-MXyxjWSw93FWgd1uV0rWSyrbWmyvjnobO1eWX4BUBL4=";
+      hash = "sha256-NO9WOWbLlcGzbEUO5ibHJyZnY1efxelamu8oC3SHUIA=";
     };
     x86_64-linux = {
       url = "${base}/impeccable-linux-x64";
-      hash = "sha256-c27XhedK4jRNMDYSf2FN3eWrUgpSfYvIKokWEu9x9kg=";
+      hash = "sha256-0xe9G+Bh/ckCxN7ef98e/R93RIgvtRGh+WL83E7tU4I=";
     };
   };
 

@@ -14,12 +14,12 @@
 
 let
   # @VERSION https://www.npmjs.com/package/modern-web-guidance
-  version = "1.0.0";
+  version = "1.0.1";
 in
 callPackage ./lib/bun-package.nix { } {
   pname = "modern-web-guidance";
   inherit version;
-  hash = "sha256-vXqmI60QcQqa1meP28wLiQyQPFT9ar/BJv9C3gHw5Xc=";
+  hash = "sha256-cT09NE1vrVySZ/se2Nr/Xdct9GNOmtayvTsMoX+EOKM=";
   entry = "skills/modern-web-guidance/modern-web.mjs";
   copy = [
     "skills"

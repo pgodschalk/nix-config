@@ -22,10 +22,6 @@
     Transporter = 1450874784;
     Xcode = 497799835;
 
-    # Apple iLife
-    GarageBand = 682658836;
-    iMovie = 408981434;
-
     # Third party
     "Amazon Prime Video" = 545519333;
     "Craft: Notes, Documents, AI" = 1487937127;

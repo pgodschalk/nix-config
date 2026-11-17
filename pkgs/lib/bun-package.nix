@@ -23,7 +23,10 @@
 # Package arguments come in a second call so `callPackage` cannot fill
 # a defaulted one from `pkgs`.
 {
-  pname, # also the npm package name
+  pname, # also the npm package name, unless npmName is given
+  # the registry name where it is no valid store name, as a scoped
+  # `@scope/name` is not
+  npmName ? pname,
   version,
   hash, # of the registry tarball
   entry, # path inside the tarball that bun runs
@@ -45,8 +48,10 @@ stdenvNoCC.mkDerivation {
     binary
     ;
 
+  # The tarball's file name drops the scope: `@scope/name` is served as
+  # `@scope/name/-/name-<version>.tgz`.
   src = fetchurl {
-    url = "https://registry.npmjs.org/${pname}/-/${pname}-${version}.tgz";
+    url = "https://registry.npmjs.org/${npmName}/-/${baseNameOf npmName}-${version}.tgz";
     inherit hash;
   };
 

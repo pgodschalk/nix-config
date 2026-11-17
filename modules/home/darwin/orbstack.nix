@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   # The same schema as Docker's own daemon.json, generated so the types
   # are checked at evaluation time.
@@ -12,6 +12,16 @@ in
   # it.
   home.file.".orbstack/config/docker.json" = {
     source = dockerConfig;
+  };
+
+  # `orb config set` rewrites this file, so the key is merged into it
+  # rather than linked.
+  my.mergedSettings.orbstack-vm = {
+    file = "${config.home.homeDirectory}/.orbstack/vmconfig.json";
+    # Quoted, so the dot is part of one key rather than nesting.
+    value."k8s.enable" = false;
+    # Containers run arm64 images only, so OrbStack never needs Rosetta.
+    value.rosetta = false;
   };
 
   # The bundle id is `dev.kdrag0n.MacVirt`, not `dev.orbstack.OrbStack`.

@@ -14,9 +14,16 @@ let
       url = "https://mcp.context7.com/mcp";
     };
 
+    # One server and browser per session. A headed browser never idles
+    # out on its own, so without the timeout each session's Chromium
+    # stays open as long as the session does.
     playwright = {
       command = "${pkgs.playwright-mcp}/bin/playwright-mcp";
-      args = [ ];
+      args = [
+        "--headless"
+        "--idle-timeout"
+        "600000"
+      ];
     };
   };
 

@@ -29,7 +29,6 @@ let
   # `orca skills install --all --agent universal`, leaving out
   # jira-tickets and linear-tickets, the old names of orca-jira and
   # orca-linear.
-  # @VERSION https://github.com/stablyai/orca/releases
   skills = lib.mapAttrs (name: _: ./orca/skills + "/${name}") (builtins.readDir ./orca/skills);
 
   forgeCli =

@@ -227,7 +227,7 @@ def report-manual []: nothing -> nothing {
         "Citrix Workspace"
         Discord
         "Final Cut Pro, Motion, Compressor"
-        "GarageBand, Logic Pro, MainStage"
+        "Logic Pro, MainStage"
         "Google Drive"
         "Microsoft Teams"
         Orca

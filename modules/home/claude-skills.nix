@@ -295,8 +295,8 @@ let
     owner = "pbakaus";
     repo = "impeccable";
     # @VERSION https://github.com/pbakaus/impeccable/releases
-    rev = "414603bf14c7a344edb466bb1f85690c77ce8b7d";
-    hash = "sha256-gwI+IhgwmELfQnfXjUuel6u+zdFD0LZZCLhGH5MSIWk=";
+    rev = "acb4cfe14470b1fdf51e855431af618d936b7db8";
+    hash = "sha256-MTQYnggsUG9J6RF8f3uk2VuYtGbjDsGJSgscBAgoxXk=";
   };
 
   # The engine comes from pkgs/impeccable-engine.nix, so the launcher

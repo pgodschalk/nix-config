@@ -5,7 +5,7 @@
 
 let
   # @VERSION https://pypi.org/project/pytest-language-server/#history
-  version = "0.26.0";
+  version = "0.26.1";
 in
 callPackage ./lib/release-binary.nix { } {
   pname = "pytest-language-server";
@@ -18,15 +18,15 @@ callPackage ./lib/release-binary.nix { } {
   assets = {
     aarch64-darwin = {
       url = "https://files.pythonhosted.org/packages/py3/p/pytest-language-server/pytest_language_server-${version}-py3-none-macosx_11_0_arm64.whl";
-      hash = "sha256-4HSmD3NjR55aAiMle1F4Oe08jzv4+j+PTrZCekYq6fY=";
+      hash = "sha256-u2EPCGBksYdurs6ihwfeHwoG+tTI4433vtMBq2MN6zE=";
     };
     aarch64-linux = {
       url = "https://files.pythonhosted.org/packages/py3/p/pytest-language-server/pytest_language_server-${version}-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl";
-      hash = "sha256-Poni5HFnZsR4eAGnlEFHr55NGoRnm9DZg0BnXSitiF8=";
+      hash = "sha256-8/1IRK6Bi5mjSyKFUQiRrNA5tLz/SeBwPD4DRJBwRxM=";
     };
     x86_64-linux = {
       url = "https://files.pythonhosted.org/packages/py3/p/pytest-language-server/pytest_language_server-${version}-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl";
-      hash = "sha256-GgOOTdvaFeFApYm9/12UrZXbvkdBH6VB1h7KVy4e7a0=";
+      hash = "sha256-1ZQmsjCoBuS9hXWcBU6PefAWvuhs7y8XDew4r0a3vo4=";
     };
   };
 

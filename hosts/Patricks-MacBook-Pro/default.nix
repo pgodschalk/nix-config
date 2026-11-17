@@ -15,6 +15,7 @@
     ../../modules/darwin/launchd-env.nix
     ../../modules/darwin/security.nix
     ../../modules/darwin/shell.nix
+    ../../modules/darwin/spotlight.nix
     ../../modules/darwin/xcode.nix
     # One import for both layers: it adds the work repository's
     # home-manager modules through home-manager.sharedModules.
